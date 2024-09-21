@@ -106,6 +106,14 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('all_tables');
+        Schema::dropIfExists('catalogs_animals');
+        Schema::dropIfExists('catalogs_products');
+        Schema::dropIfExists('catalogs_news');
+        Schema::dropIfExists('sponsors');
+        Schema::dropIfExists('products');
+        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('news');
+        Schema::dropIfExists('form_requests');
+        Schema::dropIfExists('animals');
     }
 };

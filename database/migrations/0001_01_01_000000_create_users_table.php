@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('name', 40);
             $table->string('phone', 12);
             $table->string('email', 25);
-            $table->text('address')->nullable();
-            $table->string('role', 12)->nullable();
-            $table->integer('rescue_cases')->nullable();
-            $table->integer('adopted')->nullable();
+            $table->text('address');
+            $table->string('role', 12);
+            $table->integer('rescue_cases');
+            $table->integer('adopted');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
