@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_spices', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 20); // Tên loại gia vị
+            $table->string('name', 20);
             $table->timestamps();
         });
     }

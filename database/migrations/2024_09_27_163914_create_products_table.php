@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('img'); // URL ảnh hoặc chuỗi JSON chứa nhiều ảnh
-            $table->string('name', 30); // Tên sản phẩm
-            $table->foreignId('type')->constrained('product_catalogs')->onDelete('cascade'); // Liên kết với bảng 'product_catalogs'
-            $table->text('purpose'); // Mục đích của sản phẩm/dịch vụ
+            $table->text('img'); // URL IMG or JSON string contain URLs IMG
+            $table->string('name', 30);
+            $table->foreignId('type')->constrained('product_catalogs')->onDelete('cascade');
+            $table->text('purpose');
             $table->timestamps();
         });
     }

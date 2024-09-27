@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('product_prices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade'); // Liên kết với bảng 'products'
-            $table->text('price'); // Chuỗi JSON chứa các giá
-            $table->text('sale')->nullable(); // Giá khuyến mãi (có thể null)
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->text('price'); // JSON contain the "size" as key, "price" as value
+            $table->text('sale')->nullable();
             $table->timestamps();
         });
     }
