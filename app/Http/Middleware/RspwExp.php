@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class rspw_exp_mw
+class RspwExp
 {
     /**
      * Handle an incoming request.

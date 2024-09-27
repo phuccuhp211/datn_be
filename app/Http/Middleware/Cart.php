@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class admin_mw
+class Cart
 {
     /**
      * Handle an incoming request.

@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class fetch_controller extends Controller
+class BasicController extends Controller
 {
     //
 }
