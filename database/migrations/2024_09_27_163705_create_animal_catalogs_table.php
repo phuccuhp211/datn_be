@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('animal_catalogs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 20);
+            $table->enum('language', ['vi', 'en'])->default('vi');
+            $table->string('slug')->nullable();
             $table->timestamps();
         });
     }

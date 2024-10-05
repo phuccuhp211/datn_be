@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('product_catalogs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 20);
+            $table->string('name', 50);
+            $table->string('slug')->unique();
+            $table->enum('language', ['vi', 'en']); // Định nghĩa cột language là ENUM
             $table->timestamps();
         });
     }

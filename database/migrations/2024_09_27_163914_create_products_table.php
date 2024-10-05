@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('img'); // URL IMG or JSON string contain URLs IMG
+            $table->text('img');
             $table->string('name', 30);
             $table->foreignId('type')->constrained('product_catalogs')->onDelete('cascade');
             $table->text('purpose');
+            $table->enum('language', ['vi', 'eng'])->default('vi');
+            $table->string('slug')->nullable();
             $table->timestamps();
         });
     }
