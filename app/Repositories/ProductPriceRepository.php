@@ -10,9 +10,9 @@ class ProductPriceRepository implements ProductPriceRepositoryInterface
     /**
      * Select All ProductPrices
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAll(): Collection
+    public function getAll()
     {
         return ProductPrice::all();
     }
@@ -31,26 +31,26 @@ class ProductPriceRepository implements ProductPriceRepositoryInterface
     /**
      * Inser ProductPrice
      *
-     * @param array $ProductPriceData
+     * @param array $data
      * @return mixed
      */
-    public function insert(array $ProductPriceData)
+    public function insert(array $data)
     {
-        return ProductPrice::create($ProductPriceData);
+        return ProductPrice::create($data);
     }
 
     /**
      * Update ProductPrice
      *
      * @param int $id
-     * @param array $ProductPriceData
+     * @param array $data
      * @return mixed
      */
-    public function update(int $id, array $ProductPriceData)
+    public function update(int $id, array $data)
     {
         $ProductPrice = ProductPrice::find($id);
         if ($ProductPrice) {
-            $ProductPrice->update($ProductPriceData);
+            $ProductPrice->update($data);
             return $ProductPrice;
         }
 

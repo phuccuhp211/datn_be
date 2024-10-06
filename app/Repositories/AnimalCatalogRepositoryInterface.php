@@ -7,42 +7,42 @@ use Illuminate\Support\Collection;
 interface AnimalCatalogRepositoryInterface
 {
     /**
-     * Select All Users
+     * Select All Animal Catalog
      *
      * @return Collection
      */
-    public function getAllUsers(): Collection;
+    public function getAll();
 
     /**
-     * Select User by Id
+     * Select Animal Catalog by Id
      *
      * @param int $id
      * @return mixed
      */
-    public function getUserById(int $id);
+    public function getById(int $id);
 
     /**
-     * Insert User
+     * Insert Animal Catalog
      *
-     * @param array $userData
+     * @param array $data
      * @return mixed
      */
-    public function createUser(array $userData);
+    public function create(array $data);
 
     /**
-     * Update User
+     * Update Animal Catalog
      *
      * @param int $id
-     * @param array $userData
+     * @param array $data
      * @return mixed
      */
-    public function updateUser(int $id, array $userData);
+    public function update(int $id, array $data);
 
     /**
-     * Delete User by Id
+     * Delete Animal Catalog by Id
      *
      * @param int $id
      * @return bool
      */
-    public function deleteUser(int $id): bool;
+    public function delete(int $id): bool;
 }

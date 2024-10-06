@@ -10,9 +10,9 @@ class StoryRepository implements StoryRepositoryInterface
     /**
      * Select All StoryCatalogs
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAll(): Collection
+    public function getAll(): mixed
     {
         return StoryCatalog::all();
     }
@@ -31,26 +31,26 @@ class StoryRepository implements StoryRepositoryInterface
     /**
      * Inser StoryCatalog
      *
-     * @param array $StoryCatalogData
+     * @param array $data
      * @return mixed
      */
-    public function insert(array $StoryCatalogData)
+    public function insert(array $data)
     {
-        return StoryCatalog::create($StoryCatalogData);
+        return StoryCatalog::create($data);
     }
 
     /**
      * Update StoryCatalog
      *
      * @param int $id
-     * @param array $StoryCatalogData
+     * @param array $data
      * @return mixed
      */
-    public function update(int $id, array $StoryCatalogData)
+    public function update(int $id, array $data)
     {
         $StoryCatalog = StoryCatalog::find($id);
         if ($StoryCatalog) {
-            $StoryCatalog->update($StoryCatalogData);
+            $StoryCatalog->update($data);
             return $StoryCatalog;
         }
 

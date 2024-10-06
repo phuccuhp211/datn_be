@@ -10,9 +10,9 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     /**
      * Select All Invoices
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAll(): Collection
+    public function getAll()
     {
         return Invoice::all();
     }
@@ -31,26 +31,26 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     /**
      * Inser Invoice
      *
-     * @param array $InvoiceData
+     * @param array $data
      * @return mixed
      */
-    public function insert(array $InvoiceData)
+    public function insert(array $data)
     {
-        return Invoice::create($InvoiceData);
+        return Invoice::create($data);
     }
 
     /**
      * Update Invoice
      *
      * @param int $id
-     * @param array $InvoiceData
+     * @param array $data
      * @return mixed
      */
-    public function update(int $id, array $InvoiceData)
+    public function update(int $id, array $data)
     {
         $Invoice = Invoice::find($id);
         if ($Invoice) {
-            $Invoice->update($InvoiceData);
+            $Invoice->update($data);
             return $Invoice;
         }
 

@@ -7,42 +7,42 @@ use Illuminate\Support\Collection;
 interface StoryRepositoryInterface
 {
     /**
-     * Select All Users
+     * Select All StoryCatalogs
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAllUsers(): Collection;
+    public function getAll(): mixed;
 
     /**
-     * Select User by Id
+     * Select StoryCatalog by Id
      *
      * @param int $id
      * @return mixed
      */
-    public function getUserById(int $id);
+    public function getById(int $id);
 
     /**
-     * Insert User
+     * Insert StoryCatalog
      *
-     * @param array $userData
+     * @param array $data
      * @return mixed
      */
-    public function createUser(array $userData);
+    public function create(array $data);
 
     /**
-     * Update User
+     * Update StoryCatalog
      *
      * @param int $id
-     * @param array $userData
+     * @param array $data
      * @return mixed
      */
-    public function updateUser(int $id, array $userData);
+    public function update(int $id, array $data);
 
     /**
-     * Delete User by Id
+     * Delete StoryCatalog by Id
      *
      * @param int $id
      * @return bool
      */
-    public function deleteUser(int $id): bool;
+    public function delete(int $id): bool;
 }

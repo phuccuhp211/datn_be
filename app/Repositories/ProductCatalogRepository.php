@@ -12,7 +12,7 @@ class ProductCatalogRepository implements ProductCatalogRepositoryInterface
      *
      * @return Collection
      */
-    public function getAll(): Collection
+    public function getAll()
     {
         return ProductCatalog::all();
     }
@@ -31,26 +31,26 @@ class ProductCatalogRepository implements ProductCatalogRepositoryInterface
     /**
      * Inser ProductCatalog
      *
-     * @param array $ProductCatalogData
+     * @param array $data
      * @return mixed
      */
-    public function insert(array $ProductCatalogData)
+    public function insert(array $data)
     {
-        return ProductCatalog::create($ProductCatalogData);
+        return ProductCatalog::create($data);
     }
 
     /**
      * Update ProductCatalog
      *
      * @param int $id
-     * @param array $ProductCatalogData
+     * @param array $data
      * @return mixed
      */
-    public function update(int $id, array $ProductCatalogData)
+    public function update(int $id, array $data)
     {
         $ProductCatalog = ProductCatalog::find($id);
         if ($ProductCatalog) {
-            $ProductCatalog->update($ProductCatalogData);
+            $ProductCatalog->update($data);
             return $ProductCatalog;
         }
 

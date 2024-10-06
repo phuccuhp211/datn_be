@@ -9,9 +9,9 @@ interface UserRepositoryInterface
     /**
      * Select All Users
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAllUsers(): Collection;
+    public function getAll();
 
     /**
      * Select User by Id
@@ -19,7 +19,7 @@ interface UserRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function getUserById(int $id);
+    public function getById(int $id);
 
     /**
      * Insert User
@@ -27,7 +27,7 @@ interface UserRepositoryInterface
      * @param array $userData
      * @return mixed
      */
-    public function createUser(array $userData);
+    public function create(array $userData);
 
     /**
      * Update User
@@ -36,7 +36,7 @@ interface UserRepositoryInterface
      * @param array $userData
      * @return mixed
      */
-    public function updateUser(int $id, array $userData);
+    public function update(int $id, array $userData);
 
     /**
      * Delete User by Id
@@ -44,5 +44,5 @@ interface UserRepositoryInterface
      * @param int $id
      * @return bool
      */
-    public function deleteUser(int $id): bool;
+    public function delete(int $id): bool;
 }

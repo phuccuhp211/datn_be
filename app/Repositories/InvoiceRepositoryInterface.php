@@ -7,42 +7,42 @@ use Illuminate\Support\Collection;
 interface InvoiceRepositoryInterface
 {
     /**
-     * Select All Users
+     * Select All Invoices
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAllUsers(): Collection;
+    public function getAll();
 
     /**
-     * Select User by Id
+     * Select Invoice by Id
      *
      * @param int $id
      * @return mixed
      */
-    public function getUserById(int $id);
+    public function getById(int $id);
 
     /**
-     * Insert User
+     * Insert Invoice
      *
-     * @param array $userData
+     * @param array $data
      * @return mixed
      */
-    public function createUser(array $userData);
+    public function create(array $data);
 
     /**
-     * Update User
+     * Update Invoice
      *
      * @param int $id
-     * @param array $userData
+     * @param array $Data
      * @return mixed
      */
-    public function updateUser(int $id, array $userData);
+    public function update(int $id, array $data);
 
     /**
-     * Delete User by Id
+     * Delete Invoice by Id
      *
      * @param int $id
      * @return bool
      */
-    public function deleteUser(int $id): bool;
+    public function delete(int $id): bool;
 }

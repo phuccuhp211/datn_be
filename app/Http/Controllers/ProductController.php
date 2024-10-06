@@ -21,6 +21,7 @@ class ProductController extends Controller
     {
         return response()->json($this->productRepository->all());
     }
+    
     public function show($id)
     {
         $product = $this->productRepository->find($id);

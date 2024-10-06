@@ -8,11 +8,11 @@ use Illuminate\Support\Collection;
 class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
 {
     /**
-     * Select All AnimalCatalog
+     * Select All Animal Catalogs
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAll(): Collection
+    public function getAll()
     {
         return AnimalCatalog::all();
     }
@@ -29,24 +29,24 @@ class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
     }
 
     /**
-     * Inser Animal
+     * Inser AnimalCatalog
      *
-     * @param array $AnimalData
+     * @param array $data
      * @return mixed
      */
-    public function insert(array $AnimalData)
+    public function create(array $data)
     {
         return AnimalCatalog::create($AnimalData);
     }
 
     /**
-     * Update Animal
+     * Update AnimalCatalog
      *
      * @param int $id
-     * @param array $AnimalData
+     * @param array $data
      * @return mixed
      */
-    public function update(int $id, array $AnimalData)
+    public function update(int $id, array $data)
     {
         $Animal = AnimalCatalog::find($id);
         if ($Animal) {
@@ -58,7 +58,7 @@ class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
     }
 
     /**
-     * Delete Animal Id
+     * Delete AnimalCatalog Id
      *
      * @param int $id
      * @return bool

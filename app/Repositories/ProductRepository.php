@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Product;
+use Illuminate\Support\Collection;
 
 class ProductRepository implements ProductRepositoryInterface
 {

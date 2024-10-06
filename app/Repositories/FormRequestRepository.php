@@ -10,9 +10,9 @@ class FormRequestwRepository implements FormRequestRepositoryInterface
     /**
      * Select All FormRequests
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAll(): Collection
+    public function getAll()
     {
         return FormRequest::all();
     }
@@ -31,26 +31,26 @@ class FormRequestwRepository implements FormRequestRepositoryInterface
     /**
      * Inser FormRequest
      *
-     * @param array $FormRequestData
+     * @param array $data
      * @return mixed
      */
-    public function insert(array $FormRequestData)
+    public function insert(array $data)
     {
-        return FormRequest::create($FormRequestData);
+        return FormRequest::create($data);
     }
 
     /**
      * Update FormRequest
      *
      * @param int $id
-     * @param array $FormRequestData
+     * @param array $data
      * @return mixed
      */
-    public function update(int $id, array $FormRequestData)
+    public function update(int $id, array $data)
     {
         $FormRequest = FormRequest::find($id);
         if ($FormRequest) {
-            $FormRequest->update($FormRequestData);
+            $FormRequest->update($data);
             return $FormRequest;
         }
 

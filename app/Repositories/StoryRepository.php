@@ -8,11 +8,11 @@ use Illuminate\Support\Collection;
 class StoryRepository implements StoryRepositoryInterface
 {
     /**
-     * Select All Storys
+     * Select All Stories
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAll(): Collection
+    public function getAll()
     {
         return Story::all();
     }

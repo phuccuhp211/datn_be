@@ -10,9 +10,9 @@ class SponsorRepository implements SponsorRepositoryInterface
     /**
      * Select All Sponsors
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAll(): Collection
+    public function getAll()
     {
         return Sponsor::all();
     }
@@ -31,26 +31,26 @@ class SponsorRepository implements SponsorRepositoryInterface
     /**
      * Inser Sponsor
      *
-     * @param array $SponsorData
+     * @param array $data
      * @return mixed
      */
-    public function insert(array $SponsorData)
+    public function insert(array $data)
     {
-        return Sponsor::create($SponsorData);
+        return Sponsor::create($data);
     }
 
     /**
      * Update Sponsor
      *
      * @param int $id
-     * @param array $SponsorData
+     * @param array $data
      * @return mixed
      */
-    public function update(int $id, array $SponsorData)
+    public function update(int $id, array $data)
     {
         $Sponsor = Sponsor::find($id);
         if ($Sponsor) {
-            $Sponsor->update($SponsorData);
+            $Sponsor->update($data);
             return $Sponsor;
         }
 

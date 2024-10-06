@@ -10,9 +10,9 @@ class ProductSpiceRepository implements ProductSpiceRepositoryInterface
     /**
      * Select All ProductSpices
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAll(): Collection
+    public function getAll()
     {
         return ProductSpice::all();
     }
@@ -31,26 +31,26 @@ class ProductSpiceRepository implements ProductSpiceRepositoryInterface
     /**
      * Inser ProductSpice
      *
-     * @param array $ProductSpiceData
+     * @param array $data
      * @return mixed
      */
-    public function insert(array $ProductSpiceData)
+    public function insert(array $data)
     {
-        return ProductSpice::create($ProductSpiceData);
+        return ProductSpice::create($data);
     }
 
     /**
      * Update ProductSpice
      *
      * @param int $id
-     * @param array $ProductSpiceData
+     * @param array $data
      * @return mixed
      */
-    public function update(int $id, array $ProductSpiceData)
+    public function update(int $id, array $data)
     {
         $ProductSpice = ProductSpice::find($id);
         if ($ProductSpice) {
-            $ProductSpice->update($ProductSpiceData);
+            $ProductSpice->update($data);
             return $ProductSpice;
         }
 

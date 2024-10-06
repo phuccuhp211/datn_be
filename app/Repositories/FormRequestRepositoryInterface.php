@@ -7,42 +7,42 @@ use Illuminate\Support\Collection;
 interface FormRequestRepositoryInterface
 {
     /**
-     * Select All Users
+     * Select All FormRequests
      *
-     * @return Collection
+     * @return mixed
      */
-    public function getAllUsers(): Collection;
+    public function getAll();
 
     /**
-     * Select User by Id
+     * Select FormRequests by Id
      *
      * @param int $id
      * @return mixed
      */
-    public function getUserById(int $id);
+    public function getById(int $id);
 
     /**
-     * Insert User
+     * Insert FormRequests
      *
-     * @param array $userData
+     * @param array $data
      * @return mixed
      */
-    public function createUser(array $userData);
+    public function create(array $data);
 
     /**
-     * Update User
+     * Update FormRequests
      *
      * @param int $id
-     * @param array $userData
+     * @param array $data
      * @return mixed
      */
-    public function updateUser(int $id, array $userData);
+    public function update(int $id, array $data);
 
     /**
-     * Delete User by Id
+     * Delete FormRequests by Id
      *
      * @param int $id
      * @return bool
      */
-    public function deleteUser(int $id): bool;
+    public function delete(int $id): bool;
 }
