@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\User;
+namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -12,7 +12,7 @@ class UserRepository implements UserRepositoryInterface
      *
      * @return Collection
      */
-    public function getAllUsers(): Collection
+    public function getAll(): Collection
     {
         return User::all();
     }
@@ -23,7 +23,7 @@ class UserRepository implements UserRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function getUserById(int $id)
+    public function getById(int $id)
     {
         return User::find($id);
     }

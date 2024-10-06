@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\User;
+namespace App\Repositories;
 
 use Illuminate\Support\Collection;
 
-interface UserRepositoryInterface
+interface ProductPriceRepositoryInterface
 {
     /**
      * Select All Users
