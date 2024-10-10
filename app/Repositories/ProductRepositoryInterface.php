@@ -27,7 +27,7 @@ interface ProductRepositoryInterface
      * @param array $data
      * @return mixed
      */
-    public function create(array $data);
+    public function insert(array $data);
 
     /**
      * Update Product
@@ -44,5 +44,5 @@ interface ProductRepositoryInterface
      * @param int $id
      * @return bool
      */
-    public function delete(int $id): bool;
+    public function delete(int $id);
 }

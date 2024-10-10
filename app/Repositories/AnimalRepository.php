@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Animal;
-use Illuminate\Support\Collection;
+use App\Repositories\AnimalRepositoryInterface;
 
 class AnimalRepository implements AnimalRepositoryInterface
 {
@@ -34,7 +34,7 @@ class AnimalRepository implements AnimalRepositoryInterface
      * @param array $data
      * @return mixed
      */
-    public function create(array $data)
+    public function insert(array $data)
     {
         return Animal::create($data);
     }

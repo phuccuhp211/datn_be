@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\StoryCatalog;
 use Illuminate\Support\Collection;
 
-class StoryRepository implements StoryRepositoryInterface
+class StoryCatalogRepository implements StoryCatalogRepositoryInterface
 {
     /**
      * Select All StoryCatalogs

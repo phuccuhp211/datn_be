@@ -2,8 +2,6 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Collection;
-
 interface AnimalRepositoryInterface
 {
     /**
@@ -27,7 +25,7 @@ interface AnimalRepositoryInterface
      * @param array $data
      * @return mixed
      */
-    public function create(array $data);
+    public function insert(array $data);
 
     /**
      * Update Animal
@@ -44,5 +42,5 @@ interface AnimalRepositoryInterface
      * @param int $id
      * @return bool
      */
-    public function delete(int $id): bool;
+    public function delete(int $id);
 }   

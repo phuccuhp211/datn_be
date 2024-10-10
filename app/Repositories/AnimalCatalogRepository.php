@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\AnimalCatalog;
-use Illuminate\Support\Collection;
 
 class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
 {
@@ -34,9 +33,9 @@ class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
      * @param array $data
      * @return mixed
      */
-    public function create(array $data)
+    public function insert(array $data)
     {
-        return AnimalCatalog::create($AnimalData);
+        return AnimalCatalog::create($data);
     }
 
     /**
@@ -50,7 +49,7 @@ class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
     {
         $Animal = AnimalCatalog::find($id);
         if ($Animal) {
-            $Animal->update($AnimalData);
+            $Animal->update($data);
             return $Animal;
         }
 
@@ -63,7 +62,7 @@ class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
      * @param int $id
      * @return bool
      */
-    public function delete(int $id): bool
+    public function delete(int $id)
     {
         $Animal = AnimalCatalog::find($id);
         if ($Animal) {

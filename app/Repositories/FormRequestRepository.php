@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\FormRequest;
 use Illuminate\Support\Collection;
 
-class FormRequestwRepository implements FormRequestRepositoryInterface
+class FormRequestRepository implements FormRequestRepositoryInterface
 {
     /**
      * Select All FormRequests

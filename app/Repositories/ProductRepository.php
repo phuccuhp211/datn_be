@@ -15,19 +15,19 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
     // Lấy tất cả sản phẩm, bao gồm kích thước và gia vị
-    public function all()
+    public function getAll()
     {
         return $this->model->with(['sizes', 'sizes.spices'])->get();
     }
 
     // Tìm sản phẩm theo ID, bao gồm kích thước và gia vị
-    public function find($id)
+    public function getById(int $id)
     {
         return $this->model->with(['sizes', 'sizes.spices'])->findOrFail($id);
     }
 
     // Tạo mới sản phẩm với kích thước và gia vị
-    public function create(array $data)
+    public function insert(array $data)
     {
         // Tạo sản phẩm mới
         $product = $this->model->create($data);

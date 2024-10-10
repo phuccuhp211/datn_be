@@ -27,7 +27,7 @@ interface UserRepositoryInterface
      * @param array $userData
      * @return mixed
      */
-    public function create(array $userData);
+    public function insert(array $userData);
 
     /**
      * Update User

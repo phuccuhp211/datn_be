@@ -2,14 +2,12 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Collection;
-
 interface AnimalCatalogRepositoryInterface
 {
     /**
      * Select All Animal Catalog
      *
-     * @return Collection
+     * @return mixed
      */
     public function getAll();
 
@@ -27,7 +25,7 @@ interface AnimalCatalogRepositoryInterface
      * @param array $data
      * @return mixed
      */
-    public function create(array $data);
+    public function insert(array $data);
 
     /**
      * Update Animal Catalog
@@ -44,5 +42,5 @@ interface AnimalCatalogRepositoryInterface
      * @param int $id
      * @return bool
      */
-    public function delete(int $id): bool;
+    public function delete(int $id);
 }

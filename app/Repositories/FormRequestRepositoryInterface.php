@@ -2,8 +2,6 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Collection;
-
 interface FormRequestRepositoryInterface
 {
     /**
@@ -27,7 +25,7 @@ interface FormRequestRepositoryInterface
      * @param array $data
      * @return mixed
      */
-    public function create(array $data);
+    public function insert(array $data);
 
     /**
      * Update FormRequests

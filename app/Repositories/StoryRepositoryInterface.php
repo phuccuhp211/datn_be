@@ -27,7 +27,7 @@ interface StoryRepositoryInterface
      * @param array $data
      * @return mixed
      */
-    public function create(array $data);
+    public function insert(array $data);
 
     /**
      * Update Story
