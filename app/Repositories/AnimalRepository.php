@@ -68,4 +68,29 @@ class AnimalRepository implements AnimalRepositoryInterface
 
         return false;
     }
+
+    /**
+     * Filter Animals
+     *
+     * @param string $action
+     * @param string $data
+     * @param int $page
+     * @param int $limit
+     * @param int $filterOne
+     * @param int $filterTwo
+     * @return mixed
+     */
+    public function filterAnimals(string $action = null, string $data = null, int $page, int $limit, int $filterOne, array $filterTwo)
+    {
+        $query = Animal::query();
+
+        $query->where('outOfStock', '=' ,0);
+
+        if ($action == 'search') $query->where('name','like','%'. $data .'%');
+        else if ($action == 'catalog') $query->where('type', '=', $data);
+
+        if ($filterOne['fromPrice']) $query->where('','like','%');
+
+
+    }
 }

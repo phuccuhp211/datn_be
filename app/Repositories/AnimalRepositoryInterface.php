@@ -43,4 +43,17 @@ interface AnimalRepositoryInterface
      * @return bool
      */
     public function delete(int $id);
+
+    /**
+     * Filter Animals
+     *
+     * @param string $action
+     * @param string $data
+     * @param int $page
+     * @param int $limit
+     * @param int $filterOne
+     * @param int $filterTwo
+     * @return mixed
+     */
+    public function filterAnimals(string $action, string $data, int $page, int $limit, int $filterOne, array $filterTwo);
 }   

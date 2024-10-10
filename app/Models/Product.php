@@ -8,10 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'img', 'type', 'purpose', 'description', 'slug'];
 
-    public function sizes()
+    protected $table = 'Products';
+    protected $primaryKey = 'id';
+    protected $fillable = ['name', 'type', 'purpose', 'out_of_stock'];
+
+    public function prices()
     {
-        return $this->belongsToMany(ProductSize::class, 'product_size_spice')->withPivot('price', 'quantity');
+        return $this->hasMany(ProductPrice::class, 'product_id', 'id')->select(['id', 'name', 'price', 'sale']);
+    }
+
+    public function spices()
+    {
+        return $this->hasMany(ProductSpice::class, 'product_id', 'id');
+    }
+
+    public function catalog()
+    {
+        return $this->belongsTo(ProductCatalog::class, 'type', 'id');
     }
 }

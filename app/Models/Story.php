@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Story extends Model
 {
     use HasFactory;
+
+    public function catalog()
+    {
+        return $this->belongsTo(StoryCatalog::class, 'catalog_id', 'id');
+    }
 }
