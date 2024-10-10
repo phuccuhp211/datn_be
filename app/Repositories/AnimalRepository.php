@@ -74,23 +74,17 @@ class AnimalRepository implements AnimalRepositoryInterface
      *
      * @param string $action
      * @param string $data
+     * @param int $gender
      * @param int $page
      * @param int $limit
-     * @param int $filterOne
-     * @param int $filterTwo
      * @return mixed
      */
-    public function filterAnimals(string $action = null, string $data = null, int $page, int $limit, int $filterOne, array $filterTwo)
+    public function filterAnimals(string $action = null, string $data = null, int $gender = null, int $page, int $limit)
     {
         $query = Animal::query();
+        if ($action == 'search') $query->where('name','like','%'.$data.'%');
+        if ($gender) $query->where('gender','=',$data);
 
-        $query->where('outOfStock', '=' ,0);
-
-        if ($action == 'search') $query->where('name','like','%'. $data .'%');
-        else if ($action == 'catalog') $query->where('type', '=', $data);
-
-        if ($filterOne['fromPrice']) $query->where('','like','%');
-
-
+        return $query->offset(($page*$limit)-$limit)->limit($limit)->get();
     }
 }

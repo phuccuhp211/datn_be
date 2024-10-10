@@ -49,11 +49,10 @@ interface AnimalRepositoryInterface
      *
      * @param string $action
      * @param string $data
+     * @param int $gender
      * @param int $page
      * @param int $limit
-     * @param int $filterOne
-     * @param int $filterTwo
      * @return mixed
      */
-    public function filterAnimals(string $action, string $data, int $page, int $limit, int $filterOne, array $filterTwo);
+    public function filterAnimals(string $action = null, string $data = null, int $gender = null, int $page, int $limit);
 }   
