@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             StoriesSeeder::class,
             ProductSizesSeeder::class,
             ProductSpicesSeeder::class,
-            ProductSizeSpiceSeeder::class
+            ProductSizeSpiceQuantities::class
         ]);
     }
 }

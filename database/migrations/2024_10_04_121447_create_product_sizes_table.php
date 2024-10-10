@@ -9,7 +9,10 @@ return new class extends Migration {
     {
         Schema::create('product_sizes', function (Blueprint $table) {
             $table->id();
-            $table->string('size', 20); // Tên kích thước
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->string('size', 20);
+            $table->decimal('price', 10, 2);              // Giá gốc
+            $table->decimal('discount_price', 10, 2)->nullable(); // Giá khuyến mãi, có thể null nếu không có khuyến mãi
             $table->timestamps();
         });
     }

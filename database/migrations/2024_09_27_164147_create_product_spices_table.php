@@ -8,11 +8,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('product_spices', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 20);
+            $table->bigIncrements('id');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade'); // Khóa ngoại tới bảng products
+            $table->string('name', 50); // Tên của vị (Ví dụ: Vị gà, Vị bò, Vị cá)
             $table->timestamps();
         });
     }
+
 
     public function down(): void
     {
