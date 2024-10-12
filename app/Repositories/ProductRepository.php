@@ -7,84 +7,69 @@ use Illuminate\Support\Collection;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    protected $model;
-
-    public function __construct(Product $product)
-    {
-        $this->model = $product;
-    }
-
-    // Lấy tất cả sản phẩm, bao gồm kích thước và gia vị
+    /**
+     * Select All Products
+     *
+     * @return mixed
+     */
     public function getAll()
     {
-        return $this->model->with(['sizes', 'sizes.spices'])->get();
+        return Product::all();
     }
 
-    // Tìm sản phẩm theo ID, bao gồm kích thước và gia vị
+    /**
+     * Select Product by Id
+     *
+     * @param int $id
+     * @return mixed
+     */
     public function getById(int $id)
     {
-        return $this->model->with(['sizes', 'sizes.spices'])->findOrFail($id);
+        return Product::find($id);
     }
 
-    // Tạo mới sản phẩm với kích thước và gia vị
+    /**
+     * Inser Product
+     *
+     * @param array $data
+     * @return mixed
+     */
     public function insert(array $data)
     {
-        // Tạo sản phẩm mới
-        $product = $this->model->create($data);
-
-        // Lưu sizes và spices
-        foreach ($data['sizes'] as $sizeData) {
-            $size = $product->sizes()->create([
-                'size' => $sizeData['size'],
-                'price' => $sizeData['price'],
-                'quantity' => $sizeData['quantity'],
-            ]);
-
-            // Lưu spices
-            foreach ($sizeData['spices'] as $spiceData) {
-                $size->spices()->attach($spiceData['id'], [
-                    'price' => $spiceData['price'],
-                    'quantity' => $spiceData['quantity']
-                ]);
-            }
-        }
-
-        return $product->load('sizes.spices');
+        return Product::create($data);
     }
 
-    // Cập nhật sản phẩm
-    public function update($id, array $data)
+    /**
+     * Update Product
+     *
+     * @param int $id
+     * @param array $data
+     * @return mixed
+     */
+    public function update(int $id, array $data)
     {
-        $product = $this->model->findOrFail($id);
-        $product->update($data);
-
-        // Cập nhật sizes và spices
-        $product->sizes()->delete();  // Xóa kích thước cũ
-        foreach ($data['sizes'] as $sizeData) {
-            $size = $product->sizes()->create([
-                'size' => $sizeData['size'],
-                'price' => $sizeData['price'],
-                'quantity' => $sizeData['quantity'],
-            ]);
-
-            // Cập nhật spices
-            foreach ($sizeData['spices'] as $spiceData) {
-                $size->spices()->attach($spiceData['id'], [
-                    'price' => $spiceData['price'],
-                    'quantity' => $spiceData['quantity']
-                ]);
-            }
+        $Product = Product::find($id);
+        if ($Product) {
+            $Product->update($data);
+            return $Product;
         }
 
-        return $product->load('sizes.spices');
+        return null;
     }
 
-    // Xóa sản phẩm
-    public function delete($id)
+    /**
+     * Delete Product Id
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
     {
-        $product = $this->model->findOrFail($id);
-        $product->sizes()->delete();  // Xóa các size trước khi xóa sản phẩm
-        $product->delete();
-        return true;
+        $Product = Product::find($id);
+        if ($Product) {
+            return $Product->delete();
+        }
+
+        return false;
     }
 }
