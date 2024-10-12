@@ -22,6 +22,14 @@ interface ProductSpiceRepositoryInterface
     public function getById(int $id);
 
     /**
+     * Select ProductSpice by Product Id
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function getByProductId(int $id);
+
+    /**
      * Insert ProductSpice
      *
      * @param array $data

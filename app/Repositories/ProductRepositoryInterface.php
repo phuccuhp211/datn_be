@@ -45,4 +45,16 @@ interface ProductRepositoryInterface
      * @return bool
      */
     public function delete(int $id);
+
+    /**
+     * Filter Product
+     *
+     * @param string $action
+     * @param string $data
+     * @param int $order
+     * @param string $page
+     * @param int $limit
+     * @return mixed
+     */
+    public function filter($action, $data = null, $order = 1, $page = null, $limit = 4);
 }

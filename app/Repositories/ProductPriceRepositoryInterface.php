@@ -14,7 +14,7 @@ interface ProductPriceRepositoryInterface
     public function getAll();
 
     /**
-     * Select data by Id
+     * Select ProductPrice by Id
      *
      * @param int $id
      * @return mixed
@@ -22,7 +22,15 @@ interface ProductPriceRepositoryInterface
     public function getById(int $id);
 
     /**
-     * Insert data
+     * Select ProductPrice by Product Id
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function getByProductId(int $id);
+
+    /**
+     * Insert ProductPrice
      *
      * @param array $data
      * @return mixed
@@ -30,7 +38,7 @@ interface ProductPriceRepositoryInterface
     public function insert(array $data);
 
     /**
-     * Update data
+     * Update ProductPrice
      *
      * @param int $id
      * @param array $data
@@ -39,7 +47,7 @@ interface ProductPriceRepositoryInterface
     public function update(int $id, array $data);
 
     /**
-     * Delete data by Id
+     * Delete ProductPrice by Id
      *
      * @param int $id
      * @return bool

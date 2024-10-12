@@ -29,6 +29,17 @@ class ProductSpiceRepository implements ProductSpiceRepositoryInterface
     }
 
     /**
+     * Select ProductSpice by Product Id
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function getByProductId(int $id)
+    {
+        return ProductSpice::with('product')->where('product_id', $id)->get();
+    }
+
+    /**
      * Inser ProductSpice
      *
      * @param array $data

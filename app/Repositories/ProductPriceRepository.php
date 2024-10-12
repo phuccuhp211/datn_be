@@ -29,6 +29,17 @@ class ProductPriceRepository implements ProductPriceRepositoryInterface
     }
 
     /**
+     * Select ProductPrice by Product Id
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function getByProductId(int $id)
+    {
+        return ProductPrice::with('product')->where('product_id', $id)->get();
+    }
+
+    /**
      * Inser ProductPrice
      *
      * @param array $data
