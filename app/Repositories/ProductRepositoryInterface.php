@@ -56,5 +56,5 @@ interface ProductRepositoryInterface
      * @param int $limit
      * @return mixed
      */
-    public function filter($action, $data = null, $order = 1, $page = null, $limit = 4);
+    public function filter(string $action, string $data = null, int $order = 1, int $page = 1, int $limit = 4);
 }

@@ -105,10 +105,9 @@ class ProductRepository implements ProductRepositoryInterface
      * @param int $limit
      * @return mixed
      */
-    public function filter($action, $data, $order, $page, $limit)
+    public function filter(string $action, string $data, int $order, int $page, int $limit)
     {   
         $query = Product::query();
-
         $query->where('out_of_stock', '=', 0);
 
         if ($action == 'catalog') $query->where('type','=', $data);

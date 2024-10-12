@@ -54,5 +54,5 @@ interface AnimalRepositoryInterface
      * @param int $limit
      * @return mixed
      */
-    public function filterAnimals(string $action = null, string $data = null, int $gender = null, int $page, int $limit);
+    public function filterAnimals(string $action, string $data = null, int $gender = null, int $page = 1, int $limit = 4);
 }   
