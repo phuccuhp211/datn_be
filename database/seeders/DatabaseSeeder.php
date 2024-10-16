@@ -17,16 +17,14 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call([
-            ProductCatalogsSeeder::class,
             StoryCatalogsSeeder::class,
             AnimalCatalogsSeeder::class,
-            UsersSeeder::class,
             AnimalsSeeder::class,
+            UsersSeeder::class,
             ProductsSeeder::class,
             StoriesSeeder::class,
-            ProductSizesSeeder::class,
-            ProductSpicesSeeder::class,
-            ProductSizeSpiceQuantities::class
+
+
         ]);
     }
 }

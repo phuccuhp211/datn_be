@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('product_options', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->json('images')->nullable();
-            $table->text('description')->nullable();
-            $table->string('type');
+            $table->foreignId('variant_id')->constrained('product_variants')->onDelete('cascade');
+            $table->string('flavor')->nullable(); // Hương vị
+            $table->string('color')->nullable(); // Màu sắc
+            $table->integer('quantity'); // Số lượng cho mỗi tùy chọn
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        //
     }
 };

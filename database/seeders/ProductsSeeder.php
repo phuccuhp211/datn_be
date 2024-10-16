@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Models\Product;
+use App\Models\ProductVariant;
+use App\Models\ProductOption;
 
 class ProductsSeeder extends Seeder
 {
@@ -12,35 +13,190 @@ class ProductsSeeder extends Seeder
     {
         $products = [
             // Thức ăn cho thú cưng
-            ['img' => 'image/thuc-an-cho-cho-1.webp', 'name' => 'Thức ăn cho chó vị gà', 'type' => 1, 'purpose' => 'Cung cấp dinh dưỡng cho chó', 'language' => 'vi', 'slug' => Str::slug('Thức ăn cho chó vị gà')],
-            ['img' => 'image/thuc-an-cho-cho-2.webp', 'name' => 'Thức ăn cho chó vị bò', 'type' => 1, 'purpose' => 'Cung cấp dinh dưỡng cho chó', 'language' => 'vi', 'slug' => Str::slug('Thức ăn cho chó vị bò')],
-            ['img' => 'image/thuc-an-cho-cho-3.webp', 'name' => 'Thức ăn cho chó vị cá', 'type' => 1, 'purpose' => 'Cung cấp dinh dưỡng cho chó', 'language' => 'vi', 'slug' => Str::slug('Thức ăn cho chó vị cá')],
-            ['img' => 'image/thuc-an-cho-meo-1.webp', 'name' => 'Thức ăn cho mèo vị cá', 'type' => 1, 'purpose' => 'Cung cấp dinh dưỡng cho mèo', 'language' => 'vi', 'slug' => Str::slug('Thức ăn cho mèo vị cá')],
-            ['img' => 'image/thuc-an-cho-meo-2.webp', 'name' => 'Thức ăn cho mèo vị gà', 'type' => 1, 'purpose' => 'Cung cấp dinh dưỡng cho mèo', 'language' => 'vi', 'slug' => Str::slug('Thức ăn cho mèo vị gà')],
+            [
+                'name' => 'Thức ăn cho chó vị gà',
+                'description' => 'Thức ăn dinh dưỡng cho chó với hương vị gà.',
+                'type' => 'food',
+                'images' => json_encode(['food1_1.webp', 'food1_2.webp']),
+                'variants' => [
+                    [
+                        'price' => 100000,
+                        'discount_price' => 90000,
+                        'size' => '500g',
+                        'options' => [
+                            ['flavor' => 'Gà', 'color' => 'Vàng', 'quantity' => 10],
+                            ['flavor' => 'Thịt bò', 'color' => 'Đỏ', 'quantity' => 5],
+                        ]
+                    ],
+                    [
+                        'price' => 120000,
+                        'discount_price' => null,
+                        'size' => '1kg',
+                        'options' => [
+                            ['flavor' => 'Gà', 'color' => 'Vàng', 'quantity' => 8],
+                            ['flavor' => 'Thịt bò', 'color' => 'Xanh', 'quantity' => 6],
+                        ]
+                    ],
+                ]
+            ],
+            [
+                'name' => 'Thức ăn cho mèo vị cá',
+                'description' => 'Thức ăn cho mèo vị cá hồi, bổ dưỡng.',
+                'type' => 'food',
+                'images' => json_encode(['food2_1.webp', 'food2_2.webp']),
+                'variants' => [
+                    [
+                        'price' => 95000,
+                        'discount_price' => 85000,
+                        'size' => '500g',
+                        'options' => [
+                            ['flavor' => 'Cá', 'color' => 'Xanh', 'quantity' => 12],
+                            ['flavor' => 'Tôm', 'color' => 'Cam', 'quantity' => 7],
+                        ]
+                    ]
+                ]
+            ],
+            // Tiếp tục thêm 3 sản phẩm thức ăn cho thú cưng...
 
-            // Quần áo thú cưng
-            ['img' => 'image/ao-1.jpg', 'name' => 'Áo khoác mùa đông', 'type' => 4, 'purpose' => 'Giữ ấm cho thú cưng', 'language' => 'vi', 'slug' => Str::slug('Áo khoác mùa đông')],
-            ['img' => 'image/ao-2.jpg', 'name' => 'Áo len cho chó', 'type' => 4, 'purpose' => 'Áo ấm cho chó vào mùa đông', 'language' => 'vi', 'slug' => Str::slug('Áo len cho chó')],
-            ['img' => 'image/ao-3.jpg', 'name' => 'Áo mưa cho thú cưng', 'type' => 4, 'purpose' => 'Bảo vệ thú cưng khỏi mưa', 'language' => 'vi', 'slug' => Str::slug('Áo mưa cho thú cưng')],
-            ['img' => 'image/ao-4.jpg', 'name' => 'Giày cho thú cưng', 'type' => 4, 'purpose' => 'Bảo vệ chân thú cưng', 'language' => 'vi', 'slug' => Str::slug('Giày cho thú cưng')],
-            ['img' => 'image/ao-5.jpg', 'name' => 'Áo hoodie cho thú cưng', 'type' => 4, 'purpose' => 'Áo thời trang cho thú cưng', 'language' => 'vi', 'slug' => Str::slug('Áo hoodie cho thú cưng')],
+            // Áo thun cho thú cưng
+            [
+                'name' => 'Áo thun đỏ cho chó',
+                'description' => 'Áo thun thời trang màu đỏ cho thú cưng.',
+                'type' => 'clothing',
+                'images' => json_encode(['clothes1_1.jpg', 'clothes1_2.jpg']),
+                'variants' => [
+                    [
+                        'price' => 110000,
+                        'discount_price' => 100000,
+                        'size' => 'M',
+                        'options' => [
+                            ['color' => 'Đỏ', 'quantity' => 8],
+                        ]
+                    ],
+                    [
+                        'price' => 130000,
+                        'discount_price' => null,
+                        'size' => 'L',
+                        'options' => [
+                            ['color' => 'Xanh', 'quantity' => 4],
+                        ]
+                    ],
+                ]
+            ],
+            [
+                'name' => 'Áo thun xanh cho mèo',
+                'description' => 'Áo thun màu xanh cho mèo.',
+                'type' => 'clothing',
+                'images' => json_encode(['clothes2_1.jpg', 'clothes2_2.jpg']),
+                'variants' => [
+                    [
+                        'price' => 105000,
+                        'discount_price' => 95000,
+                        'size' => 'S',
+                        'options' => [
+                            ['color' => 'Xanh', 'quantity' => 6],
+                        ]
+                    ]
+                ]
+            ],
+            // Tiếp tục thêm 3 sản phẩm quần áo cho thú cưng...
 
-            // Dụng cụ chăm sóc
-            ['img' => 'image/dung-cu-1.jpg', 'name' => 'Bàn chải lông thú', 'type' => 3, 'purpose' => 'Chăm sóc lông thú cưng', 'language' => 'vi', 'slug' => Str::slug('Bàn chải lông thú')],
-            ['img' => 'image/dung-cu-2.jpg', 'name' => 'Kéo cắt lông', 'type' => 3, 'purpose' => 'Cắt tỉa lông thú cưng', 'language' => 'vi', 'slug' => Str::slug('Kéo cắt lông thú')],
-            ['img' => 'image/dung-cu-3.jpg', 'name' => 'Găng tay tắm cho thú cưng', 'type' => 3, 'purpose' => 'Tắm cho thú cưng dễ dàng hơn', 'language' => 'vi', 'slug' => Str::slug('Găng tay tắm cho thú cưng')],
-            ['img' => 'image/dung-cu-4.jpg', 'name' => 'Máy sấy lông thú', 'type' => 3, 'purpose' => 'Sấy khô lông thú cưng', 'language' => 'vi', 'slug' => Str::slug('Máy sấy lông thú')],
-            ['img' => 'image/dung-cu-5.jpg', 'name' => 'Dầu gội cho thú cưng', 'type' => 3, 'purpose' => 'Dầu gội an toàn cho thú cưng', 'language' => 'vi', 'slug' => Str::slug('Dầu gội cho thú cưng')],
+            // Dụng cụ cho thú cưng
+            [
+                'name' => 'Lược chải lông chó mèo',
+                'description' => 'Dụng cụ chăm sóc lông cho thú cưng, dễ sử dụng.',
+                'type' => 'tool',
+                'images' => json_encode(['tool1_1.webp', 'tool1_2.webp']),
+                'variants' => [
+                    [
+                        'price' => 50000,
+                        'discount_price' => 45000,
+                        'size' => 'S',
+                        'options' => [
+                            ['color' => 'Hồng', 'quantity' => 20],
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'name' => 'Bát ăn cho chó mèo',
+                'description' => 'Bát ăn bằng nhựa cao cấp cho chó mèo.',
+                'type' => 'tool',
+                'images' => json_encode(['tool2_1.webp', 'tool2_2.webp']),
+                'variants' => [
+                    [
+                        'price' => 35000,
+                        'discount_price' => 30000,
+                        'size' => 'M',
+                        'options' => [
+                            ['color' => 'Trắng', 'quantity' => 15],
+                        ]
+                    ]
+                ]
+            ],
+            // Tiếp tục thêm 3 sản phẩm dụng cụ cho thú cưng...
 
-            // Phụ kiện thú cưng
-            ['img' => 'image/phu-kien-1.jpg', 'name' => 'Cổ dây dắt chó màu đỏ', 'type' => 2, 'purpose' => 'Dụng cụ dắt thú cưng', 'language' => 'vi', 'slug' => Str::slug('Cổ dây dắt chó màu đỏ')],
-            ['img' => 'image/phu-kien-2.jpg', 'name' => 'Cổ dây dắt chó màu xanh', 'type' => 2, 'purpose' => 'Dụng cụ dắt thú cưng', 'language' => 'vi', 'slug' => Str::slug('Cổ dây dắt chó màu xanh')],
-            ['img' => 'image/phu-kien-3.jpg', 'name' => 'Dây dắt chó dài', 'type' => 2, 'purpose' => 'Dụng cụ dắt thú cưng', 'language' => 'vi', 'slug' => Str::slug('Dây dắt chó dài')],
-            ['img' => 'image/phu-kien-4.jpg', 'name' => 'Giỏ xách cho chó', 'type' => 2, 'purpose' => 'Giỏ xách cho thú cưng', 'language' => 'vi', 'slug' => Str::slug('Giỏ xách cho chó')],
-            ['img' => 'image/phu-kien-5.jpg', 'name' => 'Khăn tắm cho thú cưng', 'type' => 2, 'purpose' => 'Khăn tắm cho thú cưng', 'language' => 'vi', 'slug' => Str::slug('Khăn tắm cho thú cưng')],
+            // Đồ chơi cho thú cưng
+            [
+                'name' => 'Bóng cao su cho chó',
+                'description' => 'Đồ chơi bóng cao su cho chó, bền bỉ và an toàn.',
+                'type' => 'toy',
+                'images' => json_encode(['toy1_1.webp', 'toy1_2.webp']),
+                'variants' => [
+                    [
+                        'price' => 60000,
+                        'discount_price' => null,
+                        'size' => 'M',
+                        'options' => [
+                            ['color' => 'Vàng', 'quantity' => 15],
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'name' => 'Đồ chơi chuột cho mèo',
+                'description' => 'Đồ chơi chuột bông nhỏ gọn cho mèo.',
+                'type' => 'toy',
+                'images' => json_encode(['toy2_1.jpg', 'toy2_2.jpg']),
+                'variants' => [
+                    [
+                        'price' => 45000,
+                        'discount_price' => 40000,
+                        'size' => 'S',
+                        'options' => [
+                            ['color' => 'Xám', 'quantity' => 12],
+                        ]
+                    ]
+                ]
+            ],
+            // Tiếp tục thêm 3 sản phẩm đồ chơi cho thú cưng...
         ];
 
-        // Chèn dữ liệu vào bảng products
-        DB::table('products')->insert($products);
+        foreach ($products as $productData) {
+            $product = Product::create([
+                'name' => $productData['name'],
+                'description' => $productData['description'],
+                'type' => $productData['type'],
+                'images' => $productData['images'],
+            ]);
+
+            foreach ($productData['variants'] as $variantData) {
+                $variant = ProductVariant::create([
+                    'product_id' => $product->id,
+                    'price' => $variantData['price'],
+                    'discount_price' => $variantData['discount_price'],
+                    'size' => $variantData['size'],
+                ]);
+
+                foreach ($variantData['options'] as $optionData) {
+                    ProductOption::create([
+                        'variant_id' => $variant->id,
+                        'flavor' => $optionData['flavor'] ?? null,
+                        'color' => $optionData['color'],
+                        'quantity' => $optionData['quantity'],
+                    ]);
+                }
+            }
+        }
     }
 }

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_catalogs', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name', 50);
-            $table->string('slug')->unique();
-            $table->enum('language', ['vi', 'en']); // Định nghĩa cột language là ENUM
+        Schema::create('product_attribute_values', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->string('attribute'); // Ví dụ: 'size', 'color', 'flavor'
+            $table->string('value'); // Giá trị của thuộc tính
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_catalogs');
+        //
     }
 };

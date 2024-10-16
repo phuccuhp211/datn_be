@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('gender', 10);
             $table->string('colors', 20);
             $table->string('genitive', 20);
-            $table->text('health_info');
+            $table->json('health_info');
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->enum('language', ['vi', 'eng'])->default('vi');
             $table->string('slug')->nullable();
