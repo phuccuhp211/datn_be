@@ -14,18 +14,17 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 40);
-            $table->string('phone', 12);
-            $table->string('email', 25);
+            $table->string('phone', 20);
+            $table->string('email', 50);
             $table->text('address');
             $table->string('role', 12);
             $table->integer('rescue_cases');
-            $table->integer('adopted');
+            $table->integer('adopted')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
-
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

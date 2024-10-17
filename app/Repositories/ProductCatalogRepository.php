@@ -3,73 +3,35 @@
 namespace App\Repositories;
 
 use App\Models\ProductCatalog;
-use Illuminate\Support\Collection;
+use App\Interfaces\ProductCatalogRepositoryInterface;
 
 class ProductCatalogRepository implements ProductCatalogRepositoryInterface
 {
-    /**
-     * Select All ProductCatalogs
-     *
-     * @return Collection
-     */
-    public function getAll()
+    public function all()
     {
         return ProductCatalog::all();
     }
 
-    /**
-     * Select ProductCatalog by Id
-     *
-     * @param int $id
-     * @return mixed
-     */
-    public function getById(int $id)
+    public function findById($id)
     {
-        return ProductCatalog::find($id);
+        return ProductCatalog::findOrFail($id);
     }
 
-    /**
-     * Inser ProductCatalog
-     *
-     * @param array $data
-     * @return mixed
-     */
-    public function insert(array $data)
+    public function create(array $data)
     {
         return ProductCatalog::create($data);
     }
 
-    /**
-     * Update ProductCatalog
-     *
-     * @param int $id
-     * @param array $data
-     * @return mixed
-     */
-    public function update(int $id, array $data)
+    public function update($id, array $data)
     {
-        $ProductCatalog = ProductCatalog::find($id);
-        if ($ProductCatalog) {
-            $ProductCatalog->update($data);
-            return $ProductCatalog;
-        }
-
-        return null;
+        $catalog = $this->findById($id);
+        $catalog->update($data);
+        return $catalog;
     }
 
-    /**
-     * Delete ProductCatalog Id
-     *
-     * @param int $id
-     * @return bool
-     */
-    public function delete(int $id): bool
+    public function delete($id)
     {
-        $ProductCatalog = ProductCatalog::find($id);
-        if ($ProductCatalog) {
-            return $ProductCatalog->delete();
-        }
-
-        return false;
+        $catalog = $this->findById($id);
+        $catalog->delete();
     }
 }
