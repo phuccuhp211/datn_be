@@ -13,4 +13,6 @@ interface UserRepositoryInterface
     public function update(int $id, array $userData);
 
     public function delete(int $id);
+
+    public function updateCartForUser(int $id, array $cart);
 }

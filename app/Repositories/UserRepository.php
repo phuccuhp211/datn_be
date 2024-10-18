@@ -34,4 +34,10 @@ class UserRepository implements UserRepositoryInterface
 
         return $target ? $target->delete() : false;
     }
+
+    public function updateCartForUser(int $id, array $cart)
+    {
+        $target = $this->getById($id);
+        return $target ? $target->update(['cart' => $cart]) : false;
+    }
 }

@@ -38,6 +38,11 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return Product::where('product_catalog_id', $catalogId)->with(['variants.options'])->get();
     }
+
+    public function getProductForCart(int $id)
+    {
+        return Product::select('id', 'name')->find($id);
+    }
     
     public function filter(string $action, string $data, int $order, int $page, int $limit)
     {
