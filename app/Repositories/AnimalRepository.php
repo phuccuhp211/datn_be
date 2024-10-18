@@ -11,9 +11,9 @@ class AnimalRepository implements AnimalRepositoryInterface
         return Animal::all();
     }
 
-    public function getById($id)
+    public function getById(int $id)
     {
-        return Animal::findOrFail($id);
+        return Animal::find($id);
     }
 
     public function create(array $data)
@@ -21,17 +21,17 @@ class AnimalRepository implements AnimalRepositoryInterface
         return Animal::create($data);
     }
 
-    public function update($id, array $data)
+    public function update(int $id, array $data)
     {
-        $animal = $this->getById($id);
-        $animal->update($data);
-        return $animal;
+        $target = $this->getById($id);
+
+        return $target ? $target->update($data) : false;
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
-        $animal = $this->getById($id);
-        $animal->delete();
-        return $animal;
+        $target = $this->getById($id);
+
+        return $target ? $target->delete() : false;
     }
 }

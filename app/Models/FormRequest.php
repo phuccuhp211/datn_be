@@ -9,8 +9,8 @@ class FormRequest extends Model
 {
     use HasFactory;
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
+    protected $table = 'Form_requests';
+    protected $primaryKey = 'id';
+    protected $fillable = ['type', 'created_at', 'status', 'name', 'phone', 'email', 'address', 'message', 'addition_infomation'];
+
 }

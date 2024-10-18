@@ -7,69 +7,32 @@ use Illuminate\Support\Collection;
 
 class StoryRepository implements StoryRepositoryInterface
 {
-    /**
-     * Select All Stories
-     *
-     * @return mixed
-     */
     public function getAll()
     {
         return Story::all();
     }
 
-    /**
-     * Select Story by Id
-     *
-     * @param int $id
-     * @return mixed
-     */
     public function getById(int $id)
     {
         return Story::find($id);
     }
 
-    /**
-     * Inser Story
-     *
-     * @param array $StoryData
-     * @return mixed
-     */
     public function insert(array $StoryData)
     {
         return Story::create($StoryData);
     }
 
-    /**
-     * Update Story
-     *
-     * @param int $id
-     * @param array $StoryData
-     * @return mixed
-     */
-    public function update(int $id, array $StoryData)
+    public function update(int $id, array $data)
     {
-        $Story = Story::find($id);
-        if ($Story) {
-            $Story->update($StoryData);
-            return $Story;
-        }
+        $target = $this->getById($id);
 
-        return null;
+        return $target ? $target->update($data) : false;
     }
 
-    /**
-     * Delete Story Id
-     *
-     * @param int $id
-     * @return bool
-     */
-    public function delete(int $id): bool
+    public function delete(int $id)
     {
-        $Story = Story::find($id);
-        if ($Story) {
-            return $Story->delete();
-        }
+        $target = $this->getById($id);
 
-        return false;
+        return $target ? $target->delete() : false;
     }
 }

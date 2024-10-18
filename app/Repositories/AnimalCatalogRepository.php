@@ -2,24 +2,23 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
-use Illuminate\Support\Collection;
+use App\Models\AnimalCatalog;
 
-class UserRepository implements UserRepositoryInterface
+class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
 {
-    public function getAll(): Collection
+    public function getAll()
     {
-        return User::all();
+        return AnimalCatalog::all();
     }
 
     public function getById(int $id)
     {
-        return User::find($id);
+        return AnimalCatalog::find($id);
     }
 
-    public function insert(array $userData)
+    public function create(array $data)
     {
-        return User::create($userData);
+        return AnimalCatalog::create($data);
     }
 
     public function update(int $id, array $data)

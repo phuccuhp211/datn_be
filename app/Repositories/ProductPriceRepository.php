@@ -2,23 +2,28 @@
 
 namespace App\Repositories;
 
-use App\Models\ProductCatalog;
+use App\Models\ProductPrice;
 
-class ProductCatalogRepository implements ProductCatalogRepositoryInterface
+class ProductPriceRepository implements ProductPriceRepositoryInterface
 {
     public function getAll()
     {
-        return ProductCatalog::all();
+        return ProductPrice::all();
     }
 
     public function getById(int $id)
     {
-        return ProductCatalog::find($id);
+        return ProductPrice::find($id);
+    }
+
+    public function getByProductId(int $id)
+    {
+        return ProductPrice::with('product')->where('product_id', $id)->get();
     }
 
     public function create(array $data)
     {
-        return ProductCatalog::create($data);
+        return ProductPrice::create($data);
     }
 
     public function update(int $id, array $data)

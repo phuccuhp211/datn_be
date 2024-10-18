@@ -2,24 +2,29 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
+use App\Models\ProductSpice;
 use Illuminate\Support\Collection;
 
-class UserRepository implements UserRepositoryInterface
+class ProductSpiceRepository implements ProductSpiceRepositoryInterface
 {
-    public function getAll(): Collection
+    public function getAll()
     {
-        return User::all();
+        return ProductSpice::all();
     }
 
     public function getById(int $id)
     {
-        return User::find($id);
+        return ProductSpice::find($id);
     }
 
-    public function insert(array $userData)
+    public function getByProductId(int $id)
     {
-        return User::create($userData);
+        return ProductSpice::with('product')->where('product_id', $id)->get();
+    }
+
+    public function insert(array $data)
+    {
+        return ProductSpice::create($data);
     }
 
     public function update(int $id, array $data)
