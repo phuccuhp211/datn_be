@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Sponsor;
-use Illuminate\Support\Collection;
 
 class SponsorRepository implements SponsorRepositoryInterface
 {

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\StoryCatalog;
-use Illuminate\Support\Collection;
 
 class StoryCatalogRepository implements StoryCatalogRepositoryInterface
 {

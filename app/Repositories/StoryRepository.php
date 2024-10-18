@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Story;
-use Illuminate\Support\Collection;
 
 class StoryRepository implements StoryRepositoryInterface
 {

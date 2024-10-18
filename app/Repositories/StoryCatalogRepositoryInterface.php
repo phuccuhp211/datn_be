@@ -2,8 +2,6 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Collection;
-
 interface StoryCatalogRepositoryInterface
 {
     public function getAll(): mixed;

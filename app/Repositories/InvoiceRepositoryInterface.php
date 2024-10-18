@@ -2,8 +2,6 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Collection;
-
 interface InvoiceRepositoryInterface
 {
     public function getAll();

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\ProductSpice;
-use Illuminate\Support\Collection;
 
 class ProductSpiceRepository implements ProductSpiceRepositoryInterface
 {

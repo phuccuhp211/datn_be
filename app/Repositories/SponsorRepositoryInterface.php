@@ -2,8 +2,6 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Collection;
-
 interface SponsorRepositoryInterface
 {
     public function getAll();
