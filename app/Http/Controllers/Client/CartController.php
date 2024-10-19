@@ -34,6 +34,14 @@ class CartController extends Controller
         $this->response = ['status' => false ,'message'=> ''];
     }
 
+    public function getCart (Request $request)
+    {
+        $this->response['status'] = true;
+        $this->response['message'] = session('cart');
+
+        return json_encode($this->response);
+    }
+
     function insertOrUpdate(Request $request) 
     {
         try {
@@ -80,10 +88,10 @@ class CartController extends Controller
             $this->response['status'] = true;
             $this->response['message'] = session('cart');
 
-            return $this->response;
+            return json_encode($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return $this->response;
+            return json_encode($this->response);
         }
     }
 
@@ -101,10 +109,10 @@ class CartController extends Controller
             $this->response['status'] = true;
             $this->response['message'] = session('cart');
 
-            return $this->response;
+            return json_encode($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return $this->response;
+            return json_encode($this->response);
         }
     }
 
@@ -117,10 +125,10 @@ class CartController extends Controller
             $this->response['status'] = true;
             $this->response['message'] = [];
 
-            return $this->response;
+            return json_encode($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return $this->response;
+            return json_encode($this->response);
         }
     }
 
@@ -205,10 +213,10 @@ class CartController extends Controller
             $this->response['status'] = true;
             $this->response['message'] = session('cart');
 
-            return $this->response;
+            return json_encode($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return $this->response;
+            return json_encode($this->response);
         }
     }
 }
