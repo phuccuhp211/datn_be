@@ -97,28 +97,21 @@ class SisuController extends Controller
             $validator = Validator::make($request->all(), $rule, $msgs);
 
             if ($validator->fails()) {
-                $errors = $validator->errors()->all();
+                $errors = $validator->errors()->first();
                 $this->response['message'] = $errors;
-            }
-            else {
-                $account = $request->input('account');
-                $password = $request->input('password');
-                $name = $request->input('name');
-                $address = $request->input('address');
-                $email = $request->input('email');
-                $phone = $request->input('phone');
-
-                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            } else {
+                $hashedPassword = password_hash($request->input('password'), PASSWORD_BCRYPT);
                 $data = [
-                    'account' => $account,
+                    'account' => $request->input('account'),
                     'password' => $hashedPassword,
-                    'name' => $name,
-                    'phone' => $phone,
-                    'email' => $email,
-                    'address' => $address,
+                    'name' => $request->input('name'),
+                    'phone' => $request->input('phone'),
+                    'email' => $request->input('email'),
+                    'address' => $request->input('address'),
                     'role' => 'client'
                 ];
-                $data['status'] = true;
+
+                $this->response['status'] = true;
                 $this->response['message'] = $this->userRepository->create($data);
             }
 
@@ -128,6 +121,7 @@ class SisuController extends Controller
             return response()->json($this->response);
         }
     }
+
 
     public function clientLogout(Request $request)
     {
