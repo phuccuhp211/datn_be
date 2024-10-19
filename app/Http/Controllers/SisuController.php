@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Client\CartController;
 use App\Repositories\UserRepositoryInterface;
@@ -77,56 +76,50 @@ class SisuController extends Controller
     public function clientRegister(Request $request)
     {
         try {
-            $account = $request->input('account');
-            $password = $request->input('password');
-            $password2 = $request->input('password2');
-            $name = $request->input('name');
-            $address = $request->input('address');
-            $email = $request->input('email');
-            $phone = $request->input('phone');
-
-            $rule = [ 
-                'email' => 'required|email|regex:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/',
-                'phone' => 'required|numeric|digits:10'
+            $rule = [
+                'account' => 'required|string|min:3|unique:users,account',
+                'password' => 'required|min:8',
+                'password2' => 'required|same:password',
+                'name' => 'required|string|max:255',
+                'address' => 'nullable|string|max:255',
+                'email' => 'required|email|regex:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/|unique:users,email',
+                'phone' => 'required|numeric|digits:10|unique:users,phone'
             ];
             $msgs = [
-                'email' => 'Email không đúng định dạng',
-                'phone' => 'Số điện thoại không hợp lệ.'
+                'account.unique' => 'Tên tài khoản đã được sử dụng!',
+                'email.unique' => 'Email đã được sử dụng!',
+                'phone.unique' => 'Số điện thoại đã được sử dụng!',
+                'password2.same' => 'Mật khẩu không khớp!',
+                'password.min' => 'Mật khẩu tối thiểu 8 kí tự!',
+                'email' => 'Email không đúng định dạng.',
+                'phone.digits' => 'Số điện thoại không hợp lệ.',
             ];
             $validator = Validator::make($request->all(), $rule, $msgs);
 
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
-                $this->response['message'] = $errors[0];
+                $this->response['message'] = $errors;
             }
             else {
-                $accountExisted = $this->userRepository->getByAccount($account);
-                $emailExisted = $this->userRepository->getByEmail($email);
-                $phoneExisted = $this->userRepository->getByPhone($phone);
+                $account = $request->input('account');
+                $password = $request->input('password');
+                $name = $request->input('name');
+                $address = $request->input('address');
+                $email = $request->input('email');
+                $phone = $request->input('phone');
 
-                if ($accountExisted || $emailExisted || $phoneExisted) {
-                    if ($accountExisted) $this->response['message'] =  'Tên tài khoản đã được sử dụng !';
-                    if ($emailExisted) $this->response['message'] =  'Email đã được sử dụng !';
-                    if ($phoneExisted) $this->response['message'] =  'Số điện thoại đã được sử dụng !';
-                }
-                else {
-                    if ($password != $password2) $this->response['message'] =  'Mật khẩu không khớp !';
-                    else if (strlen($password) < 7) $this->response['message'] =  'Mật khẩu tối thiểu 8 kí tự !';
-                    else {
-                        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-                        $data = [
-                            'account' => $account,
-                            'password' => $hashedPassword,
-                            'name' => $name,
-                            'phone' => $phone,
-                            'email' => $email,
-                            'address' => $address,
-                            'role' => 'client'
-                        ];
-                        $data['status'] = true;
-                        $this->response['message'] = $this->userRepository->create($data);;
-                    }
-                }
+                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+                $data = [
+                    'account' => $account,
+                    'password' => $hashedPassword,
+                    'name' => $name,
+                    'phone' => $phone,
+                    'email' => $email,
+                    'address' => $address,
+                    'role' => 'client'
+                ];
+                $data['status'] = true;
+                $this->response['message'] = $this->userRepository->create($data);
             }
 
             return response()->json($this->response);
