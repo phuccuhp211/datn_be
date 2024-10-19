@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\ProductSpice;
 
-class ProductSpiceRepository implements ProductSpiceRepositoryInterface
+class ProductOptionRepository implements ProductOptionRepositoryInterface
 {
     public function getAll()
     {

@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-interface ProductSpiceRepositoryInterface
+interface ProductOptionRepositoryInterface
 {
 
     public function getAll();

@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\UserRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\ProductPriceRepositoryInterface;
-use App\Repositories\ProductSpiceRepositoryInterface;
+use App\Repositories\ProductOptionRepositoryInterface;
 
 
 class CartController extends Controller
@@ -18,19 +18,19 @@ class CartController extends Controller
     private $userRepository;
     private $productRepository;
     private $productPriceRepository;
-    private $productSpiceRepository;
+    private $productOptionRepository;
     
     public function __construct (
         UserRepositoryInterface $userRepository, 
         ProductRepositoryInterface $productRepository,
         ProductPriceRepositoryInterface $productPriceRepositoryInterface,
-        ProductSpiceRepositoryInterface $productSpiceRepositoryInterface
+        ProductOptionRepositoryInterface $productOptionRepositoryInterface
     )
     {
         $this->userRepository = $userRepository;
         $this->productRepository = $productRepository;
         $this->productPriceRepository = $productPriceRepositoryInterface;
-        $this->productSpiceRepository = $productSpiceRepositoryInterface;
+        $this->productOptionRepository = $productOptionRepositoryInterface;
         $this->response = ['status' => false ,'message'=> ''];
     }
 
@@ -45,7 +45,7 @@ class CartController extends Controller
 
             $product = $this->productRepository->getProductForCart($productId)->toArray();
             $size = $this->productPriceRepository->getById($sizeId)->toArray();
-            $spice = $spiceId ? $this->productSpiceRepository->getById($spiceId)->toArray() : null;
+            $spice = $spiceId ? $this->productOptionRepository->getById($spiceId)->toArray() : null;
 
             $product['quantity'] = $quantity;
             $product['sizeId'] = $size['id'];
