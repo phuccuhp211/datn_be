@@ -21,7 +21,7 @@ class ProductOptionRepository implements ProductOptionRepositoryInterface
         return ProductSpice::with('product')->where('product_id', $id)->get();
     }
 
-    public function insert(array $data)
+    public function create(array $data)
     {
         return ProductSpice::create($data);
     }

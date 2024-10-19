@@ -16,7 +16,7 @@ class StoryCatalogRepository implements StoryCatalogRepositoryInterface
         return StoryCatalog::find($id);
     }
 
-    public function insert(array $data)
+    public function create(array $data)
     {
         return StoryCatalog::create($data);
     }

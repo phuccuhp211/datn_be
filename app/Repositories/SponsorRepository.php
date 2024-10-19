@@ -16,7 +16,7 @@ class SponsorRepository implements SponsorRepositoryInterface
         return Sponsor::find($id);
     }
 
-    public function insert(array $data)
+    public function create(array $data)
     {
         return Sponsor::create($data);
     }

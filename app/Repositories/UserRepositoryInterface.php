@@ -8,7 +8,13 @@ interface UserRepositoryInterface
 
     public function getById(int $id);
 
-    public function insert(array $userData);
+    public function getByAccount(string $account);
+
+    public function getByEmail(string $email);
+
+    public function getByPhone(string $phone);
+
+    public function create(array $userData);
 
     public function update(int $id, array $userData);
 

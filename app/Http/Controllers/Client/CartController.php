@@ -39,7 +39,7 @@ class CartController extends Controller
         $this->response['status'] = true;
         $this->response['message'] = session('cart');
 
-        return json_encode($this->response);
+        return response()->json($this->response);
     }
 
     function insertOrUpdate(Request $request) 
@@ -88,10 +88,10 @@ class CartController extends Controller
             $this->response['status'] = true;
             $this->response['message'] = session('cart');
 
-            return json_encode($this->response);
+            return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return json_encode($this->response);
+            return response()->json($this->response);
         }
     }
 
@@ -109,10 +109,10 @@ class CartController extends Controller
             $this->response['status'] = true;
             $this->response['message'] = session('cart');
 
-            return json_encode($this->response);
+            return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return json_encode($this->response);
+            return response()->json($this->response);
         }
     }
 
@@ -125,10 +125,10 @@ class CartController extends Controller
             $this->response['status'] = true;
             $this->response['message'] = [];
 
-            return json_encode($this->response);
+            return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return json_encode($this->response);
+            return response()->json($this->response);
         }
     }
 
@@ -209,14 +209,8 @@ class CartController extends Controller
             $session = $this->updateTotalPrice($session);
             session(['cart' => $session]);
             $this->userRepository->updateCartForUser(session('userLog'), session('cart'));
-            
-            $this->response['status'] = true;
-            $this->response['message'] = session('cart');
-
-            return json_encode($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return json_encode($this->response);
         }
     }
 }

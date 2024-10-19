@@ -11,7 +11,7 @@ interface ProductOptionRepositoryInterface
 
     public function getByProductId(int $id);
 
-    public function insert(array $data);
+    public function create(array $data);
 
     public function update(int $id, array $data);
 
