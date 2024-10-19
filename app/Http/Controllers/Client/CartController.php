@@ -39,19 +39,19 @@ class CartController extends Controller
         try {
             $productId = $request->input('productId');
             $sizeId = $request->input('sizeId');
-            $spiceId = $request->input('spiceId');
+            $optionId = $request->input('optionId');
             $quantity = $request->input('quantity', 1);
             $cart = session('cart');
 
             $product = $this->productRepository->getProductForCart($productId)->toArray();
             $size = $this->productPriceRepository->getById($sizeId)->toArray();
-            $spice = $spiceId ? $this->productOptionRepository->getById($spiceId)->toArray() : null;
+            $option = $optionId ? $this->productOptionRepository->getById($optionId)->toArray() : null;
 
             $product['quantity'] = $quantity;
             $product['sizeId'] = $size['id'];
             $product['sizeName'] = $size['name'];
-            $product['spiceId'] = $spice ? $spice['id'] : null;
-            $product['spiceName'] = $spice ? $spice['name'] : null;
+            $product['optionId'] = $option ? $option['id'] : null;
+            $product['optionName'] = $option ? $option['name'] : null;
             $product['price'] = $size['price'];
             $product['saleFrom'] = $size['sale_from'];
             $product['saleTo'] = $size['sale_to'];
@@ -62,7 +62,7 @@ class CartController extends Controller
             foreach ($cart['list'] as &$item) {
                 if ($item['id'] == $productId) {
                     if ($item['sizeId'] == $sizeId) {
-                        if ($item['spiceId'] == $spiceId) {
+                        if ($item['optionId'] == $optionId) {
                             $item['quantity'] += $quantity;
                             $item = $this->calPrice($item);
                             $repeated = true;
@@ -186,7 +186,7 @@ class CartController extends Controller
                 foreach ($session['list'] as &$item1) {
                     if ($item1['id'] == $item2['id']) {
                         if ($item1['sizeId'] == $item2['sizeId']) {
-                            if ($item1['spiceId'] == $item2['spiceId']) {
+                            if ($item1['optionId'] == $item2['optionId']) {
                                 $item1['quantity'] += $item2['quantity'];
                                 $item1 = $this->calPrice($item1);
                                 $repeated = true;
