@@ -50,7 +50,7 @@ class SisuController extends Controller
                         if ($passwordTrue) {
                             unset($user['password']);
                             $this->response['status'] = true;
-                            session(['userLog' => $account]);
+                            session(['userLog' => $user]);
                             if (!is_null($user['cart'])) {
                                 $userCart = json_decode($user['cart'], true);
                                 $cartController = new CartController($this->userRepository, $this->productRepository, $this->productPriceRepository, $this->productOptionRepository);
@@ -126,7 +126,7 @@ class SisuController extends Controller
     public function clientLogout(Request $request)
     {
         try {
-            if (session()->has('user_log')) session()->forget('user_log');
+            if (session()->has('userLog')) session()->forget('userLog');
             $this->response['status'] = true;
             $this->response['message'] = 'done';
             return response()->json($this->response);
