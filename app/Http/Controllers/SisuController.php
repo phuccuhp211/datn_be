@@ -113,9 +113,10 @@ class SisuController extends Controller
                     if ($password != $password2) $this->response['message'] =  'Mật khẩu không khớp !';
                     else if (strlen($password) < 7) $this->response['message'] =  'Mật khẩu tối thiểu 8 kí tự !';
                     else {
+                        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
                         $data = [
                             'account' => $account,
-                            'password' => $password,
+                            'password' => $hashedPassword,
                             'name' => $name,
                             'phone' => $phone,
                             'email' => $email,
