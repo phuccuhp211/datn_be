@@ -178,7 +178,7 @@ class CartController extends Controller
     function updateCartForUser() 
     {
         try {
-            if(session()->has('userLog')) $this->userRepository->updateCartForUser(session('userLog'), session('cart'));
+            if(session()->has('clientLoged')) $this->userRepository->updateCartForUser(session('clientLoged'), session('cart'));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -208,7 +208,7 @@ class CartController extends Controller
             
             $session = $this->updateTotalPrice($session);
             session(['cart' => $session]);
-            $this->userRepository->updateCartForUser(session('userLog'), session('cart'));
+            $this->userRepository->updateCartForUser(session('clientLoged'), session('cart'));
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
         }

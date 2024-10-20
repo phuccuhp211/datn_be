@@ -50,7 +50,7 @@ class SisuController extends Controller
                         if ($passwordTrue) {
                             unset($user['password']);
                             $this->response['status'] = true;
-                            session(['userLog' => $user]);
+                            session(['clientLoged' => $user]);
                             if (!is_null($user['cart'])) {
                                 $userCart = json_decode($user['cart'], true);
                                 $cartController = new CartController($this->userRepository, $this->productRepository, $this->productPriceRepository, $this->productOptionRepository);
@@ -122,11 +122,55 @@ class SisuController extends Controller
         }
     }
 
-
     public function clientLogout(Request $request)
     {
         try {
-            if (session()->has('userLog')) session()->forget('userLog');
+            if (session()->has('clientLoged')) session()->forget('clientLoged');
+            $this->response['status'] = true;
+            $this->response['message'] = 'done';
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+    }
+
+    public function adminLogin(Request $request)
+    {
+        try {
+            $account = $request->input('account');
+            $password = $request->input('password');
+
+            if ($account == '') $this->response['message'] = 'Vui lòng nhập tài khoản !';
+            else if ($password == '') $this->response['message'] =  'Vui lòng nhập mật khẩu !';
+            else {
+                $user = $this->userRepository->getByAccount($account);
+                if ($user) {
+                    if ($user['lock'] == 1 && $user['role'] != 'admin') $this->response['message'] = 'Tài Khoản bị khóa !';
+                    else {
+                        $passwordTrue = password_verify($password, $user['password']);
+                        if ($passwordTrue) {
+                            unset($user['password']);
+                            $this->response['status'] = true;
+                            session(['adminLoged' => $user]);
+                        }
+                        else $this->response['message'] =  'Sai mật khẩu';
+                    }
+                } 
+                else $this->response['message'] =  'Sai tên tài khoản !';
+            }
+
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+    }
+
+    public function adminLogout(Request $request)
+    {
+        try {
+            if (session()->has('adminLoged')) session()->forget('adminLoged');
             $this->response['status'] = true;
             $this->response['message'] = 'done';
             return response()->json($this->response);
