@@ -2,28 +2,28 @@
 
 namespace App\Repositories;
 
-use App\Models\ProductSpice;
+use App\Models\ProductOption;
 
 class ProductOptionRepository implements ProductOptionRepositoryInterface
 {
     public function getAll()
     {
-        return ProductSpice::all();
+        return ProductOption::all();
     }
 
     public function getById(int $id)
     {
-        return ProductSpice::find($id);
+        return ProductOption::find($id);
     }
 
     public function getByProductId(int $id)
     {
-        return ProductSpice::with('product')->where('product_id', $id)->get();
+        return ProductOption::with('product')->where('product_id', $id)->get();
     }
 
     public function create(array $data)
     {
-        return ProductSpice::create($data);
+        return ProductOption::create($data);
     }
 
     public function update(int $id, array $data)
