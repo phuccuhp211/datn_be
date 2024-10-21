@@ -28,8 +28,7 @@ class ProductController extends Controller
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
         }
-        $result = $this->formatProducts(collect([$product])); // Chuyển đổi sang collection
-        return response()->json($result[0]);
+        return response()->json($product);
     }
 
     public function store(Request $request)
@@ -58,8 +57,7 @@ class ProductController extends Controller
         if (!$updatedProduct) {
             return response()->json(['message' => 'Product not found'], 404);
         }
-        $result = $this->formatProducts(collect([$updatedProduct])); // Chuyển đổi sang collection
-        return response()->json($result[0]);
+        return response()->json($updatedProduct);
     }
 
     public function destroy($id)
@@ -77,8 +75,7 @@ class ProductController extends Controller
         if ($products->isEmpty()) {
             return response()->json(['message' => 'No products found in this catalog.'], 404);
         }
-        $result = $this->formatProducts($products);
-        return response()->json($result);
+        return response()->json($products);
     }
 
     public function filterProducts(Request $request)
@@ -104,27 +101,19 @@ class ProductController extends Controller
                 'name' => $product->name,
                 'description' => $product->description,
                 'type' => $product->type,
-                'images' => $product->images->pluck('url'),
-                'sizes' => $product->sizes->map(function ($size) use ($product) {
+                'images' => json_decode($product->images),
+                'variants' => $product->variants->map(function ($variant) {
                     return [
-                        'id' => $size->id,
-                        'price' => $size->price,
-                        'discount_price' => $size->discount_price,
-                        'size' => $size->size,
-                        'options' => $size->options->map(function ($option) use ($product) {
-                            if ($product->type == 1) {
-                                // Nếu là sản phẩm thức ăn (type == 1)
-                                return [
-                                    'flavor' => $option->flavor,
-                                    'quantity' => $option->quantity,
-                                ];
-                            } else {
-                                // Nếu là các sản phẩm khác (ví dụ: quần áo)
-                                return [
-                                    'color' => $option->color,
-                                    'quantity' => $option->quantity,
-                                ];
-                            }
+                        'id' => $variant->id,
+                        'price' => $variant->price,
+                        'discount_price' => $variant->discount_price,
+                        'size' => $variant->size,
+                        'options' => $variant->options->map(function ($option) {
+                            return [
+                                'flavor' => $option->flavor,
+                                'color' => $option->color,
+                                'quantity' => $option->quantity,
+                            ];
                         }),
                     ];
                 }),

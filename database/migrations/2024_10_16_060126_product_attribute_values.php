@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('product_attribute_values', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('reference_id');
-            $table->string('table', 20);
-            $table->text('url');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->string('attribute'); // Ví dụ: 'size', 'color', 'flavor'
+            $table->string('value'); // Giá trị của thuộc tính
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('images');
+        //
     }
 };

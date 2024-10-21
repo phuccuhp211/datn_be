@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('animals', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('type')->unsigned();
+            $table->text('img');
             $table->string('name', 20);
             $table->integer('age');
             $table->string('gender', 10);

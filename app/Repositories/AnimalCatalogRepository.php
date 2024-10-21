@@ -2,23 +2,23 @@
 
 namespace App\Repositories;
 
-use App\Models\ProductCatalog;
+use App\Models\AnimalCatalog;
 
-class ProductCatalogRepository implements ProductCatalogRepositoryInterface
+class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
 {
     public function getAll()
     {
-        return ProductCatalog::all();
+        return AnimalCatalog::all();
     }
 
     public function getById(int $id)
     {
-        return ProductCatalog::find($id);
+        return AnimalCatalog::find($id);
     }
 
     public function create(array $data)
     {
-        return ProductCatalog::create($data);
+        return AnimalCatalog::create($data);
     }
 
     public function update(int $id, array $data)

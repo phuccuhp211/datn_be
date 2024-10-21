@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->json('images')->nullable();
             $table->text('description')->nullable();
             $table->foreignId('type')->constrained('product_catalogs')->onDelete('cascade');
             $table->timestamps();

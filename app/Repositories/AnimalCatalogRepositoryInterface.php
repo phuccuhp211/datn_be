@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-interface AnimalRepositoryInterface
+interface AnimalCatalogRepositoryInterface
 {
     public function getAll();
 
@@ -11,6 +11,6 @@ interface AnimalRepositoryInterface
     public function create(array $data);
 
     public function update(int $id, array $data);
-    
+
     public function delete(int $id);
 }

@@ -2,15 +2,17 @@
 
 namespace App\Repositories;
 
-interface AnimalRepositoryInterface
+interface ProductPriceRepositoryInterface
 {
     public function getAll();
 
     public function getById(int $id);
 
+    public function getByProductId(int $id);
+
     public function create(array $data);
 
     public function update(int $id, array $data);
-    
+
     public function delete(int $id);
 }

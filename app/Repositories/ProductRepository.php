@@ -3,17 +3,16 @@
 namespace App\Repositories;
 
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    public function all(): Collection
+    public function getAll()
     {
-        return Product::with(['sizes.options', 'images'])->get();
+        return Product::with(['variants.options'])->get();
     }
-    public function find($id)
+    public function getById(int $id)
     {
-        return Product::with(['sizes.options', 'images'])->find($id);
+        return Product::with(['variants.options'])->find($id);
     }
 
     public function create(array $data)
@@ -21,24 +20,30 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::create($data);
     }
 
-    public function update($id, array $data)
+    public function update(int $id, array $data)
     {
-        $product = $this->find($id);
-        if ($product) {
-            $product->update($data);
-            return $product;
-        }
-        return null;
+        $target = $this->getById($id);
+
+        return $target ? $target->update($data) : false;
     }
-    public function delete($id)
+
+    public function delete(int $id)
     {
-        $product = $this->find($id);
-        return $product ? $product->delete() : null;
+        $target = $this->getById($id);
+
+        return $target ? $target->delete() : false;
     }
-    public function productsByCatalog($catalogId)
+
+    public function productsByCatalog(int $catalogId)
     {
-        return Product::where('product_catalog_id', $catalogId)->with(['sizes.options'])->get();
+        return Product::where('product_catalog_id', $catalogId)->with(['variants.options'])->get();
     }
+
+    public function getProductForCart(int $id)
+    {
+        return Product::select('id', 'name')->find($id);
+    }
+    
     public function filter(string $action, string $data, int $order, int $page, int $limit)
     {
         $query = Product::query();

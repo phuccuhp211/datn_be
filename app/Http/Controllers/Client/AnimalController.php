@@ -17,16 +17,12 @@ class AnimalController extends Controller
 
     public function index()
     {
-        $animals = $this->animalRepository->getAll();
-        $result = $this->formatAnimals($animals);
-        return response()->json($result);
+        return response()->json($this->animalRepository->getAll());
     }
 
     public function show($id)
     {
-        $animal = $this->animalRepository->getById($id);
-        $result = $this->formatAnimals(collect([$animal]));
-        return response()->json($result[0]);
+        return response()->json($this->animalRepository->getById($id));
     }
 
     public function store(Request $request)
@@ -45,18 +41,5 @@ class AnimalController extends Controller
     {
         $animal = $this->animalRepository->delete($id);
         return response()->json(null, 204);
-    }
-    private function formatAnimals($animals)
-    {
-        return $animals->map(function ($animal) {
-            return [
-                'id' => $animal->id,
-                'name' => $animal->name,
-                'description' => $animal->description,
-                'type' => $animal->type,
-                'health_info' => json_decode($animal->health_info),
-                'images' => $animal->images->pluck('url'),
-            ];
-        });
     }
 }
