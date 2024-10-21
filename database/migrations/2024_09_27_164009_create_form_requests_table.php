@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('type', 10);
             $table->string('status', 10);
             $table->string('addition_infomation', 100)->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

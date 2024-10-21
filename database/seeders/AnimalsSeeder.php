@@ -4,15 +4,16 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Animal;
+use App\Models\Image;
 
 class AnimalsSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('animals')->insert([
+        $animals = [
             [
                 'type' => 1,
-                'img' => 'dog1.jpg',
                 'name' => 'Bông',
                 'age' => 3,
                 'gender' => 'Đực',
@@ -26,10 +27,10 @@ class AnimalsSeeder extends Seeder
                 'user_id' => null,
                 'language' => 'vi',
                 'slug' => 'bong',
+                'images' => ['dog1.jpg'] // Danh sách hình ảnh của động vật
             ],
             [
                 'type' => 2,
-                'img' => 'cat1.jpg',
                 'name' => 'Miu',
                 'age' => 2,
                 'gender' => 'Cái',
@@ -43,10 +44,10 @@ class AnimalsSeeder extends Seeder
                 'user_id' => null,
                 'language' => 'vi',
                 'slug' => 'miu',
+                'images' => ['cat1.jpg'] // Danh sách hình ảnh của động vật
             ],
             [
                 'type' => 1,
-                'img' => 'dog2.jpg',
                 'name' => 'Đốm',
                 'age' => 4,
                 'gender' => 'Đực',
@@ -60,10 +61,10 @@ class AnimalsSeeder extends Seeder
                 'user_id' => null,
                 'language' => 'vi',
                 'slug' => 'dom',
+                'images' => ['dog2.jpg']
             ],
             [
                 'type' => 2,
-                'img' => 'cat2.jpg',
                 'name' => 'Mít',
                 'age' => 1,
                 'gender' => 'Cái',
@@ -77,10 +78,10 @@ class AnimalsSeeder extends Seeder
                 'user_id' => null,
                 'language' => 'vi',
                 'slug' => 'mit',
+                'images' => ['cat2.jpg']
             ],
             [
                 'type' => 1,
-                'img' => 'dog3.jpg',
                 'name' => 'Vàng',
                 'age' => 5,
                 'gender' => 'Đực',
@@ -94,10 +95,10 @@ class AnimalsSeeder extends Seeder
                 'user_id' => null,
                 'language' => 'vi',
                 'slug' => 'vang',
+                'images' => ['dog3.jpg']
             ],
             [
                 'type' => 2,
-                'img' => 'cat3.jpg',
                 'name' => 'Sữa',
                 'age' => 3,
                 'gender' => 'Cái',
@@ -111,10 +112,10 @@ class AnimalsSeeder extends Seeder
                 'user_id' => null,
                 'language' => 'vi',
                 'slug' => 'sua',
+                'images' => ['cat3.jpg']
             ],
             [
                 'type' => 1,
-                'img' => 'dog4.jpg',
                 'name' => 'Nâu',
                 'age' => 2,
                 'gender' => 'Đực',
@@ -128,10 +129,10 @@ class AnimalsSeeder extends Seeder
                 'user_id' => null,
                 'language' => 'vi',
                 'slug' => 'nau',
+                'images' => ['dog4.jpg']
             ],
             [
                 'type' => 2,
-                'img' => 'cat4.jpg',
                 'name' => 'Mun',
                 'age' => 4,
                 'gender' => 'Đực',
@@ -145,10 +146,10 @@ class AnimalsSeeder extends Seeder
                 'user_id' => null,
                 'language' => 'vi',
                 'slug' => 'mun',
+                'images' => ['cat4.jpg']
             ],
             [
                 'type' => 1,
-                'img' => 'dog5.jpg',
                 'name' => 'Mực',
                 'age' => 3,
                 'gender' => 'Đực',
@@ -162,10 +163,10 @@ class AnimalsSeeder extends Seeder
                 'user_id' => null,
                 'language' => 'vi',
                 'slug' => 'muc',
+                'images' => ['dog5.jpg']
             ],
             [
                 'type' => 2,
-                'img' => 'cat5.jpg',
                 'name' => 'Mướp',
                 'age' => 2,
                 'gender' => 'Cái',
@@ -179,7 +180,33 @@ class AnimalsSeeder extends Seeder
                 'user_id' => null,
                 'language' => 'vi',
                 'slug' => 'muop',
+                'images' => ['cat5.jpg']
             ]
-        ]);
+        ];
+
+        foreach ($animals as $animalData) {
+            // Insert animal data
+            $animal = Animal::create([
+                'type' => $animalData['type'],
+                'name' => $animalData['name'],
+                'age' => $animalData['age'],
+                'gender' => $animalData['gender'],
+                'colors' => $animalData['colors'],
+                'genitive' => $animalData['genitive'],
+                'health_info' => $animalData['health_info'],
+                'user_id' => $animalData['user_id'],
+                'language' => $animalData['language'],
+                'slug' => $animalData['slug']
+            ]);
+
+            // Insert corresponding images for each animal
+            foreach ($animalData['images'] as $imageUrl) {
+                Image::create([
+                    'url' => $imageUrl,
+                    'reference_id' => $animal->id,
+                    'table' => 'animals'
+                ]);
+            }
+        }
     }
 }

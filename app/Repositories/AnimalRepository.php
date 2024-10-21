@@ -8,12 +8,12 @@ class AnimalRepository implements AnimalRepositoryInterface
 {
     public function getAll()
     {
-        return Animal::all();
+        return Animal::with('images')->get();
     }
 
-    public function getById(int $id)
+    public function getById($id)
     {
-        return Animal::find($id);
+        return Animal::with('images')->findOrFail($id);
     }
 
     public function create(array $data)
@@ -21,17 +21,17 @@ class AnimalRepository implements AnimalRepositoryInterface
         return Animal::create($data);
     }
 
-    public function update(int $id, array $data)
+    public function update($id, array $data)
     {
-        $target = $this->getById($id);
-
-        return $target ? $target->update($data) : false;
+        $animal = $this->getById($id);
+        $animal->update($data);
+        return $animal;
     }
 
-    public function delete(int $id)
+    public function delete($id)
     {
-        $target = $this->getById($id);
-
-        return $target ? $target->delete() : false;
+        $animal = $this->getById($id);
+        $animal->delete();
+        return $animal;
     }
 }

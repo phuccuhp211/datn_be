@@ -1,16 +1,12 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Interfaces;
 
 interface ProductCatalogRepositoryInterface
 {
-    public function getAll();
-
-    public function getById(int $id);
-
+    public function all();
+    public function findById($id);
     public function create(array $data);
-
-    public function update(int $id, array $data);
-    
-    public function delete(int $id);
+    public function update($id, array $data);
+    public function delete($id);
 }

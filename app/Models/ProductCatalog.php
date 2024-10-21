@@ -9,12 +9,10 @@ class ProductCatalog extends Model
 {
     use HasFactory;
 
-    protected $table = 'Product_catalogs';
-    protected $primaryKey = 'id';
-    protected $fillable = ['name'];
-    
+    protected $fillable = ['name', 'slug'];
+
     public function products()
     {
-        return $this->hasMany(Product::class, 'type', 'id');
+        return $this->hasMany(Product::class, 'catalog_id');
     }
 }

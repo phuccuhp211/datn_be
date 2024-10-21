@@ -3,17 +3,18 @@
 namespace App\Repositories;
 
 use App\Models\ProductCatalog;
+use App\Interfaces\ProductCatalogRepositoryInterface;
 
 class ProductCatalogRepository implements ProductCatalogRepositoryInterface
 {
-    public function getAll()
+    public function all()
     {
         return ProductCatalog::all();
     }
 
-    public function getById(int $id)
+    public function findById($id)
     {
-        return ProductCatalog::find($id);
+        return ProductCatalog::findOrFail($id);
     }
 
     public function create(array $data)
@@ -21,17 +22,16 @@ class ProductCatalogRepository implements ProductCatalogRepositoryInterface
         return ProductCatalog::create($data);
     }
 
-    public function update(int $id, array $data)
+    public function update($id, array $data)
     {
-        $target = $this->getById($id);
-
-        return $target ? $target->update($data) : false;
+        $catalog = $this->findById($id);
+        $catalog->update($data);
+        return $catalog;
     }
 
-    public function delete(int $id)
+    public function delete($id)
     {
-        $target = $this->getById($id);
-
-        return $target ? $target->delete() : false;
+        $catalog = $this->findById($id);
+        $catalog->delete();
     }
 }

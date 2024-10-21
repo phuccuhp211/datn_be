@@ -6,17 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('product_variants', function (Blueprint $table) {
+        Schema::create('product_sizes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->string('size'); // Kích thước
-            $table->decimal('price', 10, 2); // Giá
-            $table->decimal('discount_price', 10, 2)->nullable(); // Giá khuyến mãi
+            $table->string('size');
+            $table->bigInteger('price');
+            $table->bigInteger('discount_price')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_variants');
+        Schema::dropIfExists('product_sizes');
     }
 };

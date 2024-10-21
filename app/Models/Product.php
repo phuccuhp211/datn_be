@@ -9,22 +9,19 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $table = 'Products';
-    protected $primaryKey = 'id';
-    protected $fillable = ['img', 'name', 'type', 'purpose', 'out_of_stock'];
+    protected $fillable = [
+        'name',
+        'description',
+        'type',
+        'images'
+    ];
 
-    public function prices()
+    public function images()
     {
-        return $this->hasMany(ProductPrice::class, 'product_id', 'id')->select(['id', 'name', 'price', 'sale']);
+        return $this->hasMany(Image::class, 'reference_id')->where('table', 'products');
     }
-
-    public function spices()
+    public function sizes()
     {
-        return $this->hasMany(ProductSpice::class, 'product_id', 'id');
-    }
-
-    public function catalog()
-    {
-        return $this->belongsTo(ProductCatalog::class, 'type', 'id');
+        return $this->hasMany(ProductSize::class);
     }
 }
