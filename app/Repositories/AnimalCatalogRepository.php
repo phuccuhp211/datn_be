@@ -18,7 +18,7 @@ class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
 
     public function create(array $data)
     {
-        return AnimalCatalog::create($data);
+        return AnimalCatalog::create($data) ?? false;
     }
 
     public function update(int $id, array $data)

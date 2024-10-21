@@ -18,7 +18,7 @@ class FormRequestRepository implements FormRequestRepositoryInterface
 
     public function create(array $data)
     {
-        return FormRequest::create($data);
+        return FormRequest::create($data) ?? false;
     }
 
     public function update(int $id, array $data)

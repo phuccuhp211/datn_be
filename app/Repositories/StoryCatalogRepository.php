@@ -18,7 +18,7 @@ class StoryCatalogRepository implements StoryCatalogRepositoryInterface
 
     public function create(array $data)
     {
-        return StoryCatalog::create($data);
+        return StoryCatalog::create($data) ?? false;
     }
 
     public function update(int $id, array $data)

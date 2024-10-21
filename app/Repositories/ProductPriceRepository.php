@@ -23,7 +23,7 @@ class ProductPriceRepository implements ProductPriceRepositoryInterface
 
     public function create(array $data)
     {
-        return ProductPrice::create($data);
+        return ProductPrice::create($data) ?? false;
     }
 
     public function update(int $id, array $data)

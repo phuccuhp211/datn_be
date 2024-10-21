@@ -23,7 +23,7 @@ class ProductOptionRepository implements ProductOptionRepositoryInterface
 
     public function create(array $data)
     {
-        return ProductOption::create($data);
+        return ProductOption::create($data) ?? false;
     }
 
     public function update(int $id, array $data)

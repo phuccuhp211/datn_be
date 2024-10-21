@@ -34,9 +34,9 @@ class UserRepository implements UserRepositoryInterface
         return $target ?? false;
     }
 
-    public function create(array $userData)
+    public function create(array $data)
     {
-        return User::create($userData);
+        return User::create($data) ?? false;
     }
 
     public function update(int $id, array $data)

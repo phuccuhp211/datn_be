@@ -17,7 +17,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function create(array $data)
     {
-        return Product::create($data);
+        return Product::create($data) ?? false;
     }
 
     public function update(int $id, array $data)

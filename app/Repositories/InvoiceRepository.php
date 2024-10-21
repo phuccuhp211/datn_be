@@ -18,7 +18,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
     public function create(array $data)
     {
-        return Invoice::create($data);
+        return Invoice::create($data) ?? false;
     }
 
     public function update(int $id, array $data)

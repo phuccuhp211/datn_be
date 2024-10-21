@@ -16,9 +16,9 @@ class StoryRepository implements StoryRepositoryInterface
         return Story::find($id);
     }
 
-    public function create(array $StoryData)
+    public function create(array $data)
     {
-        return Story::create($StoryData);
+        return Story::create($data) ?? false;
     }
 
     public function update(int $id, array $data)

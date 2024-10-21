@@ -18,7 +18,7 @@ class AnimalRepository implements AnimalRepositoryInterface
 
     public function create(array $data)
     {
-        return Animal::create($data);
+        return Animal::create($data) ?? false;
     }
 
     public function update(int $id, array $data)

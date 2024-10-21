@@ -18,7 +18,7 @@ class ProductCatalogRepository implements ProductCatalogRepositoryInterface
 
     public function create(array $data)
     {
-        return ProductCatalog::create($data);
+        return ProductCatalog::create($data) ?? false;
     }
 
     public function update(int $id, array $data)
