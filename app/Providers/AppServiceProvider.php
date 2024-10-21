@@ -41,20 +41,20 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
-        $this->app->bind(AnimalRepositoryInterface::class, AnimalRepositoryInterface::class);
-        $this->app->bind(AnimalCatalogRepository::class, AnimalCatalogRepositoryInterface::class);
+        $this->app->bind(AnimalRepositoryInterface::class, AnimalRepository::class);
+        $this->app->bind(AnimalCatalogRepositoryInterface::class, AnimalCatalogRepository::class);
 
-        $this->app->bind(ProductRepositoryInterface::class, ProductRepositoryInterface::class);
+        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
         $this->app->bind(ProductCatalogRepositoryInterface::class, ProductCatalogRepository::class);
         $this->app->bind(ProductPriceRepositoryInterface::class, ProductPriceRepository::class);
         $this->app->bind(ProductOptionRepositoryInterface::class, ProductOptionRepository::class);
 
-        $this->app->bind(FormRequestRepository::class, FormRequestRepositoryInterface::class);
-        $this->app->bind(InvoiceRepository::class, InvoiceRepositoryInterface::class);
-        $this->app->bind(SponsorRepository::class, SponsorRepositoryInterface::class);
+        $this->app->bind(FormRequestRepositoryInterface::class, FormRequestRepository::class);
+        $this->app->bind(InvoiceRepositoryInterface::class, InvoiceRepository::class);
+        $this->app->bind(SponsorRepositoryInterface::class, SponsorRepository::class);
         
-        $this->app->bind(StoryRepository::class, StoryRepositoryInterface::class);
-        $this->app->bind(StoryCatalogRepository::class, StoryCatalogRepositoryInterface::class);
+        $this->app->bind(StoryRepositoryInterface::class, StoryRepository::class);
+        $this->app->bind(StoryCatalogRepositoryInterface::class, StoryCatalogRepository::class);
     }
 
     /**
