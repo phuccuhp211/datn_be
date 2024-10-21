@@ -6,6 +6,11 @@ use App\Models\Animal;
 
 class AnimalRepository implements AnimalRepositoryInterface
 {
+    public function newModel()
+    {
+        return new Animal;
+    }
+
     public function getAll()
     {
         return Animal::all();

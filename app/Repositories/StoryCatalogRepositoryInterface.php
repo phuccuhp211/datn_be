@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 interface StoryCatalogRepositoryInterface
 {
+    public function newModel();
+    
     public function getAll(): mixed;
 
     public function getById(int $id);

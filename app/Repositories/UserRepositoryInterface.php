@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 interface UserRepositoryInterface
 {
+    public function newModel();
+    
     public function getAll();
 
     public function getById(int $id);

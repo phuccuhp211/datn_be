@@ -9,6 +9,7 @@ use DateInterval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,6 +21,7 @@ use App\Repositories\ProductPriceRepositoryInterface;
 use App\Repositories\ProductOptionRepositoryInterface;
 use App\Repositories\FormRequestRepositoryInterface;
 use App\Repositories\InvoiceRepositoryInterface;
+use App\Repositories\ImageRepositoryInterface;
 use App\Repositories\SponsorRepositoryInterface;
 use App\Repositories\StoryRepositoryInterface;
 use App\Repositories\StoryCatalogRepositoryInterface;
@@ -35,11 +37,14 @@ class CrudController extends Controller
     protected $productOptionRepository;
     protected $formRequestRepository;
     protected $invoiceRepository;
+    protected $imageRepository;
     protected $sponsorRepository;
     protected $storyRepository;
     protected $storyCatalogRepository;
     protected $userRepository;
     protected $response;
+    private $validteRules;
+    private $validteMessages;
 
     public function __construct(
         AnimalRepositoryInterface $animalRepository,
@@ -50,6 +55,7 @@ class CrudController extends Controller
         ProductOptionRepositoryInterface $productOptionRepository,
         FormRequestRepositoryInterface $formRequestRepository,
         InvoiceRepositoryInterface $invoiceRepository,
+        ImageRepositoryInterface $imageRepository,
         SponsorRepositoryInterface $sponsorRepository,
         StoryRepositoryInterface $storyRepository,
         StoryCatalogRepositoryInterface $storyCatalogRepository,
@@ -64,6 +70,7 @@ class CrudController extends Controller
         $this->productOptionRepository = $productOptionRepository;
         $this->formRequestRepository = $formRequestRepository;
         $this->invoiceRepository = $invoiceRepository;
+        $this->imageRepository = $imageRepository;
         $this->sponsorRepository = $sponsorRepository;
         $this->storyRepository = $storyRepository;
         $this->storyCatalogRepository = $storyCatalogRepository;
@@ -71,17 +78,100 @@ class CrudController extends Controller
         $this->response = ['status' => false, 'message'=> ''];
     }
 
+    public function validateData($request)
+    {   
+        try {
+            $this->validteRules = [
+                'name' => 'required|string|max:40',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            ];
+            $this->validteMessages = [
+                'name' => 'Vui lòng nhập tên',
+                'images' => 'Vui lòng chọn ảnh'
+            ];
+
+            $errorsList = [];
+            $validation = Validator::make($request->all(), $this->validteRules, $this->validteMessages);
+            if ($validation->fails()) {
+                $errors = $validation->errors();
+                foreach ($errors->all() as $error) {
+                    $errorsList[]= $error;
+                }
+            }
+
+            return $errorsList;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+    
+    public function processData($data, $instance)
+    {   
+        try {
+            $object = $this->$instance->newModel();
+            $object->fill($data);
+            return $object->toArray();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function processImages($images, $path, $table, $id)
+    {   
+        try {
+            $data = [];
+            foreach ($images as $image) {
+                $imagePath = $image->store($path, 'public');
+                $data[] = ['table' => $table, 'id' => $id, 'url' => $imagePath];
+            }
+            return $this->imageRepository->insertMany($table, $id, $data);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
     public function animalManager(Request $request, String $type)
     {
         try {
-            if ($type == 'insert') {
+            DB::beginTransaction();
 
-            } else if ($type == 'update') {
+            if ($type == 'delete') {
+                if ($this->animalRepository->delete($request->id)) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Delete Complete';
+                }
+            } 
+            else {
+                $validationResponse = $this->validateData($request);
+                if (!empty($validationResponse)) {
+                    throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                }
 
-            } else if ($type == 'delete') {
-                
+                if ($type == 'insert') {
+                    $data = $this->processData($request->all(), 'animalRepository');
+                    $target = $this->animalRepository->create($data);
+                    $imgs = $this->processImages($request->file('images'), 'animal', 'animals', $target['id']);
+
+                    if ($target || $imgs) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Insert Complete';
+                    }
+                } else if ($type == 'update') {
+                    $data = $this->processData($request->all(), 'animalRepository');
+                    $target = $this->animalRepository->update($request['id'],$data);
+                    $imgs = $this->processImages($request->file('images'), 'animal', 'animals', $target['id']);
+
+                    if ($target || $imgs) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Update Complete';
+                    }
+                }
             }
+            
+            DB::commit();
+            return response()->json($this->response);
         } catch (Exception $e) {
+            DB::rollBack();
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
         }

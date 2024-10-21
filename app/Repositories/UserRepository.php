@@ -6,6 +6,11 @@ use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface
 {
+    public function newModel()
+    {
+        return new User;
+    }
+
     public function getAll()
     {
         return User::all();

@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 interface ProductPriceRepositoryInterface
 {
+    public function newModel();
+    
     public function getAll();
 
     public function getById(int $id);

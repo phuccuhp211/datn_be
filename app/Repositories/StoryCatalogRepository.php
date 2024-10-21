@@ -6,6 +6,11 @@ use App\Models\StoryCatalog;
 
 class StoryCatalogRepository implements StoryCatalogRepositoryInterface
 {
+    public function newModel()
+    {
+        return new StoryCatalog;
+    }
+
     public function getAll(): mixed
     {
         return StoryCatalog::all();

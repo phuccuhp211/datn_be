@@ -6,6 +6,11 @@ use App\Models\Story;
 
 class StoryRepository implements StoryRepositoryInterface
 {
+    public function newModel()
+    {
+        return new Story;
+    }
+
     public function getAll()
     {
         return Story::all();

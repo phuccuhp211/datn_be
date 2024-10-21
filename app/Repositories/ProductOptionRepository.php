@@ -6,6 +6,11 @@ use App\Models\ProductOption;
 
 class ProductOptionRepository implements ProductOptionRepositoryInterface
 {
+    public function newModel()
+    {
+        return new ProductOption;
+    }
+
     public function getAll()
     {
         return ProductOption::all();

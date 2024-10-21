@@ -6,6 +6,11 @@ use App\Models\Invoice;
 
 class InvoiceRepository implements InvoiceRepositoryInterface
 {
+    public function newModel()
+    {
+        return new Invoice;
+    }
+
     public function getAll()
     {
         return Invoice::all();

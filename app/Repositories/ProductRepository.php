@@ -6,6 +6,11 @@ use App\Models\Product;
 
 class ProductRepository implements ProductRepositoryInterface
 {
+    public function newModel()
+    {
+        return new Product;
+    }
+
     public function getAll()
     {
         return Product::with(['variants.options'])->get();

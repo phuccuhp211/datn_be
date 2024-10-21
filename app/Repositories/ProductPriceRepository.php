@@ -6,6 +6,11 @@ use App\Models\ProductPrice;
 
 class ProductPriceRepository implements ProductPriceRepositoryInterface
 {
+    public function newModel()
+    {
+        return new ProductPrice;
+    }
+
     public function getAll()
     {
         return ProductPrice::all();

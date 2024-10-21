@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 interface SponsorRepositoryInterface
 {
+    public function newModel();
+    
     public function getAll();
 
     public function getById(int $id);

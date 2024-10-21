@@ -6,6 +6,11 @@ use App\Models\FormRequest;
 
 class FormRequestRepository implements FormRequestRepositoryInterface
 {
+    public function newModel()
+    {
+        return new FormRequest;
+    }
+
     public function getAll()
     {
         return FormRequest::all();

@@ -6,6 +6,11 @@ use App\Models\Sponsor;
 
 class SponsorRepository implements SponsorRepositoryInterface
 {
+    public function newModel()
+    {
+        return new Sponsor;
+    }
+
     public function getAll()
     {
         return Sponsor::all();

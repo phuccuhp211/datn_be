@@ -6,6 +6,11 @@ use App\Models\ProductCatalog;
 
 class ProductCatalogRepository implements ProductCatalogRepositoryInterface
 {
+    public function newModel()
+    {
+        return new ProductCatalog;
+    }
+
     public function getAll()
     {
         return ProductCatalog::all();
