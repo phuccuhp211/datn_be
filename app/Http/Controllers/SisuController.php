@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\CartController;
 use App\Repositories\UserRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\ProductPriceRepositoryInterface;
