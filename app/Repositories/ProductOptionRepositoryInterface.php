@@ -5,7 +5,6 @@ namespace App\Repositories;
 interface ProductOptionRepositoryInterface
 {
     public function newModel();
-    
 
     public function getAll();
 
