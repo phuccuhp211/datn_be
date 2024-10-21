@@ -89,13 +89,24 @@ class CrudController extends Controller
                 'name' => 'Vui lòng nhập tên',
                 'images' => 'Vui lòng chọn ảnh'
             ];
+            
+            $filteredRules = [];
+            $filteredMessages = [];
+            foreach ($this->validteRules as $field => $rule) {
+                if ($request->has($field) || $field == 'images.*') {
+                    $filteredRules[$field] = $rule;
+                    if (isset($this->validteMessages[$field])) {
+                        $filteredMessages[$field] = $this->validteMessages[$field];
+                    }
+                }
+            }
 
             $errorsList = [];
-            $validation = Validator::make($request->all(), $this->validteRules, $this->validteMessages);
+            $validation = Validator::make($request->all(), $filteredRules, $filteredMessages);
             if ($validation->fails()) {
                 $errors = $validation->errors();
                 foreach ($errors->all() as $error) {
-                    $errorsList[]= $error;
+                    $errorsList[] = $error;
                 }
             }
 
