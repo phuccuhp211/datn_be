@@ -35,7 +35,7 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'purpose' => 'nullable|string',
             'type' => 'required|integer',
             'images' => 'nullable|json',
         ]);
@@ -48,7 +48,7 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'name' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
+            'purpose' => 'nullable|string',
             'type' => 'nullable|integer',
             'images' => 'nullable|json',
         ]);
@@ -99,7 +99,7 @@ class ProductController extends Controller
             return [
                 'id' => $product->id,
                 'name' => $product->name,
-                'description' => $product->description,
+                'purpose' => $product->purpose,
                 'type' => $product->type,
                 'images' => json_decode($product->images),
                 'variants' => $product->variants->map(function ($variant) {
