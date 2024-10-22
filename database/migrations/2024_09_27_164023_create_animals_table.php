@@ -11,18 +11,17 @@ return new class extends Migration
         Schema::create('animals', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('type')->unsigned();
-            $table->text('img');
             $table->string('name', 20);
             $table->integer('age');
             $table->string('gender', 10);
             $table->string('colors', 20);
             $table->string('genitive', 20);
             $table->json('health_info');
-            $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->bigInteger('form_request_id')->unsigned()->nullable();
             $table->enum('language', ['vi', 'eng'])->default('vi');
             $table->string('slug')->nullable();
             $table->foreign('type')->references('id')->on('animal_catalogs');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('form_request_id')->references('id')->on('form_requests');
             $table->timestamps();
         });
     }

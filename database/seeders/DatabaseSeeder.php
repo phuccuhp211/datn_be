@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             StoriesSeeder::class,
 
 
+
         ]);
     }
 }

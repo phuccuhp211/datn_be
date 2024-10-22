@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Product;
-use App\Models\ProductVariant;
+use App\Models\ProductPrice;
+use App\Models\Image;
 use App\Models\ProductOption;
 
 class ProductsSeeder extends Seeder
@@ -15,65 +16,75 @@ class ProductsSeeder extends Seeder
             // Thức ăn cho thú cưng
             [
                 'name' => 'Thức ăn cho chó vị gà',
-                'description' => 'Thức ăn dinh dưỡng cho chó với hương vị gà.',
+                'purpose' => 'Thức ăn dinh dưỡng cho chó với hương vị gà.',
                 'type' => '1',
-                'images' => json_encode(['food1_1.webp', 'food1_2.webp']),
-                'variants' => [
+                'images' => ['food1_1.webp', 'food1_2.webp'],
+                'sizes' => [
                     [
                         'price' => 100000,
-                        'discount_price' => 90000,
-                        'size' => '500g',
+                        'sale' => 90000,
+                        'size_name' => '500g',
                         'options' => [
-                            ['flavor' => 'Gà', 'color' => 'Vàng', 'quantity' => 10],
-                            ['flavor' => 'Thịt bò', 'color' => 'Đỏ', 'quantity' => 5],
+                            ['flavor' => 'Gà', 'quantity' => 10],
+                            ['flavor' => 'Thịt bò', 'quantity' => 5],
                         ]
                     ],
                     [
                         'price' => 120000,
-                        'discount_price' => null,
-                        'size' => '1kg',
+                        'sale' => null,
+                        'size_name' => '1kg',
                         'options' => [
-                            ['flavor' => 'Gà', 'color' => 'Vàng', 'quantity' => 8],
-                            ['flavor' => 'Thịt bò', 'color' => 'Xanh', 'quantity' => 6],
+                            ['flavor' => 'Gà', 'quantity' => 8],
+                            ['flavor' => 'Cá hồi', 'quantity' => 7],
                         ]
                     ],
                 ]
             ],
             [
                 'name' => 'Thức ăn cho mèo vị cá',
-                'description' => 'Thức ăn cho mèo vị cá hồi, bổ dưỡng.',
+                'purpose' => 'Thức ăn cho mèo vị cá hồi, bổ dưỡng.',
                 'type' => '1',
-                'images' => json_encode(['food2_1.webp', 'food2_2.webp']),
-                'variants' => [
+                'images' => ['food2_1.webp', 'food2_2.webp'],
+                'sizes' => [
                     [
                         'price' => 95000,
-                        'discount_price' => 85000,
-                        'size' => '500g',
+                        'sale' => 85000,
+                        'size_name' => '500g',
                         'options' => [
-                            ['flavor' => 'Cá', 'color' => 'Xanh', 'quantity' => 12],
-                            ['flavor' => 'Tôm', 'color' => 'Cam', 'quantity' => 7],
+                            ['flavor' => 'Cá hồi', 'quantity' => 12],
+                            ['flavor' => 'Cá ngừ', 'quantity' => 10],
                         ]
-                    ]
+                    ],
+                    [
+                        'price' => 120000,
+                        'sale' => null,
+                        'size_name' => '1kg',
+                        'options' => [
+                            ['flavor' => 'Cá hồi', 'quantity' => 9],
+                        ]
+                    ],
                 ]
             ],
+            // Các sản phẩm khác
             [
                 'name' => 'Áo thun đỏ cho chó',
-                'description' => 'Áo thun thời trang màu đỏ cho thú cưng.',
+                'purpose' => 'Áo thun thời trang màu đỏ cho thú cưng.',
                 'type' => '2',
-                'images' => json_encode(['clothes1_1.jpg', 'clothes1_2.jpg']),
-                'variants' => [
+                'images' => ['clothes1_1.jpg', 'clothes1_2.jpg'],
+                'sizes' => [
                     [
                         'price' => 110000,
-                        'discount_price' => 100000,
-                        'size' => 'M',
+                        'sale' => 100000,
+                        'size_name' => 'M',
                         'options' => [
                             ['color' => 'Đỏ', 'quantity' => 8],
+                            ['color' => 'Vàng', 'quantity' => 6],
                         ]
                     ],
                     [
                         'price' => 130000,
-                        'discount_price' => null,
-                        'size' => 'L',
+                        'sale' => null,
+                        'size_name' => 'L',
                         'options' => [
                             ['color' => 'Xanh', 'quantity' => 4],
                         ]
@@ -82,84 +93,122 @@ class ProductsSeeder extends Seeder
             ],
             [
                 'name' => 'Áo thun xanh cho mèo',
-                'description' => 'Áo thun màu xanh cho mèo.',
+                'purpose' => 'Áo thun màu xanh cho mèo.',
                 'type' => '2',
-                'images' => json_encode(['clothes2_1.jpg', 'clothes2_2.jpg']),
-                'variants' => [
+                'images' => ['clothes2_1.jpg', 'clothes2_2.jpg'],
+                'sizes' => [
                     [
                         'price' => 105000,
-                        'discount_price' => 95000,
-                        'size' => 'S',
+                        'sale' => 95000,
+                        'size_name' => 'S',
                         'options' => [
                             ['color' => 'Xanh', 'quantity' => 6],
                         ]
-                    ]
+                    ],
+                    [
+                        'price' => 120000,
+                        'sale' => null,
+                        'size_name' => 'M',
+                        'options' => [
+                            ['color' => 'Đen', 'quantity' => 3],
+                        ]
+                    ],
                 ]
             ],
-
             [
                 'name' => 'Lược chải lông chó mèo',
-                'description' => 'Dụng cụ chăm sóc lông cho thú cưng, dễ sử dụng.',
+                'purpose' => 'Dụng cụ chăm sóc lông cho thú cưng, dễ sử dụng.',
                 'type' => '3',
-                'images' => json_encode(['tool1_1.webp', 'tool1_2.webp']),
-                'variants' => [
+                'images' => ['tool1_1.webp', 'tool1_2.webp'],
+                'sizes' => [
                     [
                         'price' => 50000,
-                        'discount_price' => 45000,
-                        'size' => 'S',
+                        'sale' => 45000,
+                        'size_name' => 'S',
                         'options' => [
                             ['color' => 'Hồng', 'quantity' => 20],
                         ]
-                    ]
+                    ],
+                    [
+                        'price' => 60000,
+                        'sale' => null,
+                        'size_name' => 'M',
+                        'options' => [
+                            ['color' => 'Xám', 'quantity' => 15],
+                        ]
+                    ],
                 ]
             ],
             [
                 'name' => 'Bát ăn cho chó mèo',
-                'description' => 'Bát ăn bằng nhựa cao cấp cho chó mèo.',
+                'purpose' => 'Bát ăn bằng nhựa cao cấp cho chó mèo.',
                 'type' => '3',
-                'images' => json_encode(['tool2_1.webp', 'tool2_2.webp']),
-                'variants' => [
+                'images' => ['tool2_1.webp', 'tool2_2.webp'],
+                'sizes' => [
                     [
                         'price' => 35000,
-                        'discount_price' => 30000,
-                        'size' => 'M',
+                        'sale' => 30000,
+                        'size_name' => 'M',
                         'options' => [
                             ['color' => 'Trắng', 'quantity' => 15],
                         ]
-                    ]
+                    ],
+                    [
+                        'price' => 40000,
+                        'sale' => null,
+                        'size_name' => 'L',
+                        'options' => [
+                            ['color' => 'Đen', 'quantity' => 10],
+                        ]
+                    ],
                 ]
             ],
-
             [
                 'name' => 'Bóng cao su cho chó',
-                'description' => 'Đồ chơi bóng cao su cho chó, bền bỉ và an toàn.',
+                'purpose' => 'Đồ chơi bóng cao su cho chó, bền bỉ và an toàn.',
                 'type' => '4',
-                'images' => json_encode(['toy1_1.webp', 'toy1_2.webp']),
-                'variants' => [
+                'images' => ['toy1_1.webp', 'toy1_2.webp'],
+                'sizes' => [
                     [
                         'price' => 60000,
-                        'discount_price' => null,
-                        'size' => 'M',
+                        'sale' => null,
+                        'size_name' => 'M',
                         'options' => [
                             ['color' => 'Vàng', 'quantity' => 15],
                         ]
-                    ]
+                    ],
+                    [
+                        'price' => 70000,
+                        'sale' => 65000,
+                        'size_name' => 'L',
+                        'options' => [
+                            ['color' => 'Xanh', 'quantity' => 10],
+                        ]
+                    ],
                 ]
             ],
             [
                 'name' => 'Đồ chơi chuột cho mèo',
-                'description' => 'Đồ chơi chuột bông nhỏ gọn cho mèo.',
+                'purpose' => 'Đồ chơi chuột bông nhỏ gọn cho mèo.',
                 'type' => '4',
-                'images' => json_encode(['toy2_1.jpg', 'toy2_2.jpg']),
-                'variants' => [
+                'images' => ['toy2_1.jpg', 'toy2_2.jpg'],
+                'sizes' => [
                     [
                         'price' => 45000,
-                        'discount_price' => 40000,
-                        'size' => 'S',
+                        'sale' => 40000,
+                        'size_name' => 'S',
                         'options' => [
                             ['color' => 'Xám', 'quantity' => 12],
                         ]
-                    ]
+                    ],
+                    [
+                        'price' => 50000,
+                        'sale' => null,
+                        'size_name' => 'M',
+                        'options' => [
+                            ['color' => 'Trắng', 'quantity' => 8],
+                        ]
+                    ],
                 ]
             ],
         ];
@@ -167,24 +216,30 @@ class ProductsSeeder extends Seeder
         foreach ($products as $productData) {
             $product = Product::create([
                 'name' => $productData['name'],
-                'description' => $productData['description'],
+                'purpose' => $productData['purpose'],
                 'type' => $productData['type'],
-                'images' => $productData['images'],
             ]);
 
-            foreach ($productData['variants'] as $variantData) {
-                $variant = ProductVariant::create([
+            foreach ($productData['images'] as $imageUrl) {
+                Image::create([
+                    'reference_id' => $product->id,
+                    'table' => 'products',
+                    'url' => $imageUrl,
+                ]);
+            }
+            foreach ($productData['sizes'] as $sizeData) {
+                $size = ProductPrice::create([
                     'product_id' => $product->id,
-                    'price' => $variantData['price'],
-                    'discount_price' => $variantData['discount_price'],
-                    'size' => $variantData['size'],
+                    'price' => $sizeData['price'],
+                    'sale' => $sizeData['sale'],
+                    'size_name' => $sizeData['size_name'],
                 ]);
 
-                foreach ($variantData['options'] as $optionData) {
+                foreach ($sizeData['options'] as $optionData) {
                     ProductOption::create([
-                        'variant_id' => $variant->id,
-                        'flavor' => $optionData['flavor'] ?? null,
-                        'color' => $optionData['color'],
+                        'price_id' => $size->id,
+                        'flavor' => $productData['type'] == 1 ? $optionData['flavor'] : null,
+                        'color' => $productData['type'] != 1 ? $optionData['color'] : null,
                         'quantity' => $optionData['quantity'],
                     ]);
                 }

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('product_options', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('variant_id')->constrained('product_variants')->onDelete('cascade');
-            $table->string('flavor')->nullable(); // Hương vị
-            $table->string('color')->nullable(); // Màu sắc
-            $table->integer('quantity'); // Số lượng cho mỗi tùy chọn
+            $table->foreignId('price_id')->constrained('product_prices')->onDelete('cascade');
+            $table->string('flavor')->nullable();
+            $table->string('color')->nullable();
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

@@ -2,34 +2,158 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker;
+use Illuminate\Support\Facades\Hash;
 
 class UsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $faker = Faker::create(); // Khởi tạo Faker
-
-        for ($i = 0; $i < 20; $i++) { // Tạo 20 người dùng giả
-            DB::table('users')->insert([
-                'name' => $faker->name,
-                'phone' => $faker->phoneNumber,
-                'email' => $faker->unique()->safeEmail,
-                'address' => $faker->address,
-                'role' => $faker->randomElement(['admin', 'user']),
-                'rescue_cases' => $faker->numberBetween(0, 100), // Số vụ cứu hộ ngẫu nhiên
-                'adopted' => $faker->numberBetween(0, 50), // Số vụ nhận nuôi ngẫu nhiên
-                'password' => bcrypt('password'), // Mật khẩu đã mã hóa
-                'created_at' => now(), // Thời gian tạo
-                'updated_at' => now(), // Thời gian cập nhật
-            ]);
-        }
+        User::insert([
+            [
+                'name' => 'Nguyen Van A',
+                'account' => 'nguyenvana',
+                'phone' => '0123456789',
+                'email' => 'nguyenvana@gmail.com',
+                'address' => '123 Nguyen Trai, TP.HCM',
+                'role' => 'admin',
+                'rescue_cases' => 5,
+                'adopted' => 1,
+                'is_active' => true,
+                'password' => Hash::make('password1'),
+                'email_verified_at' => now(),
+                'remember_token' => null,
+            ],
+            [
+                'name' => 'Tran Thi B',
+                'account' => 'tranthib',
+                'phone' => '0987654321',
+                'email' => 'tranthib@gmail.com',
+                'address' => '456 Le Loi, Da Nang',
+                'role' => 'user',
+                'rescue_cases' => 10,
+                'adopted' => 3,
+                'is_active' => true,
+                'password' => Hash::make('password2'),
+                'email_verified_at' => now(),
+                'remember_token' => null,
+            ],
+            [
+                'name' => 'Le Van C',
+                'account' => 'levanc',
+                'phone' => '0909090909',
+                'email' => 'levanc@gmail.com',
+                'address' => '789 Hai Ba Trung, Ha Noi',
+                'role' => 'user',
+                'rescue_cases' => 8,
+                'adopted' => 2,
+                'is_active' => true,
+                'password' => Hash::make('password3'),
+                'email_verified_at' => now(),
+                'remember_token' => null,
+            ],
+            [
+                'name' => 'Pham Thi D',
+                'account' => 'phamthid',
+                'phone' => '0123456788',
+                'email' => 'phamthid@gmail.com',
+                'address' => '321 Pham Van Dong, Can Tho',
+                'role' => 'user',
+                'rescue_cases' => 4,
+                'adopted' => 0,
+                'is_active' => false,
+                'password' => Hash::make('password4'),
+                'email_verified_at' => now(),
+                'remember_token' => null,
+            ],
+            [
+                'name' => 'Do Van E',
+                'account' => 'dovane',
+                'phone' => '0981234567',
+                'email' => 'dovane@gmail.com',
+                'address' => '567 Cach Mang Thang 8, Binh Duong',
+                'role' => 'user',
+                'rescue_cases' => 6,
+                'adopted' => 1,
+                'is_active' => true,
+                'password' => Hash::make('password5'),
+                'email_verified_at' => now(),
+                'remember_token' => null,
+            ],
+            [
+                'name' => 'Hoang Van F',
+                'account' => 'hoangvanf',
+                'phone' => '0945678901',
+                'email' => 'hoangvanf@gmail.com',
+                'address' => '999 Tran Phu, Hue',
+                'role' => 'user',
+                'rescue_cases' => 3,
+                'adopted' => 0,
+                'is_active' => true,
+                'password' => Hash::make('password6'),
+                'email_verified_at' => now(),
+                'remember_token' => null,
+            ],
+            [
+                'name' => 'Nguyen Thi G',
+                'account' => 'nguyenthig',
+                'phone' => '0966543210',
+                'email' => 'nguyenthig@gmail.com',
+                'address' => '222 Ly Thuong Kiet, Binh Dinh',
+                'role' => 'user',
+                'rescue_cases' => 7,
+                'adopted' => 2,
+                'is_active' => true,
+                'password' => Hash::make('password7'),
+                'email_verified_at' => now(),
+                'remember_token' => null,
+            ],
+            [
+                'name' => 'Tran Van H',
+                'account' => 'tranvanh',
+                'phone' => '0934567890',
+                'email' => 'tranvanh@gmail.com',
+                'address' => '555 Nguyen Hue, Hai Phong',
+                'role' => 'user',
+                'rescue_cases' => 4,
+                'adopted' => 1,
+                'is_active' => true,
+                'password' => Hash::make('password8'),
+                'email_verified_at' => now(),
+                'remember_token' => null,
+            ],
+            [
+                'name' => 'Le Thi I',
+                'account' => 'lethii',
+                'phone' => '0901111222',
+                'email' => 'lethii@gmail.com',
+                'address' => '111 Dong Khoi, HCM',
+                'role' => 'user',
+                'rescue_cases' => 2,
+                'adopted' => 0,
+                'is_active' => true,
+                'password' => Hash::make('password9'),
+                'email_verified_at' => now(),
+                'remember_token' => null,
+            ],
+            [
+                'name' => 'Pham Van J',
+                'account' => 'phamvanj',
+                'phone' => '0982345678',
+                'email' => 'phamvanj@gmail.com',
+                'address' => '777 Bach Dang, Da Nang',
+                'role' => 'admin',
+                'rescue_cases' => 9,
+                'adopted' => 4,
+                'is_active' => true,
+                'password' => Hash::make('password10'),
+                'email_verified_at' => now(),
+                'remember_token' => null,
+            ]
+        ]);
     }
 }

@@ -11,16 +11,15 @@ class Product extends Model
 
     protected $table = 'Products';
     protected $primaryKey = 'id';
-    protected $fillable = ['img', 'name', 'type', 'purpose', 'out_of_stock'];
+    protected $fillable = ['name', 'type', 'purpose', 'out_of_stock'];
 
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'reference_id')->where('table', 'products');
+    }
     public function prices()
     {
-        return $this->hasMany(ProductPrice::class, 'product_id', 'id')->select(['id', 'name', 'price', 'sale']);
-    }
-
-    public function spices()
-    {
-        return $this->hasMany(ProductSpice::class, 'product_id', 'id');
+        return $this->hasMany(ProductPrice::class, 'product_id');
     }
 
     public function catalog()

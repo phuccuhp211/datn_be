@@ -11,10 +11,16 @@ class ProductOption extends Model
 
     protected $table = 'Product_options';
     protected $primaryKey = 'id';
-    protected $fillable = ['name'];
-    
-    public function products()
+
+    protected $fillable = [
+        'size_id',
+        'flavor',
+        'color',
+        'quantity'
+    ];
+
+    public function price()
     {
-        return $this->hasMany(Product::class, 'type', 'id');
+        return $this->belongsTo(ProductPrice::class, 'price_id');
     }
 }

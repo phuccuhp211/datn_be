@@ -9,13 +9,18 @@ class ProductPrice extends Model
 {
     use HasFactory;
 
-    protected $table = 'Product_prices';
+    protected $table = 'product_prices';
     protected $primaryKey = 'id';
-    protected $fillable = ['product_id', 'name', 'price', 'sale', 'sale_from', 'sale_to'];
+    protected $fillable = ['product_id', 'size_name', 'price', 'sale', 'sale_from', 'sale_to'];
 
+
+    public function options()
+    {
+        return $this->hasMany(ProductOption::class, 'price_id');
+    }
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
+        return $this->belongsTo(Product::class);
     }
 }

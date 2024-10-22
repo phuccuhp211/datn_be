@@ -13,5 +13,10 @@ class Image extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['table', 'id_reference', 'url'];
     public $timestamps = false;
+    protected $table = 'images';
 
+    public function reference()
+    {
+        return $this->morphTo();
+    }
 }

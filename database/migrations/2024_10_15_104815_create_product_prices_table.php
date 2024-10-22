@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_attribute_values', function (Blueprint $table) {
+        Schema::create('product_prices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->string('attribute'); // Ví dụ: 'size', 'color', 'flavor'
-            $table->string('value'); // Giá trị của thuộc tính
+            $table->string('size_name');
+            $table->bigInteger('price');
+            $table->bigInteger('sale')->nullable();
+            $table->date('sale_form')->nullable();
+            $table->date('sale_to')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('product_prices');
     }
 };

@@ -11,13 +11,14 @@ class Animal extends Model
 
     protected $table = 'Animals';
     protected $primaryKey = 'id';
-    protected $fillable = ['type', 'img', 'name', 'age', 'gender', 'colors', 'genitive', 'health_info', 'fomr_request_id'];
+    protected $fillable = ['type', 'name', 'age', 'gender', 'colors', 'genitive', 'health_info', 'fomr_request_id'];
 
-    public function catalog() 
+    public function catalog()
     {
-        return $this->belongsTo(AnimalCatalog::class, 'type', 'id');    
+        return $this->belongsTo(AnimalCatalog::class, 'type', 'id');
     }
-
-
-
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'reference_id')->where('table', 'animals');
+    }
 }
