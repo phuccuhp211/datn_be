@@ -11,7 +11,7 @@ class Image extends Model
 
     protected $table = 'Images';
     protected $primaryKey = 'id';
-    protected $fillable = ['table', 'id_reference', 'url'];
+    protected $fillable = ['table', 'reference_id', 'url'];
     public $timestamps = false;
 
     public function reference()

@@ -13,23 +13,90 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function getAll()
     {
-        return Product::with(['variants.options'])->get();
+        return Product::with(['prices.options', 'images'])->get();
     }
     public function getById(int $id)
     {
-        return Product::with(['variants.options'])->find($id);
+        return Product::with(['prices.options', 'images'])->find($id);
     }
 
     public function create(array $data)
     {
-        return Product::create($data) ?? false;
+        $product = Product::create([
+            'name' => $data['name'],
+            'description' => $data['description'],
+            'type' => $data['type'],
+        ]);
+
+        if ($product) {
+            if (isset($data['images'])) {
+                foreach ($data['images'] as $image) {
+                    $product->images()->create([
+                        'url' => $image,
+                        'reference_id' => $product->id,
+                        'table' => 'products'
+                    ]);
+                }
+            }
+
+            foreach ($data['sizes'] as $sizeData) {
+                $size = $product->prices()->create([
+                    'size_name' => $sizeData['size_name'],
+                    'price' => $sizeData['price'],
+                    'sale' => $sizeData['sale'] ?? null,
+                ]);
+
+                foreach ($sizeData['options'] as $optionData) {
+                    $size->options()->create([
+                        'flavor' => $optionData['flavor'] ?? null,
+                        'color' => $optionData['color'] ?? null,
+                        'quantity' => $optionData['quantity'],
+                    ]);
+                }
+            }
+
+            return $product->load(['images', 'prices.options']);
+        }
+
+        return false;
     }
 
-    public function update(int $id, array $data)
+    public function update($id, array $data)
     {
-        $target = $this->getById($id);
+        $product = Product::findOrFail($id);
+        $updated = $product->update($data['product']);
 
-        return $target ? $target->update($data) : false;
+        if ($updated) {
+            if (isset($data['images'])) {
+                $product->images()->delete();
+                foreach ($data['images'] as $image) {
+                    $product->images()->create(['url' => $image]);
+                }
+            }
+
+            if (isset($data['sizes'])) {
+                $product->prices()->delete();
+                foreach ($data['sizes'] as $sizeData) {
+                    $size = $product->prices()->create([
+                        'size_name' => $sizeData['size_name'],
+                        'price' => $sizeData['price'],
+                        'sale' => $sizeData['sale'],
+                    ]);
+
+                    foreach ($sizeData['options'] as $option) {
+                        $size->options()->create([
+                            'flavor' => $option['flavor'] ?? null,
+                            'color' => $option['color'] ?? null,
+                            'quantity' => $option['quantity'],
+                        ]);
+                    }
+                }
+            }
+
+            return $product->load(['prices.options', 'images']);
+        }
+
+        return false;
     }
 
     public function delete(int $id)
@@ -41,14 +108,14 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function productsByCatalog(int $catalogId)
     {
-        return Product::where('product_catalog_id', $catalogId)->with(['variants.options'])->get();
+        return Product::where('product_catalog_id', $catalogId)->with(['prices.options'])->get();
     }
 
     public function getProductForCart(int $id)
     {
         return Product::select('id', 'name')->find($id);
     }
-    
+
     public function filter(string $action, string $data, int $order, int $page, int $limit)
     {
         $query = Product::query();

@@ -9,7 +9,7 @@ class ImageRepository implements ImageRepositoryInterface
 {
     public function getMany(string $table, int $id)
     {
-        return Image::where(["table", $table,"id_refence", $id])->get();
+        return Image::where(["table", $table, "id_refence", $id])->get();
     }
 
     public function insertMany(string $table, int $id, array $data)
@@ -21,5 +21,15 @@ class ImageRepository implements ImageRepositoryInterface
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
+    }
+    public function create(array $data)
+    {
+        return Image::create($data);
+    }
+
+    public function delete($id)
+    {
+        $image = Image::find($id);
+        return $image ? $image->delete() : null;
     }
 }
