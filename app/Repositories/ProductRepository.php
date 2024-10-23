@@ -24,7 +24,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product = Product::create([
             'name' => $data['name'],
-            'description' => $data['description'],
+            'purpose' => $data['purpose'],
             'type' => $data['type'],
         ]);
 

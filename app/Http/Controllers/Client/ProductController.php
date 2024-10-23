@@ -17,47 +17,31 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = $this->productRepository->all();
+        $products = $this->productRepository->getAll();
         $result = $this->formatProducts($products);
         return response()->json($result);
     }
 
     public function show($id)
     {
-        $product = $this->productRepository->find($id);
+        $product = $this->productRepository->getById($id);
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
         }
-        return response()->json($product);
+        $result = $this->formatProducts(collect([$product]));
+        return response()->json($result[0]);
     }
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'purpose' => 'nullable|string',
-            'type' => 'required|integer',
-            'images' => 'nullable|json',
-        ]);
-
-        $product = $this->productRepository->create($data);
+        $product = $this->productRepository->create($request->all());
         return response()->json($product, 201);
     }
 
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
-            'name' => 'nullable|string|max:255',
-            'purpose' => 'nullable|string',
-            'type' => 'nullable|integer',
-            'images' => 'nullable|json',
-        ]);
-
-        $updatedProduct = $this->productRepository->update($id, $data);
-        if (!$updatedProduct) {
-            return response()->json(['message' => 'Product not found'], 404);
-        }
-        return response()->json($updatedProduct);
+        $product = $this->productRepository->update($id, $request->all());
+        return response()->json($product);
     }
 
     public function destroy($id)
@@ -92,7 +76,6 @@ class ProductController extends Controller
 
         return response()->json($products);
     }
-
     private function formatProducts($products)
     {
         return $products->map(function ($product) {
@@ -101,19 +84,25 @@ class ProductController extends Controller
                 'name' => $product->name,
                 'purpose' => $product->purpose,
                 'type' => $product->type,
-                'images' => json_decode($product->images),
-                'variants' => $product->variants->map(function ($variant) {
+                'images' => $product->images->pluck('url'),
+                'sizes' => $product->prices->map(function ($size) use ($product) {
                     return [
-                        'id' => $variant->id,
-                        'price' => $variant->price,
-                        'discount_price' => $variant->discount_price,
-                        'size' => $variant->size,
-                        'options' => $variant->options->map(function ($option) {
-                            return [
-                                'flavor' => $option->flavor,
-                                'color' => $option->color,
-                                'quantity' => $option->quantity,
-                            ];
+                        'id' => $size->id,
+                        'price' => $size->price,
+                        'sale' => $size->sale,
+                        'size_name' => $size->size_name,
+                        'options' => $size->options->map(function ($option) use ($product) {
+                            if ($product->type == 1) {
+                                return [
+                                    'flavor' => $option->flavor,
+                                    'quantity' => $option->quantity,
+                                ];
+                            } else {
+                                return [
+                                    'color' => $option->color,
+                                    'quantity' => $option->quantity,
+                                ];
+                            }
                         }),
                     ];
                 }),
