@@ -22,6 +22,8 @@ use App\Repositories\FormRequestRepository;
 use App\Repositories\FormRequestRepositoryInterface;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\InvoiceRepositoryInterface;
+use App\Repositories\ImageRepository;
+use App\Repositories\ImageRepositoryInterface;
 use App\Repositories\SponsorRepository;
 use App\Repositories\SponsorRepositoryInterface;
 use App\Repositories\StoryRepository;
@@ -51,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(FormRequestRepositoryInterface::class, FormRequestRepository::class);
         $this->app->bind(InvoiceRepositoryInterface::class, InvoiceRepository::class);
+        $this->app->bind(ImageRepositoryInterface::class, ImageRepository::class);
         $this->app->bind(SponsorRepositoryInterface::class, SponsorRepository::class);
         
         $this->app->bind(StoryRepositoryInterface::class, StoryRepository::class);
