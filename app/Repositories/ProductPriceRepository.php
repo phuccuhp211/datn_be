@@ -27,6 +27,11 @@ class ProductPriceRepository implements ProductPriceRepositoryInterface
         return ProductPrice::with('product')->where('product_id', $id)->get();
     }
 
+    public function create(array $data)
+    {
+        return ProductPrice::create($data) ?? false;
+    }
+
     public function insertMany(string $table, int $id, array $data)
     {
         try {

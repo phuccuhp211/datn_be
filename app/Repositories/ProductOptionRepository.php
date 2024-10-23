@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Exception;
 use App\Models\ProductOption;
 
 class ProductOptionRepository implements ProductOptionRepositoryInterface
@@ -29,6 +30,17 @@ class ProductOptionRepository implements ProductOptionRepositoryInterface
     public function create(array $data)
     {
         return ProductOption::create($data) ?? false;
+    }
+
+    public function insertMany(string $table, int $id, array $data)
+    {
+        try {
+            $oldRecord = ProductOption::where(["table" => $table, "id_reference" => $id])->pluck('id')->toArray();
+            if (ProductOption::destroy($oldRecord) && ProductOption::insert($data)) return true;
+            else return false;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     public function update(int $id, array $data)
