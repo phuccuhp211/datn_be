@@ -16,7 +16,7 @@ class AnimalsSeeder extends Seeder
                 'type' => 1,
                 'name' => 'Bông',
                 'age' => 3,
-                'gender' => 'Đực',
+                'gender' => 0,
                 'colors' => 'Trắng',
                 'genitive' => 'Poodle',
                 'health_info' => json_encode([
@@ -33,7 +33,7 @@ class AnimalsSeeder extends Seeder
                 'type' => 2,
                 'name' => 'Miu',
                 'age' => 2,
-                'gender' => 'Cái',
+                'gender' => 1,
                 'colors' => 'Vàng',
                 'genitive' => 'Mèo ta',
                 'health_info' => json_encode([
@@ -50,7 +50,7 @@ class AnimalsSeeder extends Seeder
                 'type' => 1,
                 'name' => 'Đốm',
                 'age' => 4,
-                'gender' => 'Đực',
+                'gender' => 0,
                 'colors' => 'Đen và trắng',
                 'genitive' => 'Chihuahua',
                 'health_info' => json_encode([
@@ -67,7 +67,7 @@ class AnimalsSeeder extends Seeder
                 'type' => 2,
                 'name' => 'Mít',
                 'age' => 1,
-                'gender' => 'Cái',
+                'gender' => 1,
                 'colors' => 'Đen',
                 'genitive' => 'Mèo Ba Tư',
                 'health_info' => json_encode([
@@ -84,7 +84,7 @@ class AnimalsSeeder extends Seeder
                 'type' => 1,
                 'name' => 'Vàng',
                 'age' => 5,
-                'gender' => 'Đực',
+                'gender' => 0,
                 'colors' => 'Vàng',
                 'genitive' => 'Corgi',
                 'health_info' => json_encode([
@@ -101,7 +101,7 @@ class AnimalsSeeder extends Seeder
                 'type' => 2,
                 'name' => 'Sữa',
                 'age' => 3,
-                'gender' => 'Cái',
+                'gender' => 1,
                 'colors' => 'Trắng',
                 'genitive' => 'Mèo Anh lông ngắn',
                 'health_info' => json_encode([
@@ -118,7 +118,7 @@ class AnimalsSeeder extends Seeder
                 'type' => 1,
                 'name' => 'Nâu',
                 'age' => 2,
-                'gender' => 'Đực',
+                'gender' => 0,
                 'colors' => 'Nâu',
                 'genitive' => 'Golden Retriever',
                 'health_info' => json_encode([
@@ -135,7 +135,7 @@ class AnimalsSeeder extends Seeder
                 'type' => 2,
                 'name' => 'Mun',
                 'age' => 4,
-                'gender' => 'Đực',
+                'gender' => 1,
                 'colors' => 'Xám',
                 'genitive' => 'Mèo Nga',
                 'health_info' => json_encode([
@@ -152,7 +152,7 @@ class AnimalsSeeder extends Seeder
                 'type' => 1,
                 'name' => 'Mực',
                 'age' => 3,
-                'gender' => 'Đực',
+                'gender' => 0,
                 'colors' => 'Đen',
                 'genitive' => 'Shiba Inu',
                 'health_info' => json_encode([
@@ -169,7 +169,7 @@ class AnimalsSeeder extends Seeder
                 'type' => 2,
                 'name' => 'Mướp',
                 'age' => 2,
-                'gender' => 'Cái',
+                'gender' => 1,
                 'colors' => 'Xám và trắng',
                 'genitive' => 'Mèo ta',
                 'health_info' => json_encode([

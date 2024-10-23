@@ -25,8 +25,8 @@ class ProductsSeeder extends Seeder
                         'sale' => 90000,
                         'name' => '500g',
                         'options' => [
-                            ['flavor' => 'Gà', 'quantity' => 10],
-                            ['flavor' => 'Thịt bò', 'quantity' => 5],
+                            ['name' => 'Gà', 'quantity' => 10],
+                            ['name' => 'Thịt bò', 'quantity' => 5],
                         ]
                     ],
                     [
@@ -34,8 +34,8 @@ class ProductsSeeder extends Seeder
                         'sale' => null,
                         'name' => '1kg',
                         'options' => [
-                            ['flavor' => 'Gà', 'quantity' => 8],
-                            ['flavor' => 'Cá hồi', 'quantity' => 7],
+                            ['name' => 'Gà', 'quantity' => 8],
+                            ['name' => 'Cá hồi', 'quantity' => 7],
                         ]
                     ],
                 ]
@@ -51,8 +51,8 @@ class ProductsSeeder extends Seeder
                         'sale' => 85000,
                         'name' => '500g',
                         'options' => [
-                            ['flavor' => 'Cá hồi', 'quantity' => 12],
-                            ['flavor' => 'Cá ngừ', 'quantity' => 10],
+                            ['name' => 'Cá hồi', 'quantity' => 12],
+                            ['name' => 'Cá ngừ', 'quantity' => 10],
                         ]
                     ],
                     [
@@ -60,7 +60,7 @@ class ProductsSeeder extends Seeder
                         'sale' => null,
                         'name' => '1kg',
                         'options' => [
-                            ['flavor' => 'Cá hồi', 'quantity' => 9],
+                            ['name' => 'Cá hồi', 'quantity' => 9],
                         ]
                     ],
                 ]
@@ -77,8 +77,8 @@ class ProductsSeeder extends Seeder
                         'sale' => 100000,
                         'name' => 'M',
                         'options' => [
-                            ['color' => 'Đỏ', 'quantity' => 8],
-                            ['color' => 'Vàng', 'quantity' => 6],
+                            ['name' => 'Đỏ', 'quantity' => 8],
+                            ['name' => 'Vàng', 'quantity' => 6],
                         ]
                     ],
                     [
@@ -86,7 +86,7 @@ class ProductsSeeder extends Seeder
                         'sale' => null,
                         'name' => 'L',
                         'options' => [
-                            ['color' => 'Xanh', 'quantity' => 4],
+                            ['name' => 'Xanh', 'quantity' => 4],
                         ]
                     ],
                 ]
@@ -102,7 +102,7 @@ class ProductsSeeder extends Seeder
                         'sale' => 95000,
                         'name' => 'S',
                         'options' => [
-                            ['color' => 'Xanh', 'quantity' => 6],
+                            ['name' => 'Xanh', 'quantity' => 6],
                         ]
                     ],
                     [
@@ -110,7 +110,7 @@ class ProductsSeeder extends Seeder
                         'sale' => null,
                         'name' => 'M',
                         'options' => [
-                            ['color' => 'Đen', 'quantity' => 3],
+                            ['name' => 'Đen', 'quantity' => 3],
                         ]
                     ],
                 ]
@@ -126,7 +126,7 @@ class ProductsSeeder extends Seeder
                         'sale' => 45000,
                         'name' => 'S',
                         'options' => [
-                            ['color' => 'Hồng', 'quantity' => 20],
+                            ['name' => 'Hồng', 'quantity' => 20],
                         ]
                     ],
                     [
@@ -134,7 +134,7 @@ class ProductsSeeder extends Seeder
                         'sale' => null,
                         'name' => 'M',
                         'options' => [
-                            ['color' => 'Xám', 'quantity' => 15],
+                            ['name' => 'Xám', 'quantity' => 15],
                         ]
                     ],
                 ]
@@ -150,7 +150,7 @@ class ProductsSeeder extends Seeder
                         'sale' => 30000,
                         'name' => 'M',
                         'options' => [
-                            ['color' => 'Trắng', 'quantity' => 15],
+                            ['name' => 'Trắng', 'quantity' => 15],
                         ]
                     ],
                     [
@@ -158,7 +158,7 @@ class ProductsSeeder extends Seeder
                         'sale' => null,
                         'name' => 'L',
                         'options' => [
-                            ['color' => 'Đen', 'quantity' => 10],
+                            ['name' => 'Đen', 'quantity' => 10],
                         ]
                     ],
                 ]
@@ -174,7 +174,7 @@ class ProductsSeeder extends Seeder
                         'sale' => null,
                         'name' => 'M',
                         'options' => [
-                            ['color' => 'Vàng', 'quantity' => 15],
+                            ['name' => 'Vàng', 'quantity' => 15],
                         ]
                     ],
                     [
@@ -182,7 +182,7 @@ class ProductsSeeder extends Seeder
                         'sale' => 65000,
                         'name' => 'L',
                         'options' => [
-                            ['color' => 'Xanh', 'quantity' => 10],
+                            ['name' => 'Xanh', 'quantity' => 10],
                         ]
                     ],
                 ]
@@ -198,7 +198,7 @@ class ProductsSeeder extends Seeder
                         'sale' => 40000,
                         'name' => 'S',
                         'options' => [
-                            ['color' => 'Xám', 'quantity' => 12],
+                            ['name' => 'Xám', 'quantity' => 12],
                         ]
                     ],
                     [
@@ -206,7 +206,7 @@ class ProductsSeeder extends Seeder
                         'sale' => null,
                         'name' => 'M',
                         'options' => [
-                            ['color' => 'Trắng', 'quantity' => 8],
+                            ['name' => 'Trắng', 'quantity' => 8],
                         ]
                     ],
                 ]
@@ -238,8 +238,7 @@ class ProductsSeeder extends Seeder
                 foreach ($sizeData['options'] as $optionData) {
                     ProductOption::create([
                         'price_id' => $size->id,
-                        'flavor' => $productData['type'] == 1 ? $optionData['flavor'] : null,
-                        'color' => $productData['type'] != 1 ? $optionData['color'] : null,
+                        'name' => $optionData['name'],
                         'quantity' => $optionData['quantity'],
                     ]);
                 }

@@ -13,12 +13,12 @@ class AnimalCatalogRepository implements AnimalCatalogRepositoryInterface
 
     public function getAll()
     {
-        return Animal::with('images')->get();
+        return AnimalCatalog::with('images')->get();
     }
 
     public function getById($id)
     {
-        return Animal::with('images')->findOrFail($id);
+        return AnimalCatalog::with('images')->findOrFail($id);
     }
 
     public function create(array $data)

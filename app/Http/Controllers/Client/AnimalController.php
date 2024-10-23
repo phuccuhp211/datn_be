@@ -27,8 +27,13 @@ class AnimalController extends Controller
 
     public function store(Request $request)
     {
-        $animal = $this->animalRepository->create($request->all());
-        return response()->json($animal, 201);
+        try {
+            $animal = $this->animalRepository->create($request->all());
+            return response()->json($animal, 201);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 400);
+        }
+
     }
 
     public function update(Request $request, $id)
