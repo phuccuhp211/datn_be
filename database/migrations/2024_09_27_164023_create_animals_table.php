@@ -13,7 +13,7 @@ return new class extends Migration
             $table->bigInteger('type')->unsigned();
             $table->string('name', 20);
             $table->integer('age');
-            $table->string('gender', 10);
+            $table->boolean('gender')->default(0);
             $table->string('colors', 20);
             $table->string('genitive', 20);
             $table->json('health_info');

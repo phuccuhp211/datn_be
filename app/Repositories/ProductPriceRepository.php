@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Exception;
 use App\Models\ProductPrice;
 
 class ProductPriceRepository implements ProductPriceRepositoryInterface
@@ -26,9 +27,15 @@ class ProductPriceRepository implements ProductPriceRepositoryInterface
         return ProductPrice::with('product')->where('product_id', $id)->get();
     }
 
-    public function create(array $data)
+    public function insertMany(string $table, int $id, array $data)
     {
-        return ProductPrice::create($data) ?? false;
+        try {
+            $oldRecord = ProductPrice::where(["table" => $table, "id_reference" => $id])->pluck('id')->toArray();
+            if (ProductPrice::destroy($oldRecord) && ProductPrice::insert($data)) return true;
+            else return false;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     public function update(int $id, array $data)

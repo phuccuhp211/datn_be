@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_options', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('price_id')->constrained('product_prices')->onDelete('cascade');
-            $table->string('flavor')->nullable();
-            $table->string('color')->nullable();
+            $table->foreignId('product_price_id')->constrained('product_prices')->onDelete('cascade');
+            $table->string('name')->nullable();
             $table->integer('quantity');
             $table->timestamps();
         });

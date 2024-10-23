@@ -11,13 +11,7 @@ class ProductOption extends Model
 
     protected $table = 'Product_options';
     protected $primaryKey = 'id';
-
-    protected $fillable = [
-        'size_id',
-        'flavor',
-        'color',
-        'quantity'
-    ];
+    protected $fillable = ['product_price_id', 'name', 'quantity'];
 
     public function price()
     {

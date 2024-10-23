@@ -11,7 +11,7 @@ class ProductPrice extends Model
 
     protected $table = 'product_prices';
     protected $primaryKey = 'id';
-    protected $fillable = ['product_id', 'size_name', 'price', 'sale', 'sale_from', 'sale_to'];
+    protected $fillable = ['product_id', 'name', 'price', 'sale', 'sale_from', 'sale_to'];
 
 
     public function options()

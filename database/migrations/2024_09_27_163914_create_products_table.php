@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('images')->nullable();
-            $table->text('purpose')->nullable();
             $table->foreignId('type')->constrained('product_catalogs')->onDelete('cascade');
+            $table->text('purpose')->nullable();
+            $table->boolean('out_of_stock')->default(false);
             $table->timestamps();
         });
     }

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->bigInteger('reference_id');
             $table->string('table', 20);
             $table->text('url');
-            $table->timestamps();
         });
     }
 
