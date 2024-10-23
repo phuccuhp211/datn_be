@@ -14,7 +14,7 @@ interface ProductOptionRepositoryInterface
 
     public function create(array $data);
 
-    public function insertMany(String $table, int $id, array $data);
+    public function insertMany(int $id, array $data);
 
     public function update(int $id, array $data);
 

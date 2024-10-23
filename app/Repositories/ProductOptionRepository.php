@@ -32,10 +32,10 @@ class ProductOptionRepository implements ProductOptionRepositoryInterface
         return ProductOption::create($data) ?? false;
     }
 
-    public function insertMany(string $table, int $id, array $data)
+    public function insertMany(int $id, array $data)
     {
         try {
-            $oldRecord = ProductOption::where(["table" => $table, "id_reference" => $id])->pluck('id')->toArray();
+            $oldRecord = ProductOption::where(["price_id" => $id])->pluck('id')->toArray();
             if (ProductOption::destroy($oldRecord) && ProductOption::insert($data)) return true;
             else return false;
         } catch (Exception $e) {

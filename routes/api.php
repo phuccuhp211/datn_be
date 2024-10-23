@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CrudController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\AnimalController;
 
@@ -23,4 +24,18 @@ Route::prefix('animals')->group(function () {
     Route::post('/', [AnimalController::class, 'store']); // Create a new animal
     Route::put('{id}', [AnimalController::class, 'update']); // Update animal information by ID
     Route::delete('{id}', [AnimalController::class, 'destroy']); // Delete animal by ID
+});
+
+
+Route::prefix('admin')->group(function () {
+    Route::post('/animals/{action}/', [CrudController::class, 'animalManager']);
+    Route::post('/animalCatalog/{action}/', [CrudController::class, 'animalCatalogManager']);
+    Route::post('/formRequest/{action}/', [CrudController::class, 'formRequestManager']);
+    Route::post('/invoices/{action}/', [CrudController::class, 'invoiceManager']);
+    Route::post('/products/{action}/', [CrudController::class, 'productManager']);
+    Route::post('/productCatalog/{action}/', [CrudController::class, 'productCatalogManager']);
+    Route::post('/sponsors/{action}/', [CrudController::class, 'sponsorManager']);
+    Route::post('/stories/{action}/', [CrudController::class, 'storyManager']);
+    Route::post('/storyCatalog/{action}/', [CrudController::class, 'storyCatalogManager']);
+    Route::post('/users/{action}/', [CrudController::class, 'userManager']);
 });

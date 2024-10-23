@@ -140,6 +140,8 @@ class CrudController extends Controller
             throw new Exception($e->getMessage());
         }
     }
+    
+    // ------------------ CRUD FUNCTION BELOW ------------------
 
     public function animalManager(Request $request, String $type)
     {
@@ -171,6 +173,428 @@ class CrudController extends Controller
                     $data = $this->processData($request->all(), 'animalRepository');
                     $target = $this->animalRepository->update($request['id'],$data);
                     $imgs = $this->processImages($request->file('images'), 'animal', 'animals', $target['id']);
+
+                    if ($target || $imgs) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Update Complete';
+                    }
+                }
+            }
+            
+            DB::commit();
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+            
+    }
+
+    public function animalCatalogManager(Request $request, String $type)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($type == 'delete') {
+                if ($this->animalCatalogRepository->delete($request->id)) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Delete Complete';
+                }
+            } 
+            else {
+                $validationResponse = $this->validateData($request);
+                if (!empty($validationResponse)) {
+                    throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                }
+
+                if ($type == 'insert') {
+                    $data = $this->processData($request->all(), 'animalCatalogRepository');
+                    $target = $this->animalCatalogRepository->create($data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Insert Complete';
+                    }
+                } else if ($type == 'update') {
+                    $data = $this->processData($request->all(), 'animalCatalogRepository');
+                    $target = $this->animalCatalogRepository->update($request['id'],$data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Update Complete';
+                    }
+                }
+            }
+            
+            DB::commit();
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+            
+    }
+
+    public function formRequestManager(Request $request, String $type)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($type == 'delete') {
+                if ($this->formRequestRepository->delete($request->id)) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Delete Complete';
+                }
+            } 
+            else {
+                $validationResponse = $this->validateData($request);
+                if (!empty($validationResponse)) {
+                    throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                }
+
+                if ($type == 'insert') {
+                    $data = $this->processData($request->all(), 'formRequestRepository');
+                    $target = $this->formRequestRepository->create($data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Insert Complete';
+                    }
+                } else if ($type == 'update') {
+                    $data = $this->processData($request->all(), 'formRequestRepository');
+                    $target = $this->formRequestRepository->update($request['id'],$data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Update Complete';
+                    }
+                }
+            }
+            
+            DB::commit();
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+            
+    }
+
+    public function invoiceManager(Request $request, String $type)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($type == 'delete') {
+                if ($this->invoiceRepository->delete($request->id)) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Delete Complete';
+                }
+            } 
+            else {
+                $validationResponse = $this->validateData($request);
+                if (!empty($validationResponse)) {
+                    throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                }
+
+                if ($type == 'insert') {
+                    $data = $this->processData($request->all(), 'invoiceRepository');
+                    $target = $this->invoiceRepository->create($data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Insert Complete';
+                    }
+                } else if ($type == 'update') {
+                    $data = $this->processData($request->all(), 'invoiceRepository');
+                    $target = $this->invoiceRepository->update($request['id'],$data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Update Complete';
+                    }
+                }
+            }
+            
+            DB::commit();
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+            
+    }
+
+    public function productManager(Request $request, String $type)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($type == 'delete') {
+                if ($this->productRepository->delete($request->id)) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Delete Complete';
+                }
+            } 
+            else {
+                $validationResponse = $this->validateData($request);
+                if (!empty($validationResponse)) {
+                    throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                }
+
+                if ($type == 'insert') {
+                    $data = $this->processData($request->all(), 'productRepository');
+                    $target = $this->productRepository->create($data);
+                    $imgs = $this->processImages($request->file('images'), 'product', 'products', $target['id']);
+                    $this->productPriceRepository->insertMany($target['id'], $request['prices']);
+                    $this->productOptionRepository->insertMany($target['id'], $request['options']);
+
+                    if ($target || $imgs) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Insert Complete';
+                    }
+                } else if ($type == 'update') {
+                    $data = $this->processData($request->all(), 'productRepository');
+                    $target = $this->productRepository->update($request['id'],$data);
+                    $imgs = $this->processImages($request->file('images'), 'product', 'products', $target['id']);
+                    $this->productPriceRepository->insertMany($target['id'], $request['prices']);
+                    $this->productOptionRepository->insertMany($target['id'], $request['options']);
+
+                    if ($target || $imgs) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Update Complete';
+                    }
+                }
+            }
+            
+            DB::commit();
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+            
+    }
+
+    public function productCatalogManager(Request $request, String $type)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($type == 'delete') {
+                if ($this->productCatalogRepository->delete($request->id)) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Delete Complete';
+                }
+            } 
+            else {
+                $validationResponse = $this->validateData($request);
+                if (!empty($validationResponse)) {
+                    throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                }
+
+                if ($type == 'insert') {
+                    $data = $this->processData($request->all(), 'productCatalogRepository');
+                    $target = $this->productCatalogRepository->create($data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Insert Complete';
+                    }
+                } else if ($type == 'update') {
+                    $data = $this->processData($request->all(), 'productCatalogRepository');
+                    $target = $this->productCatalogRepository->update($request['id'],$data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Update Complete';
+                    }
+                }
+            }
+            
+            DB::commit();
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+            
+    }
+
+    public function sponsorManager(Request $request, String $type)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($type == 'delete') {
+                if ($this->sponsorRepository->delete($request->id)) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Delete Complete';
+                }
+            } 
+            else {
+                $validationResponse = $this->validateData($request);
+                if (!empty($validationResponse)) {
+                    throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                }
+
+                if ($type == 'insert') {
+                    $data = $this->processData($request->all(), 'sponsorRepository');
+                    $target = $this->sponsorRepository->create($data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Insert Complete';
+                    }
+                } else if ($type == 'update') {
+                    $data = $this->processData($request->all(), 'sponsorRepository');
+                    $target = $this->sponsorRepository->update($request['id'],$data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Update Complete';
+                    }
+                }
+            }
+            
+            DB::commit();
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+            
+    }
+
+    public function storyManager(Request $request, String $type)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($type == 'delete') {
+                if ($this->storyRepository->delete($request->id)) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Delete Complete';
+                }
+            } 
+            else {
+                $validationResponse = $this->validateData($request);
+                if (!empty($validationResponse)) {
+                    throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                }
+
+                if ($type == 'insert') {
+                    $data = $this->processData($request->all(), 'storyRepository');
+                    $target = $this->storyRepository->create($data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Insert Complete';
+                    }
+                } else if ($type == 'update') {
+                    $data = $this->processData($request->all(), 'storyRepository');
+                    $target = $this->storyRepository->update($request['id'],$data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Update Complete';
+                    }
+                }
+            }
+            
+            DB::commit();
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+            
+    }
+
+    public function storyCatalogManager(Request $request, String $type)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($type == 'delete') {
+                if ($this->storyCatalogRepository->delete($request->id)) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Delete Complete';
+                }
+            } 
+            else {
+                $validationResponse = $this->validateData($request);
+                if (!empty($validationResponse)) {
+                    throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                }
+
+                if ($type == 'insert') {
+                    $data = $this->processData($request->all(), 'storyCatalogRepository');
+                    $target = $this->storyCatalogRepository->create($data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Insert Complete';
+                    }
+                } else if ($type == 'update') {
+                    $data = $this->processData($request->all(), 'storyCatalogRepository');
+                    $target = $this->storyCatalogRepository->update($request['id'],$data);
+
+                    if ($target) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Update Complete';
+                    }
+                }
+            }
+            
+            DB::commit();
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+            
+    }
+
+    public function userManager(Request $request, String $type)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($type == 'delete') {
+                if ($this->userRepository->delete($request->id)) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Delete Complete';
+                }
+            } 
+            else {
+                $validationResponse = $this->validateData($request);
+                if (!empty($validationResponse)) {
+                    throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                }
+
+                if ($type == 'insert') {
+                    $data = $this->processData($request->all(), 'userRepository');
+                    $target = $this->userRepository->create($data);
+                    $imgs = $this->processImages($request->file('images'), 'user', 'users', $target['id']);
+
+                    if ($target || $imgs) {
+                        $this->response['status'] = true;
+                        $this->response['message'] = 'Insert Complete';
+                    }
+                } else if ($type == 'update') {
+                    $data = $this->processData($request->all(), 'userRepository');
+                    $target = $this->userRepository->update($request['id'],$data);
+                    $imgs = $this->processImages($request->file('images'), 'user', 'users', $target['id']);
 
                     if ($target || $imgs) {
                         $this->response['status'] = true;

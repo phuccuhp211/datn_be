@@ -15,7 +15,7 @@ class ImageRepository implements ImageRepositoryInterface
     public function insertMany(string $table, int $id, array $data)
     {
         try {
-            $oldRecord = Image::where(["table" => $table, "id_reference" => $id])->pluck('id')->toArray();
+            $oldRecord = Image::where(["table" => $table, "reference_id" => $id])->pluck('id')->toArray();
             if (Image::destroy($oldRecord) && Image::insert($data)) return true;
             else return false;
         } catch (Exception $e) {
