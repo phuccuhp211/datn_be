@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\SisuController;
+use App\Http\Controllers\CartController;
+
 use App\Http\Controllers\Admin\CrudController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\AnimalController;
@@ -26,6 +30,26 @@ Route::prefix('animals')->group(function () {
     Route::delete('{id}', [AnimalController::class, 'destroy']); // Delete animal by ID
 });
 
+Route::prefix('auth')->group(function () {
+    Route::prefix('client')->group(function () {
+        Route::post('/login', [SisuController::class, 'clientLogin']);
+        Route::post('/logout', [SisuController::class, 'clientLogout']);
+        Route::post('/config', [SisuController::class, 'clientRegister']);
+        // Route::post('/register', [SisuController::class, 'clientConfig']);
+        // Route::post('/resetPassword', [SisuController::class, 'clientResetPassword']);
+    });
+    Route::prefix('admin')->group(function () {
+        Route::post('/login', [SisuController::class, 'adminLogin']);
+        Route::post('/logout', [SisuController::class, 'adminLogout']);
+    });
+});
+
+Route::prefix('cart')->group(function () {
+    Route::post('/get', [CartController::class, 'getCart']);
+    Route::post('/delete', [CartController::class, 'delete']);
+    Route::post('/deleteAll', [CartController::class, 'deleteAllCart']);
+    Route::post('/insertOrUpdate', [CartController::class, 'insertOrUpdate']);
+});
 
 Route::prefix('admin')->group(function () {
     Route::post('/animals/{action}/', [CrudController::class, 'animalManager']);

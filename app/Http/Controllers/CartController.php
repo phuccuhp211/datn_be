@@ -42,7 +42,7 @@ class CartController extends Controller
         return response()->json($this->response);
     }
 
-    function insertOrUpdate(Request $request) 
+    public function insertOrUpdate(Request $request) 
     {
         try {
             $productId = $request->input('productId');
@@ -95,7 +95,7 @@ class CartController extends Controller
         }
     }
 
-    function delete(Request $request) 
+    public function delete(Request $request) 
     {
         try {
             $key = $request->input('key');
@@ -116,7 +116,7 @@ class CartController extends Controller
         }
     }
 
-    function deleteAllCart(Request $request) 
+    public function deleteAllCart(Request $request) 
     {
         try {
             session()->forget('cart');
