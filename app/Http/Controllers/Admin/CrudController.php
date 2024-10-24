@@ -7,7 +7,7 @@ use Storage;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\ValidateController;
 
 use App\Repositories\AnimalRepositoryInterface;
 use App\Repositories\AnimalCatalogRepositoryInterface;
@@ -39,8 +39,6 @@ class CrudController extends Controller
     protected $storyCatalogRepository;
     protected $userRepository;
     protected $response;
-    private $validteRules;
-    private $validteMessages;
 
     public function __construct(
         AnimalRepositoryInterface $animalRepository,
@@ -74,43 +72,17 @@ class CrudController extends Controller
         $this->response = ['status' => false, 'message'=> ''];
     }
 
-    public function validateData($request)
+    public function validateData(Request $request)
     {   
         try {
-            $this->validteRules = [
-                'name' => 'required|string|max:40',
-                'images.*' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
-            ];
-            $this->validteMessages = [
-                'name' => 'Vui lòng nhập tên',
-                'images' => 'Vui lòng chọn ảnh'
-            ];
-            
-            $filteredRules = [];
-            $filteredMessages = [];
-            foreach ($this->validteRules as $field => $rule) {
-                if ($request->has($field) || $field == 'images.*') {
-                    $filteredRules[$field] = $rule;
-                    if (isset($this->validteMessages[$field])) {
-                        $filteredMessages[$field] = $this->validteMessages[$field];
-                    }
-                }
-            }
-
-            $errorsList = [];
-            $validation = Validator::make($request->all(), $filteredRules, $filteredMessages);
-            if ($validation->fails()) {
-                $errors = $validation->errors();
-                foreach ($errors->all() as $error) {
-                    $errorsList[] = $error;
-                }
-            }
-
+            $validateController = new ValidateController();
+            $errorsList = $validateController->handle($request);
             return $errorsList;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
+
     
     public function processData($data, $instance)
     {   
@@ -187,8 +159,7 @@ class CrudController extends Controller
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
-        }
-            
+        }    
     }
 
     public function animalCatalogManager(Request $request, String $type)
@@ -233,8 +204,7 @@ class CrudController extends Controller
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
-        }
-            
+        }    
     }
 
     public function formRequestManager(Request $request, String $type)
@@ -279,8 +249,7 @@ class CrudController extends Controller
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
-        }
-            
+        }   
     }
 
     public function invoiceManager(Request $request, String $type)
@@ -325,8 +294,7 @@ class CrudController extends Controller
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
-        }
-            
+        }       
     }
 
     public function productManager(Request $request, String $type)
@@ -397,8 +365,7 @@ class CrudController extends Controller
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
-        }
-            
+        }     
     }
 
     public function productCatalogManager(Request $request, String $type)
@@ -443,8 +410,7 @@ class CrudController extends Controller
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
-        }
-            
+        }  
     }
 
     public function sponsorManager(Request $request, String $type)
@@ -489,8 +455,7 @@ class CrudController extends Controller
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
-        }
-            
+        }        
     }
 
     public function storyManager(Request $request, String $type)
@@ -536,7 +501,6 @@ class CrudController extends Controller
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
         }
-            
     }
 
     public function storyCatalogManager(Request $request, String $type)
@@ -581,8 +545,7 @@ class CrudController extends Controller
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
-        }
-            
+        }   
     }
 
     public function userManager(Request $request, String $type)
@@ -629,7 +592,6 @@ class CrudController extends Controller
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response);
-        }
-            
+        }     
     }
 }

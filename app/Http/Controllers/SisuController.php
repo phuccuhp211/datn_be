@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\CartController;
 use App\Repositories\UserRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\ProductPriceRepositoryInterface;
 use App\Repositories\ProductOptionRepositoryInterface;
+use App\Http\Controllers\ValidateController;
 
 class SisuController extends Controller
 {
@@ -31,6 +31,17 @@ class SisuController extends Controller
         $this->productPriceRepository = $productPriceRepositoryInterface;
         $this->productOptionRepository = $productOptionRepositoryInterface;
         $this->response = ['status' => false ,'message'=> ''];
+    }
+
+    public function validateData(Request $request)
+    {   
+        try {
+            $validateController = new ValidateController();
+            $errorsList = $validateController->handle($request);
+            return $errorsList;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     public function clientLogin(Request $request)
@@ -76,29 +87,9 @@ class SisuController extends Controller
     public function clientRegister(Request $request)
     {
         try {
-            $rule = [
-                'account' => 'required|string|min:3|unique:users,account',
-                'password' => 'required|min:8',
-                'password2' => 'required|same:password',
-                'name' => 'required|string|max:255',
-                'address' => 'nullable|string|max:255',
-                'email' => 'required|email|regex:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/|unique:users,email',
-                'phone' => 'required|numeric|digits:10|unique:users,phone'
-            ];
-            $msgs = [
-                'account.unique' => 'Tên tài khoản đã được sử dụng!',
-                'email.unique' => 'Email đã được sử dụng!',
-                'phone.unique' => 'Số điện thoại đã được sử dụng!',
-                'password2.same' => 'Mật khẩu không khớp!',
-                'password.min' => 'Mật khẩu tối thiểu 8 kí tự!',
-                'email' => 'Email không đúng định dạng.',
-                'phone.digits' => 'Số điện thoại không hợp lệ.',
-            ];
-            $validator = Validator::make($request->all(), $rule, $msgs);
-
-            if ($validator->fails()) {
-                $errors = $validator->errors()->first();
-                $this->response['message'] = $errors;
+            $validationResponse = $this->validateData($request);
+            if (!empty($validationResponse)) {
+                throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
             } else {
                 $hashedPassword = password_hash($request->input('password'), PASSWORD_BCRYPT);
                 $data = [
