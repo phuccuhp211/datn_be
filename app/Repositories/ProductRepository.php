@@ -22,81 +22,14 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function create(array $data)
     {
-        $product = Product::create([
-            'name' => $data['name'],
-            'purpose' => $data['purpose'],
-            'type' => $data['type'],
-        ]);
-
-        if ($product) {
-            if (isset($data['images'])) {
-                foreach ($data['images'] as $image) {
-                    $product->images()->create([
-                        'url' => $image,
-                        'reference_id' => $product->id,
-                        'table' => 'products'
-                    ]);
-                }
-            }
-
-            foreach ($data['sizes'] as $sizeData) {
-                $size = $product->prices()->create([
-                    'size_name' => $sizeData['size_name'],
-                    'price' => $sizeData['price'],
-                    'sale' => $sizeData['sale'] ?? null,
-                ]);
-
-                foreach ($sizeData['options'] as $optionData) {
-                    $size->options()->create([
-                        'flavor' => $optionData['flavor'] ?? null,
-                        'color' => $optionData['color'] ?? null,
-                        'quantity' => $optionData['quantity'],
-                    ]);
-                }
-            }
-
-            return $product->load(['images', 'prices.options']);
-        }
-
-        return false;
+        return Product::create($data) ?? false;
     }
 
     public function update($id, array $data)
     {
-        $product = Product::findOrFail($id);
-        $updated = $product->update($data['product']);
+        $target = $this->getById($id);
 
-        if ($updated) {
-            if (isset($data['images'])) {
-                $product->images()->delete();
-                foreach ($data['images'] as $image) {
-                    $product->images()->create(['url' => $image]);
-                }
-            }
-
-            if (isset($data['sizes'])) {
-                $product->prices()->delete();
-                foreach ($data['sizes'] as $sizeData) {
-                    $size = $product->prices()->create([
-                        'size_name' => $sizeData['size_name'],
-                        'price' => $sizeData['price'],
-                        'sale' => $sizeData['sale'],
-                    ]);
-
-                    foreach ($sizeData['options'] as $option) {
-                        $size->options()->create([
-                            'flavor' => $option['flavor'] ?? null,
-                            'color' => $option['color'] ?? null,
-                            'quantity' => $option['quantity'],
-                        ]);
-                    }
-                }
-            }
-
-            return $product->load(['prices.options', 'images']);
-        }
-
-        return false;
+        return $target->update($data) ? $target->fresh() : false;
     }
 
     public function delete(int $id)

@@ -32,11 +32,11 @@ class ProductPriceRepository implements ProductPriceRepositoryInterface
         return ProductPrice::create($data) ?? false;
     }
 
-    public function insertMany(int $id, array $data)
+    public function deleteMany(int $id)
     {
         try {
             $oldRecord = ProductPrice::where(["product_id" => $id])->pluck('id')->toArray();
-            if (ProductPrice::destroy($oldRecord) && ProductPrice::insert($data)) return true;
+            if (ProductPrice::destroy($oldRecord)) return true;
             else return false;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

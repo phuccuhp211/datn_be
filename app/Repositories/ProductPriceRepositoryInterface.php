@@ -14,7 +14,7 @@ interface ProductPriceRepositoryInterface
 
     public function create(array $data);
 
-    public function insertMany(int $id, array $data);
+    public function deleteMany(int $id);
 
     public function update(int $id, array $data);
 

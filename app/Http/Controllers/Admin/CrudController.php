@@ -3,15 +3,11 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
+use Storage;
 use Exception;
-use DateTime;
-use DateInterval;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 
 use App\Repositories\AnimalRepositoryInterface;
 use App\Repositories\AnimalCatalogRepositoryInterface;
@@ -128,20 +124,24 @@ class CrudController extends Controller
     }
 
     public function processImages($images, $path, $table, $id)
-    {   
+    {
         try {
             $data = [];
             foreach ($images as $image) {
-                $imagePath = $image->store($path, 'public');
-                $data[] = ['table' => $table, 'id' => $id, 'url' => $imagePath];
+                $imgName = $image->getClientOriginalName();
+                if (!Storage::disk('public')->exists($imgName)) {
+                    $image->storeAs($path, $imgName, 'public');
+                    $data[] = ['table' => $table, 'reference_id' => $id, 'url' => $imgName];
+                }
             }
             return $this->imageRepository->insertMany($table, $id, $data);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
+
     
-    // ------------------ CRUD FUNCTION BELOW ------------------
+    // ------------------ CRUD FUNCTION ARE BELOW ------------------
 
     public function animalManager(Request $request, String $type)
     {
@@ -350,8 +350,18 @@ class CrudController extends Controller
                     $data = $this->processData($request->all(), 'productRepository');
                     $target = $this->productRepository->create($data);
                     $imgs = $this->processImages($request->file('images'), 'product', 'products', $target['id']);
-                    $this->productPriceRepository->insertMany($target['id'], $request['prices']);
-                    $this->productOptionRepository->insertMany($target['id'], $request['options']);
+                    $prices = json_decode($request['prices'], true);
+
+                    $this->productPriceRepository->deleteMany($target['id']);
+                    foreach ($prices as $value) {
+                        $dataPrice = $this->processData($value, 'productPriceRepository');
+                        $dataPrice['product_id'] = $target['id'];
+                        $price = $this->productPriceRepository->create($dataPrice);
+                        foreach ($value['options'] as &$option) {
+                            $option['price_id'] = $price['id'];
+                        }
+                        $this->productOptionRepository->insertMany($price['id'], $value['options']);
+                    }
 
                     if ($target || $imgs) {
                         $this->response['status'] = true;
@@ -361,8 +371,18 @@ class CrudController extends Controller
                     $data = $this->processData($request->all(), 'productRepository');
                     $target = $this->productRepository->update($request['id'],$data);
                     $imgs = $this->processImages($request->file('images'), 'product', 'products', $target['id']);
-                    $this->productPriceRepository->insertMany($target['id'], $request['prices']);
-                    $this->productOptionRepository->insertMany($target['id'], $request['options']);
+                    $prices = json_decode($request['prices'], true);
+
+                    $this->productPriceRepository->deleteMany($target['id']);
+                    foreach ($prices as $value) {
+                        $dataPrice = $this->processData($value, 'productPriceRepository');
+                        $dataPrice['product_id'] = $target['id'];
+                        $price = $this->productPriceRepository->create($dataPrice);
+                        foreach ($value['options'] as &$option) {
+                            $option['price_id'] = $price['id'];
+                        }
+                        $this->productOptionRepository->insertMany($price['id'], $value['options']);
+                    }
 
                     if ($target || $imgs) {
                         $this->response['status'] = true;

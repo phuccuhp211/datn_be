@@ -36,8 +36,8 @@ class ProductOptionRepository implements ProductOptionRepositoryInterface
     {
         try {
             $oldRecord = ProductOption::where(["price_id" => $id])->pluck('id')->toArray();
-            if (ProductOption::destroy($oldRecord) && ProductOption::insert($data)) return true;
-            else return false;
+            ProductOption::destroy($oldRecord);
+            ProductOption::insert($data);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

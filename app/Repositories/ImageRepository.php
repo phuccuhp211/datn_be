@@ -16,8 +16,8 @@ class ImageRepository implements ImageRepositoryInterface
     {
         try {
             $oldRecord = Image::where(["table" => $table, "reference_id" => $id])->pluck('id')->toArray();
-            if (Image::destroy($oldRecord) && Image::insert($data)) return true;
-            else return false;
+            Image::destroy($oldRecord);
+            Image::insert($data);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
