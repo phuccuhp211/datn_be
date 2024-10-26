@@ -15,15 +15,16 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name', 40);
             $table->string('account', 40);
+            $table->string('password');
             $table->string('phone', 20);
             $table->string('email', 50);
             $table->text('address');
             $table->string('role', 12);
-            $table->integer('rescue_cases');
+            $table->integer('rescue_cases')->default(0);
             $table->integer('adopted')->nullable();
+            $table->text('cart')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });

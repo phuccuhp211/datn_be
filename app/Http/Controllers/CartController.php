@@ -187,7 +187,7 @@ class CartController extends Controller
     public function mergeCart($userCart) 
     {
         try {
-            $session = session('cart');
+            $session = session('cart') ?? [];
 
             foreach ($userCart['list'] as $item2) {
                 $repeated = false;

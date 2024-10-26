@@ -60,15 +60,17 @@ class SisuController extends Controller
                         $passwordTrue = password_verify($password, $user['password']);
                         if ($passwordTrue) {
                             unset($user['password']);
-                            $this->response['status'] = true;
                             session(['clientLoged' => $user]);
+                            $this->response['status'] = true;
+                            $this->response['message'] = session('clientLoged');
+
                             if (!is_null($user['cart'])) {
                                 $userCart = json_decode($user['cart'], true);
                                 $cartController = new CartController($this->userRepository, $this->productRepository, $this->productPriceRepository, $this->productOptionRepository);
                                 if (session()->has('cart')) $cartController->mergeCart($userCart);
                                 else session(['cart' => $userCart]);
                             }
-                            else $this->userRepository->updateCartForUser($user['id'], session('cart'));
+                            else $this->userRepository->updateCartForUser($user['id'], session('cart') ?? []);
                         }
                         else $this->response['message'] =  'Sai mật khẩu';
                     }
@@ -91,19 +93,20 @@ class SisuController extends Controller
             if (!empty($validationResponse)) {
                 throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
             } else {
+                $object = $this->userRepository->newModel();
+                $object->fill($request->all());
+
                 $hashedPassword = password_hash($request->input('password'), PASSWORD_BCRYPT);
-                $data = [
-                    'account' => $request->input('account'),
-                    'password' => $hashedPassword,
-                    'name' => $request->input('name'),
-                    'phone' => $request->input('phone'),
-                    'email' => $request->input('email'),
-                    'address' => $request->input('address'),
-                    'role' => 'client'
-                ];
+                $data = $object->toArray();
+                $data['role'] = 'client';
+                $data['password'] = $hashedPassword;
+
+                $user = $this->userRepository->create($data);
+                unset($user['password']);
+                session(['clientLoged' => $user]);
 
                 $this->response['status'] = true;
-                $this->response['message'] = $this->userRepository->create($data);
+                $this->response['message'] = session('clientLoged');
             }
 
             return response()->json($this->response);
