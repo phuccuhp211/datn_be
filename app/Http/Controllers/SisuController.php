@@ -145,8 +145,9 @@ class SisuController extends Controller
                         $passwordTrue = password_verify($password, $user['password']);
                         if ($passwordTrue) {
                             unset($user['password']);
-                            $this->response['status'] = true;
                             session(['adminLoged' => $user]);
+                            $this->response['status'] = true;
+                            $this->response['message'] = session('adminLoged');
                         }
                         else $this->response['message'] =  'Sai mật khẩu';
                     }
