@@ -55,7 +55,7 @@ class SisuController extends Controller
             else {
                 $user = $this->userRepository->getByAccount($account);
                 if ($user) {
-                    if ($user['lock'] == 1 && $user['role'] != 'client') $this->response['message'] = 'Tài Khoản bị khóa !';
+                    if (!$user['is_active'] || $user['role'] != 'client') $this->response['message'] = 'Tài Khoản bị khóa !';
                     else {
                         $passwordTrue = password_verify($password, $user['password']);
                         if ($passwordTrue) {
@@ -140,7 +140,7 @@ class SisuController extends Controller
             else {
                 $user = $this->userRepository->getByAccount($account);
                 if ($user) {
-                    if ($user['lock'] == 1 && $user['role'] != 'admin') $this->response['message'] = 'Tài Khoản bị khóa !';
+                    if (!$user['is_active'] || $user['role'] != 'admin') $this->response['message'] = 'Tài Khoản bị khóa !';
                     else {
                         $passwordTrue = password_verify($password, $user['password']);
                         if ($passwordTrue) {
