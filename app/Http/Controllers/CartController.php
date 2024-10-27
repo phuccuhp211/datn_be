@@ -32,6 +32,7 @@ class CartController extends Controller
         $this->productPriceRepository = $productPriceRepositoryInterface;
         $this->productOptionRepository = $productOptionRepositoryInterface;
         $this->response = ['status' => false ,'message'=> ''];
+        if (!session('cart')) session(['cart' => []]);
     }
 
     public function getCart (Request $request)
