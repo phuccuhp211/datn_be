@@ -32,10 +32,10 @@ class CartController extends Controller
         $this->productPriceRepository = $productPriceRepositoryInterface;
         $this->productOptionRepository = $productOptionRepositoryInterface;
         $this->response = ['status' => false ,'message'=> ''];
-        if (!session('cart')) session(['cart' => []]);
+        if (!session('cart')) session(['cart' => [ 'list' => [], 'total' => 0 ]]);
     }
 
-    public function getCart (Request $request)
+    public function getCart ()
     {
         $this->response['status'] = true;
         $this->response['message'] = session('cart');
@@ -49,7 +49,7 @@ class CartController extends Controller
             $productId = $request->input('productId');
             $sizeId = $request->input('sizeId');
             $optionId = $request->input('optionId');
-            $quantity = $request->input('quantity', 1);
+            $quantity = intval($request->input('quantity'));
             $cart = session('cart');
 
             $product = $this->productRepository->getProductForCart($productId)->toArray();
@@ -66,7 +66,7 @@ class CartController extends Controller
             $product['saleTo'] = $size['sale_to'];
     
             $product = $this->calPrice($product);
-            $repeated = false;
+            $repeated = false; 
 
             foreach ($cart['list'] as &$item) {
                 if ($item['id'] == $productId) {
@@ -117,7 +117,7 @@ class CartController extends Controller
         }
     }
 
-    public function deleteAllCart(Request $request) 
+    public function deleteAllCart() 
     {
         try {
             session()->forget('cart');

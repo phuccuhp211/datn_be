@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->bigInteger('price');
             $table->bigInteger('sale')->nullable();
-            $table->date('sale_form')->nullable();
+            $table->date('sale_from')->nullable();
             $table->date('sale_to')->nullable();
             $table->timestamps();
         });
