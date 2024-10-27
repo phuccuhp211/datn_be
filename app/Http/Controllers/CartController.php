@@ -122,11 +122,11 @@ class CartController extends Controller
     public function deleteAllCart() 
     {
         try {
-            session()->forget('cart');
+            session(['cart' => [ 'list' => [], 'total' => 0 ]]);
             $this->updateCartForUser();
 
             $this->response['status'] = true;
-            $this->response['message'] = [];
+            $this->response['message'] = session('cart');
 
             return response()->json($this->response);
         } catch (Exception $e) {
