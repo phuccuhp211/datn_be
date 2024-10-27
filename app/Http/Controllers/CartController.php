@@ -50,7 +50,7 @@ class CartController extends Controller
             $productId = $request->input('productId');
             $sizeId = $request->input('sizeId');
             $optionId = $request->input('optionId');
-            $quantity = intval($request->input('quantity'));
+            $quantity = intval($request->input('quantity', 1));
             $cart = session('cart');
 
             $product = $this->productRepository->getProductForCart($productId)->toArray();
