@@ -46,6 +46,7 @@ class CartController extends Controller
     public function insertOrUpdate(Request $request) 
     {
         try {
+            $action = $request->input('action');
             $productId = $request->input('productId');
             $sizeId = $request->input('sizeId');
             $optionId = $request->input('optionId');
@@ -61,7 +62,7 @@ class CartController extends Controller
             $product['sizeName'] = $size['name'];
             $product['optionId'] = $option ? $option['id'] : null;
             $product['optionName'] = $option ? $option['name'] : null;
-            $product['price'] = $size['price'];
+            $product['price'] = $size['price']; 
             $product['saleFrom'] = $size['sale_from'];
             $product['saleTo'] = $size['sale_to'];
     
@@ -72,7 +73,8 @@ class CartController extends Controller
                 if ($item['id'] == $productId) {
                     if ($item['sizeId'] == $sizeId) {
                         if ($item['optionId'] == $optionId) {
-                            $item['quantity'] += $quantity;
+                            if ($action == 'insert') $item['quantity'] += $quantity;
+                            else if ($action == 'update') $item['quantity'] = $quantity;
                             $item = $this->calPrice($item);
                             $repeated = true;
                             break;
