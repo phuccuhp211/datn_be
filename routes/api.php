@@ -63,9 +63,9 @@ Route::prefix('admin')->group(function () {
     Route::post('/storyCatalog/{action}/', [CrudController::class, 'storyCatalogManager']);
     Route::post('/users/{action}/', [CrudController::class, 'userManager']);
       // get data
-      Route::get('product/', [ApiController::class, 'showProduct']);
+      Route::get('products/', [ApiController::class, 'showProduct']);
       Route::get('animals/', [ApiController::class, 'showAnimal']);
       Route::get('users/', [ApiController::class, 'showUsers']);
       Route::get('stories/', [ApiController::class, 'showStories']);
-      Route::get('storyCatalog/', [ApiController::class, 'showStoryCatalog']);
+      Route::get('storyCatalogs/', [ApiController::class, 'showStoryCatalog']);
 });
