@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\ApiController;
 use App\Http\Controllers\SisuController;
 use App\Http\Controllers\CartController;
 
@@ -62,4 +62,10 @@ Route::prefix('admin')->group(function () {
     Route::post('/stories/{action}/', [CrudController::class, 'storyManager']);
     Route::post('/storyCatalog/{action}/', [CrudController::class, 'storyCatalogManager']);
     Route::post('/users/{action}/', [CrudController::class, 'userManager']);
+      // get data
+      Route::get('product/', [ApiController::class, 'showProduct']);
+      Route::get('animals/', [ApiController::class, 'showAnimal']);
+      Route::get('users/', [ApiController::class, 'showUsers']);
+      Route::get('stories/', [ApiController::class, 'showStories']);
+      Route::get('storyCatalog/', [ApiController::class, 'showStoryCatalog']);
 });
