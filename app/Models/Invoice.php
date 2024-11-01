@@ -11,8 +11,8 @@ class Invoice extends Model
 
     protected $table = 'Invoices';
     protected $primaryKey = 'id';
-    protected $fillable = ['user_id', 'list', 'amount', 'discount', 'coupon', 'total'];
-    
+    protected $fillable = ['user_id', 'list', 'amount', 'discount', 'status', 'coupon', 'total'];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

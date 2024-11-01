@@ -19,7 +19,7 @@ class ProductsSeeder extends Seeder
                 'purpose' => 'Thức ăn dinh dưỡng cho chó với hương vị gà.',
                 'type' => '1',
                 'images' => ['food1_1.webp', 'food1_2.webp'],
-                'sizes' => [
+                'prices' => [
                     [
                         'price' => 100000,
                         'sale' => 90000,
@@ -45,7 +45,7 @@ class ProductsSeeder extends Seeder
                 'purpose' => 'Thức ăn cho mèo vị cá hồi, bổ dưỡng.',
                 'type' => '1',
                 'images' => ['food2_1.webp', 'food2_2.webp'],
-                'sizes' => [
+                'prices' => [
                     [
                         'price' => 95000,
                         'sale' => 85000,
@@ -71,7 +71,7 @@ class ProductsSeeder extends Seeder
                 'purpose' => 'Áo thun thời trang màu đỏ cho thú cưng.',
                 'type' => '2',
                 'images' => ['clothes1_1.jpg', 'clothes1_2.jpg'],
-                'sizes' => [
+                'prices' => [
                     [
                         'price' => 110000,
                         'sale' => 100000,
@@ -96,7 +96,7 @@ class ProductsSeeder extends Seeder
                 'purpose' => 'Áo thun màu xanh cho mèo.',
                 'type' => '2',
                 'images' => ['clothes2_1.jpg', 'clothes2_2.jpg'],
-                'sizes' => [
+                'prices' => [
                     [
                         'price' => 105000,
                         'sale' => 95000,
@@ -120,7 +120,7 @@ class ProductsSeeder extends Seeder
                 'purpose' => 'Dụng cụ chăm sóc lông cho thú cưng, dễ sử dụng.',
                 'type' => '3',
                 'images' => ['tool1_1.webp', 'tool1_2.webp'],
-                'sizes' => [
+                'prices' => [
                     [
                         'price' => 50000,
                         'sale' => 45000,
@@ -144,7 +144,7 @@ class ProductsSeeder extends Seeder
                 'purpose' => 'Bát ăn bằng nhựa cao cấp cho chó mèo.',
                 'type' => '3',
                 'images' => ['tool2_1.webp', 'tool2_2.webp'],
-                'sizes' => [
+                'prices' => [
                     [
                         'price' => 35000,
                         'sale' => 30000,
@@ -168,7 +168,7 @@ class ProductsSeeder extends Seeder
                 'purpose' => 'Đồ chơi bóng cao su cho chó, bền bỉ và an toàn.',
                 'type' => '4',
                 'images' => ['toy1_1.webp', 'toy1_2.webp'],
-                'sizes' => [
+                'prices' => [
                     [
                         'price' => 60000,
                         'sale' => null,
@@ -192,7 +192,7 @@ class ProductsSeeder extends Seeder
                 'purpose' => 'Đồ chơi chuột bông nhỏ gọn cho mèo.',
                 'type' => '4',
                 'images' => ['toy2_1.jpg', 'toy2_2.jpg'],
-                'sizes' => [
+                'prices' => [
                     [
                         'price' => 45000,
                         'sale' => 40000,
@@ -227,7 +227,7 @@ class ProductsSeeder extends Seeder
                     'url' => $imageUrl,
                 ]);
             }
-            foreach ($productData['sizes'] as $sizeData) {
+            foreach ($productData['prices'] as $sizeData) {
                 $size = ProductPrice::create([
                     'product_id' => $product->id,
                     'price' => $sizeData['price'],
