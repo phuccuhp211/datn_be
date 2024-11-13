@@ -35,8 +35,8 @@ Route::prefix('auth')->group(function () {
         Route::post('/login', [SisuController::class, 'clientLogin']);
         Route::post('/logout', [SisuController::class, 'clientLogout']);
         Route::post('/register', [SisuController::class, 'clientRegister']);
-        // Route::post('/config', [SisuController::class, 'clientConfig']);
-        // Route::post('/resetPassword', [SisuController::class, 'clientResetPassword']);
+        Route::post('/config', [SisuController::class, 'clientConfig']);
+        Route::post('/resetPassword', [SisuController::class, 'clientResetPassword']);
     });
     Route::prefix('admin')->group(function () {
         Route::post('/login', [SisuController::class, 'adminLogin']);

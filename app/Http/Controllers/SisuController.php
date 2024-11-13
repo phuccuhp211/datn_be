@@ -129,6 +129,66 @@ class SisuController extends Controller
         }
     }
 
+    public function clientConfig(Request $request)
+    {
+        try {
+            $validationResponse = $this->validateData($request);
+            if (!empty($validationResponse)) {
+                throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+            } else {
+                $object = $this->userRepository->newModel();
+                $object->fill($request->all());
+                $data = $object->toArray();
+                
+                $user = $this->userRepository->update($request->input('id'),$data);
+                $this->response['status'] = true;
+                $this->response['message'] = $user;
+            }
+
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+    }
+
+    public function clientResetPassword(Request $request)
+    {
+        try {
+            $oldPass = $request->input('oldPass');
+            $newPass = $request->input('newPass');
+            $reNewPass = $request->input('reNewPass');
+
+            if (!session()->has('clientLoged')) {
+                throw new Exception("Bạn chưa đăng nhập.");
+            }
+
+            $account = session('clientLoged')['account'];
+            $object = $this->userRepository->getByAccount($account);
+
+            if (!password_verify($oldPass, $object['password'])) {
+                $this->response['message'] = 'Mật khẩu cũ không đúng';
+            } else {
+                if ($newPass !== $reNewPass) {
+                    $this->response['message'] = 'Vui lòng nhập lại mật khẩu khớp với mật khẩu mới';
+                } else {
+                    $hashedNewPassword = password_hash($newPass, PASSWORD_BCRYPT);
+                    $object->password = $hashedNewPassword;
+                    $this->userRepository->update($object->id, $object->toArray());
+
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Mật khẩu đã được cập nhật thành công';
+                }
+            }
+
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+    }
+
+
     public function adminLogin(Request $request)
     {
         try {
