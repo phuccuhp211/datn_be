@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\CustomResetPassword;
 
 class User extends Authenticatable
 {
@@ -22,5 +23,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function sendPasswordResetNotification($url)
+    {
+        $this->notify(new CustomResetPassword($url));
     }
 }

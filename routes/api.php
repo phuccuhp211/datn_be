@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ApiController;
 use App\Http\Controllers\SisuController;
 use App\Http\Controllers\CartController;
-
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\Admin\CrudController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\AnimalController;
@@ -62,10 +63,12 @@ Route::prefix('admin')->group(function () {
     Route::post('/stories/{action}/', [CrudController::class, 'storyManager']);
     Route::post('/storyCatalog/{action}/', [CrudController::class, 'storyCatalogManager']);
     Route::post('/users/{action}/', [CrudController::class, 'userManager']);
-      // get data
-      Route::get('product/', [ApiController::class, 'showProduct']);
-      Route::get('animals/', [ApiController::class, 'showAnimal']);
-      Route::get('users/', [ApiController::class, 'showUsers']);
-      Route::get('stories/', [ApiController::class, 'showStories']);
-      Route::get('storyCatalog/', [ApiController::class, 'showStoryCatalog']);
+    // get data
+    Route::get('product/', [ApiController::class, 'showProduct']);
+    Route::get('animals/', [ApiController::class, 'showAnimal']);
+    Route::get('users/', [ApiController::class, 'showUsers']);
+    Route::get('stories/', [ApiController::class, 'showStories']);
+    Route::get('storyCatalog/', [ApiController::class, 'showStoryCatalog']);
 });
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
