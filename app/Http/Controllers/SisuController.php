@@ -10,6 +10,9 @@ use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\ProductPriceRepositoryInterface;
 use App\Repositories\ProductOptionRepositoryInterface;
 use App\Http\Controllers\ValidateController;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class SisuController extends Controller
 {
@@ -33,11 +36,12 @@ class SisuController extends Controller
         $this->response = ['status' => false ,'message'=> ''];
     }
 
-    public function validateData(Request $request)
+    public function validateData(Request $request, $custom = false, $newRM = [])
     {   
         try {
             $validateController = new ValidateController();
-            $errorsList = $validateController->handle($request);
+            if (!$custom) $errorsList = $validateController->handle($request);
+            else $errorsList = $validateController->customValidate($newRM ,$request);
             return $errorsList;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -152,7 +156,7 @@ class SisuController extends Controller
         }
     }
 
-    public function clientResetPassword(Request $request)
+    public function clientChangePassword(Request $request)
     {
         try {
             $oldPass = $request->input('oldPass');
@@ -178,6 +182,89 @@ class SisuController extends Controller
 
                     $this->response['status'] = true;
                     $this->response['message'] = 'Mật khẩu đã được cập nhật thành công';
+                }
+            }
+
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+    }
+
+    public function clientForgotPassword(Request $request)
+    {
+        try {
+            $rules = [ 'email' => 'required|email|exists:users,email' ];
+            $messages = [
+                'email.required' => 'Vui lòng nhập email',
+                'email.email' => 'Email phải đúng định dạng',
+                'email.exists' => 'Email không tồn tại trong hệ thống'
+            ];
+
+            $validationData = $this->validateData($request, true, ['rules' => $rules, 'messages' => $messages]);
+            if (!empty($validationData)) {
+                throw new Exception(json_encode($validationData, JSON_UNESCAPED_UNICODE));
+            } else {
+                $status = Password::sendResetLink(
+                    $request->only('email'),
+                    function ($user, $token) {
+                        $resetUrl = config('app.frontend_url') . "/reset-password?token=$token&email=" . urlencode($user->email);
+                        $user->sendPasswordResetNotification($resetUrl);
+                    }
+                );
+
+                if ($status === Password::RESET_LINK_SENT) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Link đặt lại mật khẩu đã được gửi!';
+                } else {
+                    $this->response['message'] = 'Không thể gửi link đặt lại mật khẩu. Vui lòng thử lại sau.';
+                }
+            }
+
+            return response()->json($this->response);
+        } catch (Exception $e) {
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response);
+        }
+    }
+
+    public function clientResetPassword(Request $request)
+    {
+        try {
+            $rules = [
+                'token' => 'required',
+                'email' => 'required|email',
+                'password' => 'required|min:8|confirmed',
+            ];
+            $messages = [
+                'token.required' => 'Token hết hạn hoặc không hợp lệ',
+                'password.required' => 'Yêu cầu Mật Khẩu',
+                'password.min' => 'Mật khẩu tối thiểu 8 kí tự',
+                'password.confirmed' => 'Xác nhận mật khẩu không khớp',
+                'email.required' => 'Yêu cầu Email',
+                'email.email' => 'Email phải đúng định dạng',
+            ];
+
+            $validationData = $this->validateData($request, true, ['rules' => $rules, 'messages' => $messages]);
+            if (!empty($validationData)) {
+                throw new Exception(json_encode($validationData, JSON_UNESCAPED_UNICODE));
+            } else {
+                $status = Password::reset(
+                    $request->only('email', 'password', 'password_confirmation', 'token'),
+                    function ($user, $password) {
+                        $user->forceFill([
+                            'password' => Hash::make($password),
+                            'remember_token' => Str::random(60),
+                        ])->save();
+                    }
+                );
+
+                if ($status == Password::PASSWORD_RESET) {
+                    $this->response['status'] = true;
+                    $this->response['message'] = 'Đặt lại mật khẩu thành công!';
+                } else {
+                    $this->response['message'] = 'Yêu cầu đặt lại mật khẩu không hợp lệ.';
                 }
             }
 

@@ -150,4 +150,23 @@ class ValidateController extends Controller
             throw new Exception($e->getMessage());
         }
     }
+
+    public function customValidate($rulesAndMsgs, $request)
+    {   
+        try {
+            $rule = $rulesAndMsgs['rules'];
+            $mess = $rulesAndMsgs['messages'];
+
+            $errorsList = null;
+            $validation = validator::make($request->all(), $rule, $mess);
+            
+            if ($validation->fails()) {
+                $errorsList = $validation->errors()->all();
+            }
+
+            return $errorsList;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
 }

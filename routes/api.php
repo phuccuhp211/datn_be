@@ -37,7 +37,9 @@ Route::prefix('auth')->group(function () {
         Route::post('/logout', [SisuController::class, 'clientLogout']);
         Route::post('/register', [SisuController::class, 'clientRegister']);
         Route::post('/config', [SisuController::class, 'clientConfig']);
-        Route::post('/resetPassword', [SisuController::class, 'clientResetPassword']);
+        Route::post('/changePassword', [SisuController::class, 'clientChangePassword']);
+        Route::post('/forgotPassword', [SisuController::class, 'clientForgotPassword']);
+        Route::post('/resetPassword', [SisuController::class, 'clientResetPassword'])->name('password.reset');
     });
     Route::prefix('admin')->group(function () {
         Route::post('/login', [SisuController::class, 'adminLogin']);
@@ -70,5 +72,3 @@ Route::prefix('admin')->group(function () {
     Route::get('stories/', [ApiController::class, 'showStories']);
     Route::get('storyCatalog/', [ApiController::class, 'showStoryCatalog']);
 });
-Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
-Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
