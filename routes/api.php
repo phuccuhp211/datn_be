@@ -9,6 +9,11 @@ use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\Admin\CrudController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\AnimalController;
+use App\Http\Controllers\Client\ProjectController;
+use App\Http\Controllers\Client\SponsorController;
+
+Route::apiResource('projects', ProjectController::class);
+Route::apiResource('sponsors', SponsorController::class);
 
 // Product routes
 Route::prefix('products')->group(function () {
@@ -37,9 +42,10 @@ Route::prefix('auth')->group(function () {
         Route::post('/logout', [SisuController::class, 'clientLogout']);
         Route::post('/register', [SisuController::class, 'clientRegister']);
         Route::post('/config', [SisuController::class, 'clientConfig']);
-        Route::post('/changePassword', [SisuController::class, 'clientChangePassword']);
+        Route::put('/changePassword', [SisuController::class, 'clientChangePassword']);
         Route::post('/forgotPassword', [SisuController::class, 'clientForgotPassword']);
         Route::post('/resetPassword', [SisuController::class, 'clientResetPassword'])->name('password.reset');
+        Route::post('/check-unique', [SisuController::class, 'checkUnique']);
     });
     Route::prefix('admin')->group(function () {
         Route::post('/login', [SisuController::class, 'adminLogin']);
@@ -66,9 +72,14 @@ Route::prefix('admin')->group(function () {
     Route::post('/storyCatalog/{action}/', [CrudController::class, 'storyCatalogManager']);
     Route::post('/users/{action}/', [CrudController::class, 'userManager']);
     // get data
+    Route::get('animals/', [ApiController::class, 'showAnimal']);
+    Route::get('users/', [ApiController::class, 'showUsers']);
     Route::get('product/', [ApiController::class, 'showProduct']);
     Route::get('animals/', [ApiController::class, 'showAnimal']);
     Route::get('users/', [ApiController::class, 'showUsers']);
     Route::get('stories/', [ApiController::class, 'showStories']);
+    Route::get('sponsors/', [ApiController::class, 'showSponsor']);
     Route::get('storyCatalog/', [ApiController::class, 'showStoryCatalog']);
+    Route::get('animalCatalog/', [ApiController::class, 'showAnimalcatalog']);
+    Route::get('productCatalog/', [ApiController::class, 'showProductCatalog']);
 });
