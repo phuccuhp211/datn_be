@@ -14,11 +14,13 @@ class StoryCatalogController extends Controller
     {
         $this->storyRepository = $storyRepository;
     }
+
     public function index()
     {
         $stories = $this->storyRepository->getAll();
         return response()->json($stories);
     }
+    
     public function show($id)
     {
         $story = $this->storyRepository->getById($id);

@@ -82,7 +82,6 @@ class CrudController extends Controller
             throw new Exception($e->getMessage());
         }
     }
-
     
     public function processData($data, $instance)
     {   
@@ -111,9 +110,6 @@ class CrudController extends Controller
             throw new Exception($e->getMessage());
         }
     }
-
-    
-    // ------------------ CRUD FUNCTION ARE BELOW ------------------
 
     public function animalManager(Request $request, String $type)
     {
@@ -158,7 +154,7 @@ class CrudController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }    
     }
 
@@ -203,7 +199,7 @@ class CrudController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }    
     }
 
@@ -248,7 +244,7 @@ class CrudController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }   
     }
 
@@ -293,7 +289,7 @@ class CrudController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }       
     }
 
@@ -364,7 +360,7 @@ class CrudController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }     
     }
 
@@ -409,7 +405,7 @@ class CrudController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }  
     }
 
@@ -454,7 +450,7 @@ class CrudController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }        
     }
 
@@ -499,7 +495,7 @@ class CrudController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -544,7 +540,7 @@ class CrudController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }   
     }
 
@@ -591,7 +587,7 @@ class CrudController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }     
     }
 }

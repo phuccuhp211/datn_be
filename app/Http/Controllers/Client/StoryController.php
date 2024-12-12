@@ -14,11 +14,13 @@ class StoryController extends Controller
     {
         $this->storyRepository = $storyRepository;
     }
+
     public function index()
     {
         $stories = $this->storyRepository->getAll();
         return response()->json($stories);
     }
+
     public function show($id)
     {
         $story = $this->storyRepository->getById($id);
@@ -28,6 +30,7 @@ class StoryController extends Controller
 
         return response()->json($story);
     }
+    
     public function getStoriesByCategory($categoryId)
     {
         $stories = $this->storyRepository->getByCategoryId($categoryId);

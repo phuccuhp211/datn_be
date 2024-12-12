@@ -28,6 +28,7 @@ class ProductController extends Controller
         $this->productOptionRepo = $productOptionRepo;
         $this->imageRepo = $imageRepo;
     }
+    
     public function index()
     {
         $products = Product::with(['prices.options', 'images'])->get();

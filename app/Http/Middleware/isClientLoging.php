@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class RspwExp
+class isClientLoging
 {
     /**
      * Handle an incoming request.
@@ -15,6 +15,10 @@ class RspwExp
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (session()->has('clientLoged')) return $next($request);
+        else return response()->json([
+            'status' => false,
+            'message' => "Vui lòng đăng nhập!"
+        ], 401);
     }
 }

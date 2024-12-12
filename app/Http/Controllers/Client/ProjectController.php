@@ -22,7 +22,6 @@ class ProjectController extends Controller
         return response()->json($projects);
     }
 
-
     public function show($id)
     {
         $project = $this->projectRepo->getById($id);

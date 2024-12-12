@@ -24,27 +24,4 @@ class AnimalController extends Controller
     {
         return response()->json($this->animalRepository->getById($id));
     }
-
-    public function store(Request $request)
-    {
-        try {
-            $animal = $this->animalRepository->create($request->all());
-            return response()->json($animal, 201);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 400);
-        }
-
-    }
-
-    public function update(Request $request, $id)
-    {
-        $animal = $this->animalRepository->update($id, $request->all());
-        return response()->json($animal);
-    }
-
-    public function destroy($id)
-    {
-        $animal = $this->animalRepository->delete($id);
-        return response()->json(null, 204);
-    }
 }

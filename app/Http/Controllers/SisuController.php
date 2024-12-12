@@ -275,7 +275,6 @@ class SisuController extends Controller
         }
     }
 
-
     public function adminLogin(Request $request)
     {
         try {
