@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -50,8 +51,7 @@ class BasicController extends Controller
         StoryRepositoryInterface $storyRepository,
         StoryCatalogRepositoryInterface $storyCatalogRepository,
         UserRepositoryInterface $userRepository
-    )
-    {
+    ) {
         $this->animalRepository = $animalRepository;
         $this->animalCatalogRepository = $animalCatalogRepository;
         $this->productRepository = $productRepository;
@@ -65,7 +65,7 @@ class BasicController extends Controller
         $this->storyRepository = $storyRepository;
         $this->storyCatalogRepository = $storyCatalogRepository;
         $this->userRepository = $userRepository;
-        $this->response = ['status' => false, 'message'=> ''];
+        $this->response = ['status' => false, 'message' => ''];
     }
 
     public function showProduct()
@@ -74,11 +74,11 @@ class BasicController extends Controller
             $data = $this->productRepository->getAll();
             $this->response['status'] = true;
             $this->response['data'] = $data;
- 
+
             return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -88,11 +88,11 @@ class BasicController extends Controller
             $data = $this->animalRepository->getAll();
             $this->response['status'] = true;
             $this->response['data'] = $data;
- 
+
             return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -102,11 +102,11 @@ class BasicController extends Controller
             $data = $this->userRepository->getAll();
             $this->response['status'] = true;
             $this->response['data'] = $data;
- 
+
             return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -116,11 +116,11 @@ class BasicController extends Controller
             $data = $this->storyRepository->getAll();
             $this->response['status'] = true;
             $this->response['data'] = $data;
- 
+
             return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -130,11 +130,62 @@ class BasicController extends Controller
             $data = $this->storyCatalogRepository->getAll();
             $this->response['status'] = true;
             $this->response['data'] = $data;
- 
+
             return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
+        }
+    }
+    public function showAnimalCatalog(Request $request)
+    {
+        try {
+            $animalCatalog = $this->animalCatalogRepository->getAll();
+
+            return response()->json([
+                'status' => true,
+                'data' => $animalCatalog,
+                'message' => 'Danh mục thú cưng đã được lấy thành công.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Không thể lấy danh mục đọng vật: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    public function showSponsor(Request $request)
+    {
+        try {
+            $sponsors = $this->sponsorRepository->getAll();
+
+            return response()->json([
+                'status' => true,
+                'data' => $sponsors,
+                'message' => 'Danh sách ủng hộ đã được lấy thành công.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Không thể lấy danh sách ủng hộ: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    public function showProductCatalog(Request $request)
+    {
+        try {
+            $productCatalog = $this->productCatalogRepository->getAll();
+
+            return response()->json([
+                'status' => true,
+                'data' => $productCatalog,
+                'message' => 'Danh mục sản phẩm đã được lấy thành công.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Không thể lấy danh mục sản phẩm : ' . $e->getMessage()
+            ], 500);
         }
     }
 }
