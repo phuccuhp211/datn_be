@@ -10,6 +10,8 @@ interface InvoiceRepositoryInterface
 
     public function getById(int $id);
 
+    public function getByUserId($userId);
+
     public function create(array $data);
 
     public function update(int $id, array $data);

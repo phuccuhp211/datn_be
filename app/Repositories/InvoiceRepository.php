@@ -21,6 +21,11 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return Invoice::find($id);
     }
 
+    public function getByUserId($userId)
+    {
+        return Invoice::where('user_id', $userId)->get();
+    }
+
     public function create(array $data)
     {
         return Invoice::create($data) ?? false;
