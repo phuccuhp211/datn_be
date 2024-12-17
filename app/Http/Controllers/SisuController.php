@@ -51,15 +51,25 @@ class SisuController extends Controller
     public function clientLogin(Request $request)
     {
         try {
+            $httpCode = 200;
             $account = $request->input('account');
             $password = $request->input('password');
 
-            if ($account == '') $this->response['message'] = 'Vui lòng nhập tài khoản !';
-            else if ($password == '') $this->response['message'] =  'Vui lòng nhập mật khẩu !';
+            if ($account == '') {
+                $this->response['message'] = 'Vui lòng nhập tài khoản !';
+                $httpCode = 404;
+            }
+            else if ($password == '') {
+                $this->response['message'] =  'Vui lòng nhập mật khẩu !';
+                $httpCode = 404;
+            }
             else {
                 $user = $this->userRepository->getByAccount($account);
                 if ($user) {
-                    if (!$user['is_active'] || $user['role'] != 'client') $this->response['message'] = 'Tài Khoản bị khóa !';
+                    if (!$user['is_active'] || $user['role'] != 'client') {
+                        $this->response['message'] = 'Tài Khoản bị khóa !';
+                        $httpCode = 403;
+                    }
                     else {
                         $passwordTrue = password_verify($password, $user['password']);
                         if ($passwordTrue) {
@@ -76,16 +86,22 @@ class SisuController extends Controller
                             }
                             else $this->userRepository->updateCartForUser($user['id'], session('cart') ?? []);
                         }
-                        else $this->response['message'] =  'Sai mật khẩu';
+                        else {
+                            $this->response['message'] =  'Sai mật khẩu';
+                            $httpCode = 403;
+                        }
                     }
                 } 
-                else $this->response['message'] =  'Sai tên tài khoản !';
+                else {
+                    $this->response['message'] =  'Sai tên tài khoản !';
+                    $httpCode = 403;
+                }
             }
 
-            return response()->json($this->response);
+            return response()->json($this->response, $httpCode);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
         
     }
@@ -95,7 +111,8 @@ class SisuController extends Controller
         try {
             $validationResponse = $this->validateData($request);
             if (!empty($validationResponse)) {
-                throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                $this->response['message'] = json_encode($validationResponse, JSON_UNESCAPED_UNICODE);
+                return response()->json($this->response, 404);
             } else {
                 $object = $this->userRepository->newModel();
                 $object->fill($request->all());
@@ -111,12 +128,11 @@ class SisuController extends Controller
 
                 $this->response['status'] = true;
                 $this->response['message'] = session('clientLoged');
+                return response()->json($this->response, 201);
             }
-
-            return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -129,7 +145,7 @@ class SisuController extends Controller
             return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -138,7 +154,8 @@ class SisuController extends Controller
         try {
             $validationResponse = $this->validateData($request);
             if (!empty($validationResponse)) {
-                throw new Exception(json_encode($validationResponse, JSON_UNESCAPED_UNICODE));
+                $this->response['message'] = json_encode($validationResponse, JSON_UNESCAPED_UNICODE);
+                return response()->json($this->response, 404);
             } else {
                 $object = $this->userRepository->newModel();
                 $object->fill($request->all());
@@ -146,13 +163,12 @@ class SisuController extends Controller
                 
                 $user = $this->userRepository->update($request->input('id'),$data);
                 $this->response['status'] = true;
-                $this->response['message'] = $user;
+                $this->response['data'] = $user;
+                return response()->json($this->response, 204);
             }
-
-            return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -164,7 +180,8 @@ class SisuController extends Controller
             $reNewPass = $request->input('reNewPass');
 
             if (!session()->has('clientLoged')) {
-                throw new Exception("Bạn chưa đăng nhập.");
+                $this->response['message'] = 'Yêu cầu đăng nhập';
+                return response()->json($this->response, 403);
             }
 
             $account = session('clientLoged')['account'];
@@ -172,9 +189,11 @@ class SisuController extends Controller
 
             if (!password_verify($oldPass, $object['password'])) {
                 $this->response['message'] = 'Mật khẩu cũ không đúng';
+                return response()->json($this->response, 403);
             } else {
                 if ($newPass !== $reNewPass) {
                     $this->response['message'] = 'Vui lòng nhập lại mật khẩu khớp với mật khẩu mới';
+                    return response()->json($this->response, 404);
                 } else {
                     $hashedNewPassword = password_hash($newPass, PASSWORD_BCRYPT);
                     $object->password = $hashedNewPassword;
@@ -182,13 +201,12 @@ class SisuController extends Controller
 
                     $this->response['status'] = true;
                     $this->response['message'] = 'Mật khẩu đã được cập nhật thành công';
+                    return response()->json($this->response, 204);
                 }
             }
-
-            return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -204,7 +222,8 @@ class SisuController extends Controller
 
             $validationData = $this->validateData($request, true, ['rules' => $rules, 'messages' => $messages]);
             if (!empty($validationData)) {
-                throw new Exception(json_encode($validationData, JSON_UNESCAPED_UNICODE));
+                $this->response['message'] = json_encode($validationData, JSON_UNESCAPED_UNICODE);
+                return response()->json($this->response, 404);
             } else {
                 $status = Password::sendResetLink(
                     $request->only('email'),
@@ -217,15 +236,16 @@ class SisuController extends Controller
                 if ($status === Password::RESET_LINK_SENT) {
                     $this->response['status'] = true;
                     $this->response['message'] = 'Link đặt lại mật khẩu đã được gửi!';
+                    return response()->json($this->response,200);
                 } else {
                     $this->response['message'] = 'Không thể gửi link đặt lại mật khẩu. Vui lòng thử lại sau.';
+                    return response()->json($this->response, 500);
                 }
             }
 
-            return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -248,7 +268,8 @@ class SisuController extends Controller
 
             $validationData = $this->validateData($request, true, ['rules' => $rules, 'messages' => $messages]);
             if (!empty($validationData)) {
-                throw new Exception(json_encode($validationData, JSON_UNESCAPED_UNICODE));
+                $this->response['message'] = json_encode($validationData, JSON_UNESCAPED_UNICODE);
+                return response()->json($this->response, 404);
             } else {
                 $status = Password::reset(
                     $request->only('email', 'password', 'password_confirmation', 'token'),
@@ -263,15 +284,15 @@ class SisuController extends Controller
                 if ($status == Password::PASSWORD_RESET) {
                     $this->response['status'] = true;
                     $this->response['message'] = 'Đặt lại mật khẩu thành công!';
+                    return response()->json($this->response, 204);
                 } else {
                     $this->response['message'] = 'Yêu cầu đặt lại mật khẩu không hợp lệ.';
+                    return response()->json($this->response, 500);
                 }
             }
-
-            return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -281,12 +302,21 @@ class SisuController extends Controller
             $account = $request->input('account');
             $password = $request->input('password');
 
-            if ($account == '') $this->response['message'] = 'Vui lòng nhập tài khoản !';
-            else if ($password == '') $this->response['message'] =  'Vui lòng nhập mật khẩu !';
+            if ($account == '') {
+                $this->response['message'] = 'Vui lòng nhập tài khoản !';
+                return response()->json($this->response, 404);
+            }
+            else if ($password == '') {
+                $this->response['message'] =  'Vui lòng nhập mật khẩu !';
+                return response()->json($this->response, 404);
+            }
             else {
                 $user = $this->userRepository->getByAccount($account);
                 if ($user) {
-                    if (!$user['is_active'] || $user['role'] != 'admin') $this->response['message'] = 'Tài Khoản bị khóa !';
+                    if (!$user['is_active'] || $user['role'] != 'admin') {
+                        $this->response['message'] = 'Tài Khoản bị khóa !';
+                        return response()->json($this->response, 403);
+                    }
                     else {
                         $passwordTrue = password_verify($password, $user['password']);
                         if ($passwordTrue) {
@@ -294,17 +324,22 @@ class SisuController extends Controller
                             session(['adminLoged' => $user]);
                             $this->response['status'] = true;
                             $this->response['message'] = session('adminLoged');
+                            return response()->json($this->response);
                         }
-                        else $this->response['message'] =  'Sai mật khẩu';
+                        else {
+                            $this->response['message'] =  'Sai mật khẩu';
+                            return response()->json($this->response, 403);
+                        }
                     }
                 } 
-                else $this->response['message'] =  'Sai tên tài khoản !';
+                else {
+                    $this->response['message'] =  'Sai tên tài khoản !';
+                    return response()->json($this->response, 403);
+                }
             }
-
-            return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -317,7 +352,7 @@ class SisuController extends Controller
             return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 }
