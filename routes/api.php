@@ -9,6 +9,8 @@ use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\AnimalController;
 use App\Http\Controllers\Client\ProjectController;
 use App\Http\Controllers\Client\SponsorController;
+use App\Http\Controllers\Client\StoryController;
+use App\Http\Controllers\Client\StoryCatalogController;
 
 use App\Http\Middleware\isAdminLoging;
 use App\Http\Middleware\isClientLoging;
@@ -23,6 +25,12 @@ Route::prefix('products')->group(function () {
     Route::get('/filter', [ProductController::class, 'filterProducts']);
     Route::get('/filter/{id}', [ProductController::class, 'getByCatalog']);
 });
+
+//Story routes
+Route::get('story_catalogs/', [StoryCatalogController::class, 'getAll']);
+Route::get('stories/', [StoryController::class, 'getAll']);
+Route::get('story/detail/{id}', [StoryController::class, 'getById']);
+Route::get('stories/category/{categoryId}', [StoryController::class, 'getByCategoryId']);
 
 // Animal routes
 Route::prefix('animals')->group(function () {
