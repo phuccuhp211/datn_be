@@ -11,12 +11,16 @@ use App\Http\Controllers\Client\ProjectController;
 use App\Http\Controllers\Client\SponsorController;
 use App\Http\Controllers\Client\StoryController;
 use App\Http\Controllers\Client\StoryCatalogController;
+use App\Http\Controllers\InvoiceController;
 
 use App\Http\Middleware\isAdminLoging;
 use App\Http\Middleware\isClientLoging;
 
 Route::apiResource('projects', ProjectController::class);
 Route::apiResource('sponsors', SponsorController::class);
+
+Route::apiResource('invoices', InvoiceController::class);
+Route::get('invoices/user/{userId}', [InvoiceController::class, 'getByUserId']);
 
 // Product routes
 Route::prefix('products')->group(function () {
