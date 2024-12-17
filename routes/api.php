@@ -18,16 +18,16 @@ Route::apiResource('sponsors', SponsorController::class);
 
 // Product routes
 Route::prefix('products')->group(function () {
-    Route::get('/', [ProductController::class, 'index']);
-    Route::get('/detail/{id}', [ProductController::class, 'show']);
+    Route::get('/', [ProductController::class, 'getAll']);
+    Route::get('/detail/{id}', [ProductController::class, 'getById']);
     Route::get('/filter', [ProductController::class, 'filterProducts']);
-    Route::get('/filter/{id}', [ProductController::class, 'productsByCatalog']);
+    Route::get('/filter/{id}', [ProductController::class, 'getByCatalog']);
 });
 
 // Animal routes
 Route::prefix('animals')->group(function () {
-    Route::get('/', [AnimalController::class, 'index']);
-    Route::get('{id}', [AnimalController::class, 'show']);
+    Route::get('/', [AnimalController::class, 'getAll']);
+    Route::get('{id}', [AnimalController::class, 'getById']);
 });
 
 Route::prefix('auth')->group(function () {

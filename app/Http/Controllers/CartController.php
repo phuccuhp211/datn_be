@@ -31,7 +31,6 @@ class CartController extends Controller
         $this->productRepository = $productRepository;
         $this->productPriceRepository = $productPriceRepositoryInterface;
         $this->productOptionRepository = $productOptionRepositoryInterface;
-        $this->response = ['status' => false ,'message'=> ''];
         if (!session('cart')) session(['cart' => [ 'list' => [], 'total' => 0 ]]);
     }
 
@@ -94,7 +93,7 @@ class CartController extends Controller
             return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -115,7 +114,7 @@ class CartController extends Controller
             return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -131,7 +130,7 @@ class CartController extends Controller
             return response()->json($this->response);
         } catch (Exception $e) {
             $this->response['message'] = $e->getMessage();
-            return response()->json($this->response);
+            return response()->json($this->response, 500);
         }
     }
 

@@ -65,7 +65,6 @@ class BasicController extends Controller
         $this->storyRepository = $storyRepository;
         $this->storyCatalogRepository = $storyCatalogRepository;
         $this->userRepository = $userRepository;
-        $this->response = ['status' => false, 'message' => ''];
     }
 
     public function showProduct()
@@ -147,7 +146,7 @@ class BasicController extends Controller
                 'data' => $animalCatalog,
                 'message' => 'Danh mục thú cưng đã được lấy thành công.'
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Không thể lấy danh mục đọng vật: ' . $e->getMessage()
@@ -164,7 +163,7 @@ class BasicController extends Controller
                 'data' => $sponsors,
                 'message' => 'Danh sách ủng hộ đã được lấy thành công.'
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Không thể lấy danh sách ủng hộ: ' . $e->getMessage()
@@ -181,7 +180,7 @@ class BasicController extends Controller
                 'data' => $productCatalog,
                 'message' => 'Danh mục sản phẩm đã được lấy thành công.'
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Không thể lấy danh mục sản phẩm : ' . $e->getMessage()

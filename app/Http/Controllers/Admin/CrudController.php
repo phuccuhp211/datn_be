@@ -38,7 +38,6 @@ class CrudController extends Controller
     protected $storyRepository;
     protected $storyCatalogRepository;
     protected $userRepository;
-    protected $response;
 
     public function __construct(
         AnimalRepositoryInterface $animalRepository,
@@ -69,7 +68,6 @@ class CrudController extends Controller
         $this->storyRepository = $storyRepository;
         $this->storyCatalogRepository = $storyCatalogRepository;
         $this->userRepository = $userRepository;
-        $this->response = ['status' => false, 'message'=> ''];
     }
 
     public function validateData(Request $request)

@@ -4,38 +4,53 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\ProjectRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    protected $projectRepo;
+    protected $projectRepository;
 
-    public function __construct(ProjectRepositoryInterface $projectRepo)
+    public function __construct(ProjectRepositoryInterface $projectRepository)
     {
-        $this->projectRepo = $projectRepo;
+        $this->projectRepository = $projectRepository;
     }
 
-    public function index(Request $request)
+    public function getAll(Request $request)
     {
-        $perPage = $request->query('per_page', 4);
-        $projects = $this->projectRepo->newModel()->paginate($perPage);
-        return response()->json($projects);
-    }
-
-    public function show($id)
-    {
-        $project = $this->projectRepo->getById($id);
-
-        if (!$project) {
-            return response()->json(['message' => 'Project not found'], 404);
+        try {
+            $perPage = $request->query('per_page', 4);
+            $data = $this->projectRepository->newModel()->paginate($perPage);
+            if ($data) {
+                $this->response['data'] = $data;
+                $this->response['status'] = true;
+            }
+            return response()->json($this->response);
+        } catch(Exception $e) {
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response, 500);
         }
+    }
 
-        // Bao gồm danh sách sponsor liên quan đến project
-        $project->load('sponsors'); // Assumes the Project model has a sponsors relationship
+    public function getById($id)
+    {
+        try {
+            $data = $this->projectRepository->getById($id);
+            if ($data) {
+                $data->load('sponsors');
+                $data->raised_amount = $data->sponsors->sum('amount');
 
-        // Tính lại tổng số tiền đã ủng hộ từ danh sách sponsors
-        $project->raised_amount = $project->sponsors->sum('amount');
-
-        return response()->json($project);
+                $this->response['data'] = $data;
+                $this->response['status'] = true;
+                return response()->json($this->response);
+            } 
+            else {
+                $this->response['message'] = 'Project not found!';
+                return response()->json($this->response, 404);
+            }
+        } catch(Exception $e) {
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response, 500);
+        }
     }
 }

@@ -7,65 +7,91 @@ use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\ProductPriceRepositoryInterface;
 use App\Repositories\ProductOptionRepositoryInterface;
 use App\Repositories\ImageRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
-    protected $productRepo;
-    protected $productPriceRepo;
-    protected $productOptionRepo;
-    protected $imageRepo;
+    protected $productRepository;
+    protected $productPriceRepository;
+    protected $productOptionRepository;
+    protected $imageRepository;
 
     public function __construct(
-        ProductRepositoryInterface $productRepo,
-        ProductPriceRepositoryInterface $productPriceRepo,
-        ProductOptionRepositoryInterface $productOptionRepo,
-        ImageRepositoryInterface $imageRepo
+        ProductRepositoryInterface $productRepository,
+        ProductPriceRepositoryInterface $productPriceRepository,
+        ProductOptionRepositoryInterface $productOptionRepository,
+        ImageRepositoryInterface $imageRepository
     ) {
-        $this->productRepo = $productRepo;
-        $this->productPriceRepo = $productPriceRepo;
-        $this->productOptionRepo = $productOptionRepo;
-        $this->imageRepo = $imageRepo;
+        $this->productRepository = $productRepository;
+        $this->productPriceRepository = $productPriceRepository;
+        $this->productOptionRepository = $productOptionRepository;
+        $this->imageRepository = $imageRepository;
     }
     
-    public function index()
+    public function getAll()
     {
-        $products = Product::with(['prices.options', 'images'])->get();
-        return response()->json($this->formatProducts($products));
+        try {
+            $products = Product::with(['prices.options', 'images'])->get();
+            $data = $this->formatProducts($products);
+            if ($data) {
+                $this->response['data'] = $data;
+                $this->response['status'] = true;
+            }
+            return response()->json($this->response);
+        } catch(Exception $e) {
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response, 500);
+        }
     }
 
-    public function show($id)
+    public function getById($id)
     {
-        $product = Product::with(['prices.options', 'images'])->find($id);
-        if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
+        try {
+            $data = Product::with(['prices.options', 'images'])->find($id);
+
+            if ($data) {
+                $this->response['data'] = $this->formatProducts(collect([$data]))[0];
+                $this->response['status'] = true;
+                return response()->json($this->response);
+            }
+            else {
+                $this->response['message'] = 'Product not found!';
+                return response()->json($this->response, 404);
+            }
+        } catch(Exception $e) {
+            $this->response['message'] = $e->getMessage();
+            return response()->json($this->response, 500);
         }
-        return response()->json($this->formatProducts(collect([$product]))[0]);
     }
 
     private function formatProducts($products)
     {
-        return $products->map(function ($product) {
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'purpose' => $product->purpose,
-                'type' => $product->type,
-                'images' => $product->images->pluck('url')->toArray(),
-                'prices' => $product->prices->map(function ($price) {
-                    return [
-                        'id' => $price->id,
-                        'name' => $price->name,
-                        'price' => $price->price,
-                        'sale' => $price->sale,
-                        'options' => $price->options->map(function ($option) use ($price) {
+        try {
+            return $products->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'purpose' => $product->purpose,
+                    'type' => $product->type,
+                    'images' => $product->images->pluck('url')->toArray(),
+                    'prices' => $product->prices->map(function ($price) {
+                        return [
+                            'id' => $price->id,
+                            'name' => $price->name,
+                            'price' => $price->price,
+                            'sale' => $price->sale,
+                            'options' => $price->options->map(function ($option) use ($price) {
 
-                            return ['name' => $option->name, 'quantity' => $option->quantity];
-                        })->toArray(),
-                    ];
-                })->toArray(),
-            ];
-        });
+                                return ['name' => $option->name, 'quantity' => $option->quantity];
+                            })->toArray(),
+                        ];
+                    })->toArray(),
+                ];
+            });
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }

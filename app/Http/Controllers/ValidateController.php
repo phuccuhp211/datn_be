@@ -43,7 +43,7 @@ class ValidateController extends Controller
 
             // Stories & Catalog
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'title' => 'required|string|max:40',
+            'title' => 'required|string|max:100',
             'content' => 'required|string',
             'index' => 'required|numeric|max:1'
         ];
