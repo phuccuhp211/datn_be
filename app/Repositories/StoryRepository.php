@@ -39,4 +39,9 @@ class StoryRepository implements StoryRepositoryInterface
 
         return $target ? $target->delete() : false;
     }
+
+    public function getByCategoryId($categoryId)
+    {
+        return Story::where('catalog_id', $categoryId)->get();
+    }
 }
