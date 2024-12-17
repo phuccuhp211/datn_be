@@ -21,7 +21,7 @@ class AnimalController extends Controller
         try {
             $data = $this->animalRepository->getAll();
             if ($data) {
-                $this->response['data'] = $data;
+                $this->response['data'] = $this->formatData($data);
                 $this->response['status'] = true;
             }
             return response()->json($this->response);
@@ -36,7 +36,7 @@ class AnimalController extends Controller
         try {
             $data = $this->animalRepository->getById($id);
             if ($data) {
-                $this->response['data'] = $data;
+                $this->response['data'] = $this->formatData(collect([$data]));
                 $this->response['status'] = true;
                 return response()->json($this->response);
             } 
@@ -47,6 +47,29 @@ class AnimalController extends Controller
         } catch(Exception $e) {
             $this->response['message'] = $e->getMessage();
             return response()->json($this->response, 500);
+        }
+    }
+    
+    private function formatData($animals)
+    {   
+        try {
+            return $animals->map(function ($animal) {
+                return [
+                    'id' => $animal->id,
+                    'name' => $animal->name,
+                    'description' => $animal->description,
+                    'type' => $animal->type,
+                    'health_info' => json_decode($animal->health_info),
+                    'images' => $animal->images->pluck('url'),
+                    'age' => $animal->age,
+                    'gender' => $animal->gender,
+                    'colors' => $animal->colors,
+                    'weight' => $animal->weight,
+                    'genitive' => $animal->genitive,
+                ];
+            });
+        } catch(Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }
