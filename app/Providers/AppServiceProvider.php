@@ -31,6 +31,9 @@ use App\Repositories\StoryRepositoryInterface;
 use App\Repositories\StoryCatalogRepository;
 use App\Repositories\StoryCatalogRepositoryInterface;
 
+use App\Repositories\ProjectRepository;
+use App\Repositories\ProjectRepositoryInterface;
+
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryInterface;
 
@@ -51,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductPriceRepositoryInterface::class, ProductPriceRepository::class);
         $this->app->bind(ProductOptionRepositoryInterface::class, ProductOptionRepository::class);
 
+        $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
         $this->app->bind(FormRequestRepositoryInterface::class, FormRequestRepository::class);
         $this->app->bind(InvoiceRepositoryInterface::class, InvoiceRepository::class);
         $this->app->bind(ImageRepositoryInterface::class, ImageRepository::class);
