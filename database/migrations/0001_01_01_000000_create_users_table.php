@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 40);
+            $table->string('name', 40)->nullable();
             $table->string('account', 40);
-            $table->string('password');
             $table->string('phone', 20);
             $table->string('email', 50);
-            $table->text('address');
-            $table->string('role', 12);
-            $table->integer('rescue_cases')->default(0);
+            $table->string('google_id')->nullable()->unique();
+            $table->text('address')->nullable();
+            $table->enum('role', ['admin', 'client']);
+            $table->integer('rescue_cases')->nullable();
             $table->integer('adopted')->nullable();
-            $table->text('cart')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
+
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();

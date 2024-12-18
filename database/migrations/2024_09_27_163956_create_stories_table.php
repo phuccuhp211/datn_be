@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('stories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('thumbnail');
+            $table->string('thumbnail');
             $table->foreignId('catalog_id')->constrained('story_catalogs')->onDelete('cascade');
             $table->string('title', 100);
             $table->text('content');

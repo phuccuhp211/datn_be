@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('product_prices', function (Blueprint $table) {
@@ -17,7 +14,7 @@ return new class extends Migration
             $table->string('name');
             $table->bigInteger('price');
             $table->bigInteger('sale')->nullable();
-            $table->date('sale_from')->nullable();
+            $table->date('sale_form')->nullable();
             $table->date('sale_to')->nullable();
             $table->timestamps();
         });

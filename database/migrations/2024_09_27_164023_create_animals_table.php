@@ -13,7 +13,9 @@ return new class extends Migration
             $table->bigInteger('type')->unsigned();
             $table->string('name', 20);
             $table->integer('age');
-            $table->boolean('gender')->default(0);
+            $table->integer('weight');
+            $table->enum('gender', ['Đực', 'Cái']);
+            $table->enum('status', ['adopted', 'no-owned']);
             $table->string('colors', 20);
             $table->string('genitive', 20);
             $table->json('health_info');

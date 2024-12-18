@@ -15,12 +15,12 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name', 40);
             $table->string('phone', 12);
-            $table->string('email', 25);
+            $table->string('email', 50);
             $table->text('address');
             $table->text('message');
             $table->string('type', 10);
             $table->string('status', 10);
-            $table->string('addition_infomation', 100)->nullable();
+            $table->json('addition_infomation')->nullable();
             $table->timestamps();
         });
     }
