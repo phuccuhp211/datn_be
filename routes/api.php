@@ -18,12 +18,9 @@ use App\Http\Controllers\GoogleAuthController;
 use App\Http\Middleware\isAdminLoging;
 use App\Http\Middleware\isClientLoging;
 
-Route::get('/projects', [ProjectController::class, 'getAll']);
-Route::get('/projects/{id}', [ProjectController::class, 'getById']);
+
 Route::apiResource('projects', ProjectController::class);
-
 Route::apiResource('sponsors', SponsorController::class);
-
 Route::apiResource('invoices', InvoiceController::class);
 Route::get('invoices/user/{userId}', [InvoiceController::class, 'getByUserId']);
 

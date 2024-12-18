@@ -16,7 +16,7 @@ class ProjectController extends Controller
         $this->projectRepository = $projectRepository;
     }
 
-    public function getAll(Request $request)
+    public function index(Request $request)
     {
         try {
             $perPage = $request->query('per_page', 4);
@@ -32,7 +32,7 @@ class ProjectController extends Controller
         }
     }
 
-    public function getById($id)
+    public function show($id)
     {
         try {
             $data = $this->projectRepository->getById($id);

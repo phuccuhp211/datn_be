@@ -20,7 +20,7 @@ class SponsorController extends Controller
         $this->sponsorRepository = $sponsorRepository;
     }
 
-    public function getAll()
+    public function index()
     {
         try {
             $data = $this->sponsorRepository->getAll();
@@ -35,7 +35,7 @@ class SponsorController extends Controller
         }
     }
 
-    public function getById($id)
+    public function show($id)
     {
         try {
             $data = $this->sponsorRepository->getById($id);

@@ -16,7 +16,7 @@ class InvoiceController extends Controller
         $this->invoiceRepository = $invoiceRepository;
     }
 
-    public function getAll()
+    public function index()
     {
         try {
             $data = $this->invoiceRepository->getAll();
@@ -31,7 +31,7 @@ class InvoiceController extends Controller
         }
     }
 
-    public function getById($id)
+    public function show($id)
     {
         try {
             $data = $this->invoiceRepository->getById($id);
