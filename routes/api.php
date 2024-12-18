@@ -11,7 +11,8 @@ use App\Http\Controllers\Client\ProjectController;
 use App\Http\Controllers\Client\SponsorController;
 use App\Http\Controllers\Client\StoryController;
 use App\Http\Controllers\Client\StoryCatalogController;
-use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\Client\FormRequestController;
+use App\Http\Controllers\Client\InvoiceController;
 
 use App\Http\Middleware\isAdminLoging;
 use App\Http\Middleware\isClientLoging;
@@ -41,6 +42,11 @@ Route::prefix('animals')->group(function () {
     Route::get('/', [AnimalController::class, 'getAll']);
     Route::get('{id}', [AnimalController::class, 'getById']);
 });
+
+// form request
+Route::get('/form-requests', [FormRequestController::class, 'getAll']);
+Route::get('/form-requests/{id}', [FormRequestController::class, 'getById']);
+Route::apiResource('form-requests', FormRequestController::class);
 
 Route::prefix('auth')->group(function () {
     Route::prefix('client')->group(function () {
