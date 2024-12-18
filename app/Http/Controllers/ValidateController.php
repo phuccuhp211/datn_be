@@ -38,7 +38,7 @@ class ValidateController extends Controller
             'account' => 'required|string|max:40',
             'password' => 'required|string|max:40',
             'phone' => 'required|numeric|digits:10|unique:users,phone',
-            'email' => 'required|email|max:25|unique:users,email|regex:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/',
+            'email' => 'required|email|max:100|unique:users,email|regex:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/',
             'address' => 'required|string',
 
             // Stories & Catalog
@@ -98,6 +98,7 @@ class ValidateController extends Controller
             'phone.numeric' => 'Số điện thoại phải là số',
             'phone.digits' => 'Số điện thoại phải có 10 chữ số',
             'phone.unique' => 'Số điện thoại đã tồn tại trong hệ thống',
+            'email.max' => 'Email tối đa 50 ký tự',
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Email phải đúng định dạng',
             'email.regex' => 'Định dạng email không hợp lệ',
