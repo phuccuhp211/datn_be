@@ -14,7 +14,6 @@ use App\Repositories\ProductOptionRepositoryInterface;
 
 class CartController extends Controller
 {
-    private $response;
     private $userRepository;
     private $productRepository;
     private $productPriceRepository;
