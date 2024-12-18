@@ -56,8 +56,8 @@ Route::prefix('auth')->group(function () {
         Route::post('/login', [SisuController::class, 'clientLogin']);
         Route::post('/logout', [SisuController::class, 'clientLogout']);
         Route::post('/register', [SisuController::class, 'clientRegister']);
-        Route::post('/config', [SisuController::class, 'clientConfig'])->middleware(isClientLoging::class);;
-        Route::post('/changePassword', [SisuController::class, 'clientChangePassword'])->middleware(isClientLoging::class);;
+        Route::post('/config', [SisuController::class, 'clientConfig'])->middleware(isClientLoging::class);
+        Route::post('/changePassword', [SisuController::class, 'clientChangePassword'])->middleware(isClientLoging::class);
         Route::post('/forgotPassword', [SisuController::class, 'clientForgotPassword']);
         Route::post('/resetPassword', [SisuController::class, 'clientResetPassword'])->name('password.reset');
         Route::post('/check-unique', [SisuController::class, 'checkUnique']);
