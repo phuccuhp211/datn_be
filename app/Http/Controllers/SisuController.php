@@ -16,7 +16,6 @@ use Illuminate\Support\Str;
 
 class SisuController extends Controller
 {
-    private $response;
     private $userRepository;
     private $productRepository;
     private $productPriceRepository;
