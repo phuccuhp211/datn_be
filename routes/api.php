@@ -13,6 +13,7 @@ use App\Http\Controllers\Client\StoryController;
 use App\Http\Controllers\Client\StoryCatalogController;
 use App\Http\Controllers\Client\FormRequestController;
 use App\Http\Controllers\Client\InvoiceController;
+use App\Http\Controllers\GoogleAuthController;
 
 use App\Http\Middleware\isAdminLoging;
 use App\Http\Middleware\isClientLoging;
@@ -43,11 +44,13 @@ Route::prefix('animals')->group(function () {
     Route::get('{id}', [AnimalController::class, 'getById']);
 });
 
-// form request
+// Form Request routes
 Route::get('/form-requests', [FormRequestController::class, 'getAll']);
 Route::get('/form-requests/{id}', [FormRequestController::class, 'getById']);
 Route::apiResource('form-requests', FormRequestController::class);
 
+
+// Auth routes
 Route::prefix('auth')->group(function () {
     Route::prefix('client')->group(function () {
         Route::post('/login', [SisuController::class, 'clientLogin']);
@@ -65,6 +68,10 @@ Route::prefix('auth')->group(function () {
     });
 });
 
+Route::get('/login/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/login/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+
+// Cart routes
 Route::prefix('cart')->group(function () {
     Route::post('/get', [CartController::class, 'getCart']);
     Route::post('/delete', [CartController::class, 'delete']);
@@ -72,6 +79,7 @@ Route::prefix('cart')->group(function () {
     Route::post('/insertOrUpdate', [CartController::class, 'insertOrUpdate']);
 });
 
+// Admin routes
 Route::prefix('admin')->middleware(isAdminLoging::class)->group(function () {
     Route::post('/animals/{action}/', [CrudController::class, 'animalManager']);
     Route::post('/animalCatalog/{action}/', [CrudController::class, 'animalCatalogManager']);
